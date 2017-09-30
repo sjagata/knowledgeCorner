@@ -92,6 +92,6 @@ Life cycle of a servlet is managed by web container.
 **Servlet interface:**
 Servlet interface contains the common methods for all servlets i.e. provides the common behaviour for all servlets.
 
-public interface Servlet
+_public interface Servlet_
 
-Servlet interface is in javax.servlet package (javax.servlet.Servlet).
+Servlet interface is in javax.servlet package (**_javax.servlet.Servlet_**).
