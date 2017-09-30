@@ -23,13 +23,6 @@ CGI was the first protocol or way of communication between web server and progra
 
 **Servlet overcomes the above disadvantages.**
 
-Emphasis, aka italics, with *asterisks* or _underscores_.
-
-Strong emphasis, aka bold, with **asterisks** or __underscores__.
-
-Combined emphasis with **asterisks and _underscores_**.
-
-Strikethrough uses two tildes. ~~Scratch this.~~
 
 <dl>
   <dt>Servlet as technology</dt>
@@ -47,11 +40,28 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 </dd>
   
   <dt>Servlet Packages</dt>
-  <dd>**_javax.servlet_** and **_javax.servlet.http_** packages contains the classes and interfaces for servlet API. These packages are the standard part of Java’s enterprise edition.</dd>
+  <dd>**javax.servlet** and **javax.servlet.http** packages contains the classes and interfaces for servlet API. These packages are the standard part of Java’s enterprise edition.</dd>
   
-  <dd>**javax.servlet ** contains a number of classes and interfaces which are mainly used by servlet container.</dd>
+  <dd>**javax.servlet** contains a number of classes and interfaces which are mainly used by servlet container.</dd>
   
   <dd>**javax.servlet.http** contains a number of classes and interfaces which are mainly used by http protocol.
 
 </dd>
 </dl>
+
+
+
+## Life cycle of a servlet
+
+Life cycle of a servlet is managed by web container.
+
+
+**Servlet life cycle steps:**
+1. Load Servlet Class.
+2. Create Servlet instance.
+3. Call init() method.
+4. Call service() method.
+5. Call destoy() method.
+
+
+
