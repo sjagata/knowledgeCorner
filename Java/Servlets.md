@@ -1719,6 +1719,309 @@ Hidden field is an input text with hidden type. This field will not be visible t
 <input name=”fieldName” value=”fieldValue” type=”hidden”/> 
 ```
 
+**How to get hidden field value in servlet?**
+
+HttpServletRequest interface’s getParameter() method is used to get hidden field value in servlet.
+
+```java
+String value = request.getParameter(“fieldName”);  
+```
+
+_Note: Hidden field only works in case of form submission so they will not work in case of anchor tag as no form submission is there._
+
+**Advantages of hidden field:**
+1.  All browsers support hidden fields.
+2. Simple to use.
+
+**Disadvantages of hidden fields:**
+1.  Not secure.
+2.  Only work in case of form submission.
+
+
+## HttpSession in servlet
+
+**HttpSession:**
+HttpSession is an interface that provides a way to identify a user in multiple page requests. A unique session id is given to the user when first request comes. This id is stored in a request parameter or in a cookie.
+
+**How to get session object?**
+HttpServletRequest interface’s getSession() method is used to get the session object.
+
+```java
+HttpSession session = request.getSession();  
+```
+
+**How to set attribute in session object?**
+
+HttpSession interface’s setAttribute() method is used to set attribute in session object.
+
+```java
+public void setAttribute(String name,Object value); // syntax
+
+// example 
+HttpSession session=request.getSession();  
+session.setAttribute("userName",userName);  
+session.setAttribute("password",password);
+```
+
+**How to get attribute from session object?**
+HttpSession interface’s getAttribute() method is used to get attribute from session object.
+
+```java
+public Object getAttribute(String name); // syntax
+
+//get parameters from session object.
+HttpSession session=request.getSession(false);  
+String userName =(String)session.getAttribute("userName");  
+String password =(String)session.getAttribute("password");  
+```
+
+
+
+# Servlet filter in java
+
+**Servlet filter:**
+Servlet filters are the objects which are used to perform some filtering task. A filter can be applied to a servlet, jsp or html.
+
+**Servlet filters are mainly used for following tasks:**
+1. **Pre-processing:** Servlet filter is used for pre-processing of request before it accesses any resource at server side.
+2. **Post-processing:** Servlet filter is used for post-processing of response before it sent back to client.
+
+**How to create a filter?**
+Implement **_javax.servlet.Filter_** interface to create a filter.
+
+
+## Filter interface:
+
+To create a filter you have to implement filter interface. Filter interface is in javax.servlet package javax.servlet.Filter. It provides life cycle methods of a filter.
+
+
+**Methods of filter interface:**
+
+1. **init(FilterConfig config):** This method is used to initialize the filter. It is called only once by web container.
+
+```java
+public void init(FilterConfig config)
+```
+
+2. **doFilter(HttpServletRequest request,HttpServletResponse response, FilterChain chain):** This method is used for performing pre-processing and post-processing tasks. It is called every time for a request/response comes for a resource to which filter is mapped.
+
+```java
+public void doFilter(HttpServletRequest request,HttpServletResponse response, FilterChain chain)
+```
+
+3. **destroy():** This method is called only once by the web container when filter is taken out of the service.
+
+```java
+public void destroy()
+```
+
+## FilterChain interface:
+
+FilterChain object is used to call the next filter or a resource if it is the last filter in filter chaining.
+
+**Method of FilterChain interface:**
+
+1. **doFilter(HttpServletRequest request, HttpServletResponse response):** This method is used to call the next filter in filter chaining.
+
+```java
+public void doFilter(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+```
+
+**How to define a filter in web.xml?**
+<filter> attribute is used to define a filter in web.xml.
+
+```java
+<web-app>
+	//Other attributes.
+
+	<filter>
+		<filter-name>filterName</filter-name>
+		<filter-class>filterClass</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>filterName</filter-name>
+		<url-pattern>urlPattern</url-pattern>
+	</filter-mapping>
+
+	//Other attributes.
+
+</web-app>
+```
+
+## Example
+
+```java
+
+// LoginFilter.java
+
+package servlets.httpSession;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class LoginServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		super.doPost(req, resp);
+
+		resp.setContentType("text/html");
+		PrintWriter out = resp.getWriter();
+
+		// get parameters from request object.
+		String userName = req.getParameter("userName").trim();
+		String password = req.getParameter("password").trim();
+
+		// check for null and empty values.
+		if (userName == null || userName.equals("") || password == null || password.equals("")) {
+			out.print("Please enter both username " + "and password. <br/><br/>");
+			RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login.html");
+			requestDispatcher.include(req, resp);
+		} // Check for valid username and password.
+		else if (userName.equals("jai") && password.equals("1234")) {
+			HttpSession session = req.getSession();
+			session.setAttribute("userName", userName);
+			session.setAttribute("password", password);
+			out.println("Logged in successfully.<br/>");
+			out.println("Click on the below link to see " + "the values of Username and Password.<br/>");
+			out.println("<a href='DisplaySessionValueServlet'>" + "Click here</a>");
+			out.close();
+		} else {
+			out.print("Wrong username or password. <br/><br/>");
+			RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login.html");
+			requestDispatcher.include(req, resp);
+		}
+
+	}
+
+}
+
+```
+
+```java
+
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>servlets.filters.LoginFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/WelcomeFilterServlet</url-pattern>
+	</filter-mapping>
+```
+
+
+# FilterConfig interface
+
+FilterConfig object is created and used by web container to pass init parameters to a filter during initialization.
+
+**Methods of FilterConfig interface:**
+
+1. **getFilterName():** Returns the name of the filter defined in web.xml.
+
+```java
+public String getFilterName() 
+```
+
+2. **getInitParameter(String name): Returns the value of the specified parameter.
+
+```java
+public String getInitParameter(String name) 
+```
+
+3. **getInitParameterNames():** Returns the names of all parameters as Enumeration.
+
+```java
+public Enumeration getInitParameterNames() 
+```
+
+4. **getServletContext():** Returns the object of ServletContext.
+
+```java
+public ServletContext getServletContext()
+```
+
+## Example
+
+```java
+
+// MyFilter.java
+
+package servlets.filters;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class MyFilter implements Filter {
+
+	private FilterConfig filterConfig;
+
+	@Override
+	public void destroy() {
+	}
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		// get parameters from filterConfig object.
+		String appUser = filterConfig.getInitParameter("appUser");
+		if (appUser.equals("jai")) {
+			chain.doFilter(request, response);
+		} else {
+			out.print("Invalid application user.");
+		}
+	}
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		this.filterConfig = filterConfig;
+	}
+
+}
+
+```
+
+```java
+
+// web.xml
+
+	<filter>
+		<filter-name>MyFilter</filter-name>
+		<filter-class>servlets.filters.MyFilter</filter-class>
+		<init-param>
+			<param-name>appUser</param-name>
+			<param-value>SJ</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>MyFilter</filter-name>
+		<url-pattern>/MyFilter</url-pattern>
+	</filter-mapping>
+
+```
+
 
 
 
