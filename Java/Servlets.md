@@ -95,3 +95,79 @@ Servlet interface contains the common methods for all servlets i.e. provides the
 _public interface Servlet_
 
 Servlet interface is in javax.servlet package (**_javax.servlet.Servlet_**).
+
+** Methods of servlet interface: **
+1. init(ServletConfig config
+2. service(ServletRequest request,ServletResponse response)
+3. destory()
+4. getServletConfig()
+5. getServletInfo()
+
+
+
+<dl>
+  <dt>init(ServletConfig config):</dt>
+  <dd>It is used to initialize the servlet. This method is called only once by the web container when it loads the servlet.</dd>
+</dl>
+```java
+// Syntax :
+public void init(ServletConfig config) throws ServletException
+```
+
+<dl>  
+  <dt>service(ServletRequest request,ServletResponse response):</dt>
+  <dd>It is used to respond to a request. It is called for every new request by web container.</dd>
+</dl>
+```java
+// Syntax :
+public void service(ServletRequest req,ServletResponse res) throws ServletException, IOException
+```
+
+<dl> 
+  <dt>destroy():</dt>
+  <dd>It is used to destroy the servlet. This method is called only once by the web container when all threads of the servlet have exited or in a timeout case.</dd>
+</dl>
+```java
+// Syntax :
+public void destroy()
+```
+
+<dl> 
+  <dt>getServletConfig():</dt>
+  <dd>It returns a servlet config object. This config object is passed in init method.  Servlet config object contains initialization parameters and startup configuration for this servlet.</dd>
+</dl>
+```java
+// Syntax :
+public ServletConfig getServletConfig()
+```
+
+<dl> 
+  <dt>getServletInfo():</dt>
+  <dd>It returns a string of information about servlet’s author, version, and copyright etc..</dd>
+</dl>
+
+```java
+// Syntax :
+public String getServletInfo()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
