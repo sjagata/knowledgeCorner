@@ -634,6 +634,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 ## Deployment Descriptor: web.xml file
 
 **Deployment Descriptor:** 
+
 In a java web application a file named web.xml is known as deployment descriptor. It is a xml file and <web-app> is the root element for it. When a request comes web server uses web.xml file to map the URL of the request to the specific code that handle the request.
 
 ```java
@@ -654,6 +655,7 @@ In a java web application a file named web.xml is known as deployment descriptor
 ```
 
 **How web.xml works:** 
+
 When a request comes it is matched with url pattern in servlet mapping attribute. In the above example all urls mapped with the servlet. You can specify a url pattern according to your need. When url matched with url pattern web server try to find the servlet name in servlet attributes same as in servlet mapping attribute. When match found control is goes to the associated servlet class.
 
 
@@ -715,8 +717,85 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
 
+## welcome-file-list in web.xml
 
+**welcome-file-list:**
 
+The welcome-file-list attribute of web.xml file is used to define the list of welcome files.
+
+**Sample code of welcome-file-list attribute in web.xml:**
+
+```java
+<web-app>
+
+	//other attributes
+
+	<welcome-file-list>
+		<welcome-file>home.html</welcome-file>
+		<welcome-file>welcome.html</welcome-file>
+	</welcome-file-list>
+
+	//other attributes
+
+</web-app>
+
+```
+
+**How it works:**
+
+First web server looks for welcome-file-list if it exist then it looks for file defined in first welcome-file. If this file exists then control is transferred to this file otherwise web server will look at the next welcome file and so on.
+
+If the welcome-file-list is not exists or files defined in welcome-file-list are not exists then server will looks at the default welcome files in following order **_index.html, index.htm, index.jsp, default.html, default.htm and default.jsp._**
+
+**Default welcome file list:**
+
+```java
+<welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+</welcome-file-list>
+```
+
+**Example of welcome-file-list:**
+
+```java
+
+// web.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+
+	<welcome-file-list>
+		<welcome-file>welcome.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>
+```
+
+```java
+
+// welcome.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 
+Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>welcome</title>
+</head>
+<body>
+	<h1>This is a welcome file list program.</h1>
+</body>
+</html>
+
+```
 
 
 
