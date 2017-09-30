@@ -42,11 +42,11 @@ See more at: Servlet Overview
 
 Life cycle of a servlet is managed by web container.
 Servlet life cycle steps:
-1.	1. Load Servlet Class.
-2.	2. Create Servlet instance.
-3.	3. Call init() method.
-4.	4. Call service() method.
-5.	5. Call destoy() method.
+1.	Load Servlet Class.
+2. Create Servlet instance.
+3. Call init() method.
+4. Call service() method.
+5. Call destoy() method.
 See more at: Servlet Life Cycle
 
 ### What are the life-cycle methods for a servlet?
