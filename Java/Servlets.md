@@ -96,7 +96,9 @@ _public interface Servlet_
 
 Servlet interface is in javax.servlet package (**_javax.servlet.Servlet_**).
 
-** Methods of servlet interface: **
+
+
+**Methods of servlet interface:**
 1. init(ServletConfig config
 2. service(ServletRequest request,ServletResponse response)
 3. destory()
