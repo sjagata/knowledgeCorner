@@ -1,5 +1,5 @@
 
-## Servlet architecture overview ([ref:](http://tutorialspointexamples.com/servlet-architecture-overview-in-java/))
+# Servlet architecture overview ([ref:](http://tutorialspointexamples.com/servlet-architecture-overview-in-java/))
 
 
 
@@ -53,7 +53,7 @@ CGI was the first protocol or way of communication between web server and progra
 
 
 
-## Life cycle of a servlet
+# Life cycle of a servlet
 
 
 
@@ -94,7 +94,7 @@ Life cycle of a servlet is managed by web container.
   
   
   
-## Servlet interface in java
+# Servlet interface in java
 
 
 
@@ -251,7 +251,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
 
-## GenericServlet class in java
+# GenericServlet class in java
 
 **GenericServlet class :**
 
@@ -452,7 +452,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 ```
 
 
-## HttpServlet class in java
+# HttpServlet class in java
 
 **HttpServlet class:**
 
@@ -631,7 +631,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
 
-## Deployment Descriptor: web.xml file
+# Deployment Descriptor: web.xml file
 
 **Deployment Descriptor:** 
 
@@ -717,7 +717,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
 
-## welcome-file-list in web.xml
+# welcome-file-list in web.xml
 
 **welcome-file-list:**
 
@@ -799,7 +799,7 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
 
-## load-on-startup in web.xml
+# load-on-startup in web.xml
 
 **load-on-startup:**
 
@@ -842,7 +842,7 @@ In the above example Servlet1 and Servlet2 will be loaded when server starts bec
 
 
 
-## RequestDispatcher interface
+# RequestDispatcher interface
 
 RequestDispacher is an interface that provides the facility to forward a request to another resource or include the content of another resource. RequestDispacher provides a way to call another resource from a servlet. Another resource can be servlet, jsp or html.
 
@@ -1040,7 +1040,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 ```
 
 
-## sendRedirect in servlet
+# sendRedirect in servlet
 
 sendRedirect() is the method of HttpServletResponse interface which is used to redirect response to another resource.
 
@@ -1112,6 +1112,122 @@ public class LoginServlet extends HttpServlet {
 ```
 
 
+# Servlet Init parameters and ServletConfig interface
+
+**Init parameters:**
+Init parameters refers to the initialization parameters of a servlet or filter. <init-param> attribute is used to define a init parameter. <init-param> attribute has two main sub attributes <param-name> and <param-value>. The <param-name> contains the name of the parameter and <param-value> contains the value of the parameter.
+
+## ServletConfig interface:
+ServletConfig interface is used to access the init parameters.
+
+**Methods of ServletConfig interface:**
+1. getInitParameter(String name)
+2. getInitParameterNames()
+3. getServletContext()
+4. getServletName()
+
+
+<dl>  
+  <dt>getInitParameter(String name):</dt>
+  <dd>Returns the value of the specified parameter if parameter exist otherwise return null.</dd>
+</dl>
+
+```java
+// Syntax :
+public String getInitParameter(String name)
+```
+
+<dl>  
+  <dt>getInitParameterNames():</dt>
+  <dd>Returns the names of init parameters as Enumeration if servlet has init parameters otherwise returns an empty Enumeration.</dd>
+</dl>
+
+```java
+// Syntax :
+public Enumeration getInitParameterNames()
+```
+
+<dl>  
+  <dt>getServletContext():</dt>
+  <dd>Returns an instance of ServletContext.</dd>
+</dl>
+
+```java
+// Syntax :
+public ServletContext getServletContext()
+```
+
+<dl>  
+  <dt>getServletName():</dt>
+  <dd>Returns the name of the servlet.</dd>
+</dl>
+
+```java
+// Syntax :
+public String getServletName()
+```
+
+## Example
+
+```java
+
+// InitParamExample.java
+
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class InitParamExample extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	// no-argument constructor
+	public InitParamExample() {
+
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		// get ServletConfig object.
+		ServletConfig config = getServletConfig();
+		// get init parameter from ServletConfig object.
+		String appUser = config.getInitParameter("appUser");
+
+		out.print("<h1>Application User: " + appUser + "</h1>");
+
+		out.close();
+	}
+}
+
+```
+
+```java
+
+// web.xml
+
+	<servlet>
+		<servlet-name>InitParamExample</servlet-name>
+		<servlet-class>servlets.InitParamExample</servlet-class>
+		<init-param>
+			<param-name>appUser</param-name>
+			<param-value>Jagata</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>InitParamExample</servlet-name>
+		<url-pattern>/InitParamExample</url-pattern>
+	</servlet-mapping>
+
+```
 
 
 
