@@ -1,5 +1,5 @@
 
-## Servlet architecture overview
+## Servlet architecture overview ([Ref:](http://tutorialspointexamples.com/servlet-architecture-overview-in-java/))
 
 
 - Web application:
