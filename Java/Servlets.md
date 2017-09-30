@@ -633,7 +633,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 ## Deployment Descriptor: web.xml file
 
-** Deployment Descriptor: ** 
+**Deployment Descriptor:** 
 In a java web application a file named web.xml is known as deployment descriptor. It is a xml file and <web-app> is the root element for it. When a request comes web server uses web.xml file to map the URL of the request to the specific code that handle the request.
 
 ```java
@@ -653,8 +653,9 @@ In a java web application a file named web.xml is known as deployment descriptor
 </web-app>
 ```
 
-** How web.xml works: ** 
+**How web.xml works:** 
 When a request comes it is matched with url pattern in servlet mapping attribute. In the above example all urls mapped with the servlet. You can specify a url pattern according to your need. When url matched with url pattern web server try to find the servlet name in servlet attributes same as in servlet mapping attribute. When match found control is goes to the associated servlet class.
+
 
 ### Servlet “Hello World” example by extending HttpServlet class.
 
