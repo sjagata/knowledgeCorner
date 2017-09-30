@@ -573,6 +573,61 @@ protected long getLastModified(HttpServletRequest req)
 
 
 
+### Servlet “HttpServletDemo” example by extending HttpServlet class.
+
+```java
+
+// HttpServletDemo.java
+
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class HttpServletDemo extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		out.println("<h1>Hello World using HttpServlet class.</h1>");
+		out.close();
+	}
+
+}
+
+
+```
+
+```java
+// web.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<servlet>
+		<servlet-name>HttpServletDemo</servlet-name>
+		<servlet-class>servlets.HttpServletDemo</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>HttpServletDemo</servlet-name>
+		<url-pattern>/HttpServletDemo</url-pattern>
+	</servlet-mapping>
+</web-app>
+
+```
 
 
 
