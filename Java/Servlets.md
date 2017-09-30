@@ -1,5 +1,5 @@
 
-## Servlet architecture overview ([Ref:](http://tutorialspointexamples.com/servlet-architecture-overview-in-java/))
+## Servlet architecture overview ([ref:](http://tutorialspointexamples.com/servlet-architecture-overview-in-java/))
 
 
 
@@ -289,13 +289,19 @@ GenericServlet class is in javax.servlet package (**_javax.servlet.GenericServle
 
 
 
-1. init(ServletConfig config): It is used to initialize the servlet. This method is called only once by the web container when it loads the servlet.
+**init(ServletConfig config):**
+It is used to initialize the servlet. This method is called only once by the web container when it loads the servlet.
 
-Syntax: public void init(ServletConfig config)throws ServletException
+```java
+public void init(ServletConfig config)throws ServletException
+```
 
-2. service(ServletRequest request,ServletResponse response): It is used to respond to a request. It is called for every new request by web container.
+**service(ServletRequest request,ServletResponse response):**
+It is used to respond to a request. It is called for every new request by web container.
 
-Syntax: public abstract void service(ServletRequest req,ServletResponse res)throws ServletException, IOException
+```java
+public abstract void service(ServletRequest req,ServletResponse res) throws ServletException, IOException
+```
 
 3. destroy(): It is used to destroy the servlet. This method is called only once by the web container when all threads of the servlet have exited or in a timeout case.
 
