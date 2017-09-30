@@ -1049,7 +1049,7 @@ response.sendRedirect(relative url);
 ```
 
 | sendRedirect        | RequestDispatcher|
-| ------------- |:-------------:| -----:|
+| ------------- |:-------------:|
 | 1. Creates a new request from the client browser for the resource.      | 1. No new request is created.|
 | 2. Accept relative url so control can go inside or outside the server.    | 2. Not accept relative url so can go only inside the server. |
 | 3. New url can be seen in browser. | 3. New url can’t be seen in browser. |
