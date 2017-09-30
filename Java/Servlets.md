@@ -63,13 +63,13 @@ Life cycle of a servlet is managed by web container.
 4. Call service() method.
 5. Call destoy() method.
 
-1. ** Load Servlet Class: ** Web container loads the servlet when the first request is received. This step is executed only once at the time of first request.
+** Load Servlet Class: ** Web container loads the servlet when the first request is received. This step is executed only once at the time of first request.
 
-2. ** Create Servlet instance: ** After loading the servlet class web container creates the servlet instance. Only one instance is created for a servlet and all concurrent requests are executed on the same servlet instance.
+** Create Servlet instance: ** After loading the servlet class web container creates the servlet instance. Only one instance is created for a servlet and all concurrent requests are executed on the same servlet instance.
 
-3. ** Call init() method:** After creating the servlet instance web container calls the servlet’s init method. This method is used to initialize the servlet before processing first request. It is called only once by the web container.
+** Call init() method:** After creating the servlet instance web container calls the servlet’s init method. This method is used to initialize the servlet before processing first request. It is called only once by the web container.
 
-4. ** Call service() method: ** After initialization process web container calls service method. Service method is called for every request. For every request servlet creates a separate thread.
+** Call service() method: ** After initialization process web container calls service method. Service method is called for every request. For every request servlet creates a separate thread.
 
-5. ** Call destoy() method: ** This method is called by web container before removing the servlet instance. Destroy method asks servlet to releases all the resources associated with it. It is called only once by the web container when all threads of the servlet have exited or in a timeout case.
+** Call destoy() method: ** This method is called by web container before removing the servlet instance. Destroy method asks servlet to releases all the resources associated with it. It is called only once by the web container when all threads of the servlet have exited or in a timeout case.
 
