@@ -170,10 +170,12 @@ public String getServletInfo()
 ```
 
 
-### Servlet “Hello World” example by implementing Servlet interface.
+### Servlet “ServletDemo” example by implementing Servlet interface.
 
 ```java
-//HelloWorld.java
+
+// ServletDemo.java
+
 package servlets;
 
 import java.io.IOException;
@@ -185,7 +187,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-public class HelloWorld implements Servlet {
+public class ServletDemo implements Servlet {
 
 	ServletConfig config = null;
 
@@ -233,23 +235,13 @@ public class HelloWorld implements Servlet {
 http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 	<servlet>
-		<servlet-name>Servlet Name For Demo1</servlet-name>
+		<servlet-name>ServletDemo</servlet-name>
 		<servlet-class>servlets.ServletDemo</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Servlet Name For Demo1</servlet-name>
-		<url-pattern>/Demo1</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>HelloWorld</servlet-name>
-		<servlet-class>servlets.HelloWorld</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>HelloWorld</servlet-name>
-		<url-pattern>/HelloWorld</url-pattern>
+		<servlet-name>ServletDemo</servlet-name>
+		<url-pattern>/ServletDemo</url-pattern>
 	</servlet-mapping>
 </web-app>
 
@@ -403,6 +395,61 @@ public void log(String msg,Throwable t)
 ```
 
 
+
+### Servlet “GenericServletDemo” example by extending GenericServlet class.
+
+```java
+
+// GenericServletDemo.java
+
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class GenericServletDemo extends GenericServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		out.println("<h1>Hello World example using" + " GenericServlet class.</h1>");
+		out.close();
+	}
+
+}
+
+```
+
+```java
+// web.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<servlet>
+		<servlet-name>GenericServletDemo</servlet-name>
+		<servlet-class>servlets.GenericServletDemo</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>GenericServletDemo</servlet-name>
+		<url-pattern>/GenericServletDemo</url-pattern>
+	</servlet-mapping>
+</web-app>
+
+```
 
 
 
