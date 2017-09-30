@@ -11,11 +11,11 @@ A web browser is a program which is act as an interface between user and web app
 - CGI (Common gateway interface):
 CGI was the first protocol or way of communication between web server and program. It passes a request from a web user to an application program and receives data back to forward to the web user i.e. It is responsible for dynamic content generation.
 
-** Advantages of CGI : ** 
+**Advantages of CGI :** 
 1. Technology portability: CGI programming can be written in variety of languages like c, c++, perl.
 2. Web server portability: All service providers support CGI Programs.
 
-** Disadvantages :  ** 
+**Disadvantages :** 
 1. Response time is high.
 2. CGI scripts are platform-dependent.
 3. For every request, a new process will be started and web server is limited to start processes.
