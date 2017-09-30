@@ -109,6 +109,7 @@ Servlet interface is in javax.servlet package (**_javax.servlet.Servlet_**).
   <dt>init(ServletConfig config):</dt>
   <dd>It is used to initialize the servlet. This method is called only once by the web container when it loads the servlet.</dd>
 </dl>
+
 ```java
 // Syntax :
 public void init(ServletConfig config) throws ServletException
@@ -118,6 +119,7 @@ public void init(ServletConfig config) throws ServletException
   <dt>service(ServletRequest request,ServletResponse response):</dt>
   <dd>It is used to respond to a request. It is called for every new request by web container.</dd>
 </dl>
+
 ```java
 // Syntax :
 public void service(ServletRequest req,ServletResponse res) throws ServletException, IOException
@@ -127,6 +129,7 @@ public void service(ServletRequest req,ServletResponse res) throws ServletExcept
   <dt>destroy():</dt>
   <dd>It is used to destroy the servlet. This method is called only once by the web container when all threads of the servlet have exited or in a timeout case.</dd>
 </dl>
+
 ```java
 // Syntax :
 public void destroy()
@@ -136,6 +139,7 @@ public void destroy()
   <dt>getServletConfig():</dt>
   <dd>It returns a servlet config object. This config object is passed in init method.  Servlet config object contains initialization parameters and startup configuration for this servlet.</dd>
 </dl>
+
 ```java
 // Syntax :
 public ServletConfig getServletConfig()
