@@ -23,6 +23,14 @@ CGI was the first protocol or way of communication between web server and progra
 
 **Servlet overcomes the above disadvantages.**
 
+Emphasis, aka italics, with *asterisks* or _underscores_.
+
+Strong emphasis, aka bold, with **asterisks** or __underscores__.
+
+Combined emphasis with **asterisks and _underscores_**.
+
+Strikethrough uses two tildes. ~~Scratch this.~~
+
 <dl>
   <dt>Servlet as technology</dt>
   <dd>As a technology servlet provides a model of communication between a web user request and the application or program on the web server.</dd>
