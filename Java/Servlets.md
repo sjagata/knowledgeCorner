@@ -452,9 +452,122 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 ```
 
 
+## HttpServlet class in java
+
+**HttpServlet class:**
+
+HttpServlet class extends the GenericServlet. It is protocol-dependent.
+
+```java
+public abstract class HttpServlet extends GenericServlet
+```
+
+HttpServlet class is in javax.servlet.http package (**_javax.servlet.http.HttpServlet_**).
 
 
+**Methods of HttpServlet class:**
+1. service(ServletRequest req,ServletResponse res)
+2. service(HttpServletRequest req, HttpServletResponse res)
+3. doGet(HttpServletRequest req, HttpServletResponse res)
+4. doPost(HttpServletRequest req, HttpServletResponse res)
+5. doHead(HttpServletRequest req, HttpServletResponse res)
+6. doOptions(HttpServletRequest req, HttpServletResponse res)
+7. doPut(HttpServletRequest req, HttpServletResponse res)
+8. doTrace(HttpServletRequest req, HttpServletResponse res)
+9. doDelete(HttpServletRequest req, HttpServletResponse res)
+10. getLastModified(HttpServletRequest req)
 
+
+<dl>  
+  <dt>service(ServletRequest request,ServletResponse response):</dt>
+  <dd>Dispatches the requests to the protected service method. It converts the request and response object into http type before dispatching request.</dd>
+</dl>
+
+```java
+// Syntax :
+public void service(ServletRequest req,ServletResponse res) throws ServletException, IOException
+```
+
+<dl>  
+  <dt>service(HttpServletRequest req, HttpServletResponse res):</dt>
+  <dd>Receives HTTP requests from the public service method and dispatches the request to the doXXX methods defined in this class.</dd>
+</dl>
+
+```java
+protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>doGet(HttpServletRequest req, HttpServletResponse res): </dt>
+  <dd>This method is called by web container for handling GET requests.</dd>
+</dl>
+
+```java
+protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>doPost(HttpServletRequest req, HttpServletResponse res): </dt>
+  <dd>This method is called by web container for handling POST requests.</dd>
+</dl>
+
+```java
+protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>doHead(HttpServletRequest req, HttpServletResponse res): </dt>
+  <dd>This method is called by web container for handling HEAD requests.</dd>
+</dl>
+
+```java
+protected void doHead(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>doOptions(HttpServletRequest req, HttpServletResponse res): </dt>
+  <dd>This method is called by web container for handling OPTIONS requests.</dd>
+</dl>
+
+```java
+protected void doOptions(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>doPut(HttpServletRequest req, HttpServletResponse res): </dt>
+  <dd>This method is called by web container for handling PUT requests.</dd>
+</dl>
+
+```java
+protected void doPut(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>doTrace(HttpServletRequest req, HttpServletResponse res): </dt>
+  <dd>This method is called by web container for handling TRACE requests.</dd>
+</dl>
+
+```java
+protected void doTrace(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>doDelete(HttpServletRequest req, HttpServletResponse res): </dt>
+  <dd>This method is called by web container for handling DELETE requests.</dd>
+</dl>
+
+```java
+protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+```
+
+<dl>  
+  <dt>getLastModified(HttpServletRequest req): </dt>
+  <dd>It returns the time the HttpServletRequest  object was last modified since midnight January 1, 1970 GMT. It returns a negative number if time is unknown.</dd>
+</dl>
+
+```java
+protected long getLastModified(HttpServletRequest req)
+```
 
 
 
