@@ -289,59 +289,126 @@ GenericServlet class is in javax.servlet package (**_javax.servlet.GenericServle
 
 
 
-**init(ServletConfig config):**
-It is used to initialize the servlet. This method is called only once by the web container when it loads the servlet.
+<dl>
+  <dt>init(ServletConfig config):</dt>
+  <dd>It is used to initialize the servlet. This method is called only once by the web container when it loads the servlet.</dd>
+</dl>
 
 ```java
-public void init(ServletConfig config)throws ServletException
+// Syntax :
+public void init(ServletConfig config) throws ServletException
 ```
 
-**service(ServletRequest request,ServletResponse response):**
-It is used to respond to a request. It is called for every new request by web container.
+<dl>  
+  <dt>service(ServletRequest request,ServletResponse response):</dt>
+  <dd>It is used to respond to a request. It is called for every new request by web container.</dd>
+</dl>
 
 ```java
-public abstract void service(ServletRequest req,ServletResponse res) throws ServletException, IOException
+// Syntax :
+public void service(ServletRequest req,ServletResponse res) throws ServletException, IOException
 ```
 
-3. destroy(): It is used to destroy the servlet. This method is called only once by the web container when all threads of the servlet have exited or in a timeout case.
+<dl> 
+  <dt>destroy():</dt>
+  <dd>It is used to destroy the servlet. This method is called only once by the web container when all threads of the servlet have exited or in a timeout case.</dd>
+</dl>
 
-Syntax: public void destroy()
+```java
+// Syntax :
+public void destroy()
+```
 
-4. getServletConfig(): It returns a servlet config object. This config object is passed in init method.  Servlet config object contains initialization parameters and startup configuration for this servlet.
+<dl> 
+  <dt>getServletConfig():</dt>
+  <dd>It returns a servlet config object. This config object is passed in init method.  Servlet config object contains initialization parameters and startup configuration for this servlet.</dd>
+</dl>
 
-Syntax: public ServletConfig getServletConfig()
+```java
+// Syntax :
+public ServletConfig getServletConfig()
+```
 
-5. getServletInfo(): It returns a string of information about servlet’s author, version, and copyright etc.
+<dl> 
+  <dt>getServletInfo():</dt>
+  <dd>It returns a string of information about servlet’s author, version, and copyright etc..</dd>
+</dl>
 
-Syntax: public String getServletInfo()
+```java
+// Syntax :
+public String getServletInfo()
+```
 
-6. Init(): It is a convenience method which can be overridden so that there is no need to call super.init(config).
+<dl> 
+  <dt>Init(): </dt>
+  <dd>It is a convenience method which can be overridden so that there is no need to call super.init(config).</dd>
+</dl>
 
-Syntax: public void init() throws ServletException
+```java
+public void init() throws ServletException
+```
 
-7. getServletContext():It returns the ServletContext object in which this servlet is running.
+<dl> 
+  <dt>getServletContext():</dt>
+  <dd>It returns the ServletContext object in which this servlet is running.</dd>
+</dl>
 
-Syntax: public ServletContext getServletContext()
+```java
+public ServletContext getServletContext()
+```
 
-8. getInitParameter(String name): It returns the value for given parameter name. It returns null if parameter not exist.
+<dl> 
+  <dt>getInitParameter(String name):</dt>
+  <dd> It returns the value for given parameter name. It returns null if parameter not exist.</dd>
+</dl>
 
-Syntax: public String getInitParameter(String name)
+```java
+public String getInitParameter(String name)
+```
 
-9. getInitParameterNames(): It returns the names of the servlet’s initialization parameters defined in web.xml file.
+<dl> 
+  <dt>getInitParameterNames():</dt>
+  <dd> It returns the names of the servlet’s initialization parameters defined in web.xml file.</dd>
+</dl>
 
-Syntax: public Enumeration getInitParameterNames()
+```java
+public Enumeration getInitParameterNames()
+```
 
-10. getServletName(): It returns the name of this servlet object.
+<dl> 
+  <dt>getServletName():</dt>
+  <dd> It returns the name of this servlet object.</dd>
+</dl>
 
-Syntax: public String getServletName()
+```java
+public String getServletName()
+```
 
-11. log(String msg): This method writes the specified message to the servlet log file.
+<dl> 
+  <dt>log(String msg):</dt>
+  <dd> This method writes the specified message to the servlet log file.</dd>
+</dl>
 
-Syntax: public void log(String msg)
+```java
+public void log(String msg)
+```
 
-12. log(String msg,Throwable t): This method writes an explanatory message and a stack trace for a given exception to the servlet log file.
+<dl> 
+  <dt>log(String msg,Throwable t):</dt>
+  <dd> This method writes an explanatory message and a stack trace for a given exception to the servlet log file.</dd>
+</dl>
 
-Syntax: public void log(String msg,Throwable t).
+```java
+public void log(String msg,Throwable t)
+```
+
+
+
+
+
+
+
+
 
 
 
