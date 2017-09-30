@@ -799,7 +799,7 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
 
-##load-on-startup in web.xml
+## load-on-startup in web.xml
 
 **load-on-startup:**
 
@@ -842,7 +842,7 @@ In the above example Servlet1 and Servlet2 will be loaded when server starts bec
 
 
 
-##RequestDispatcher interface
+## RequestDispatcher interface
 
 RequestDispacher is an interface that provides the facility to forward a request to another resource or include the content of another resource. RequestDispacher provides a way to call another resource from a servlet. Another resource can be servlet, jsp or html.
 
@@ -1066,7 +1066,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 **P.S :**
 
-###serialVersionUID
+### serialVersionUID
 
 The serialization runtime associates with each serializable class a version number, called a serialVersionUID, which is used during deserialization to verify that the sender and receiver of a serialized object have loaded classes for that object that are compatible with respect to serialization. If the receiver has loaded a class for the object that has a different serialVersionUID than that of the corresponding sender's class, then deserialization will result in an  InvalidClassException. A serializable class can declare its own serialVersionUID explicitly by declaring a field named "serialVersionUID" that must be static, final, and of type long:
 
