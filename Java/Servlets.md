@@ -799,6 +799,245 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
 
+##load-on-startup in web.xml
+
+**load-on-startup:**
+
+The load-on-startup is the sub attribute of servlet attribute in web.xml. It is used to control when the web server loads the servlet. As we discussed that servlet is loaded at the time of first request. In this case response time is increased for first request. If load-on-startup is specified for a servlet in web.xml then this servlet will be loaded when the server starts. So the response time will not increase for fist request.
+
+Any positive or negative value can be passed in the load-on-startup. If positive value is passed then all servlets having load-on-startup sub attribute will be loaded when server starts but a servlet having low positive value will be loaded first. In case of negative value servlet will be loaded at the time of first request.
+
+**Sample code of load-on-startup in web.xml.**
+
+```java
+<web-app>
+ 
+   //other attributes  
+ 
+   <servlet>  
+ 	<servlet-name>servlet1</servlet-name>  
+  	<servlet-class>com.javawithease.business.Servlet1 </servlet-class>
+   	<load-on-startup>0</load-on-startup>  
+   </servlet>  
+ 
+  <servlet>  
+  	 <servlet-name>servlet2</servlet-name>  
+   	<servlet-class> com.javawithease.business.Servlet2</servlet-class>
+   	<load-on-startup>1</load-on-startup>  
+  </servlet>    
+ 
+  <servlet>  
+  	<servlet-name>servlet3</servlet-name>  
+   	<servlet-class> com.javawithease.business.Servlet3</servlet-class>
+   	<load-on-startup>-1</load-on-startup>  
+  </servlet>  
+ 
+  //other attributes
+ 
+</web-app>
+```
+
+In the above example Servlet1 and Servlet2 will be loaded when server starts because positive value is passed in there load-on-startup. Servlet3 will be loaded at the time of first request because negative value is passed in there load-on-startup.
+
+
+
+
+##RequestDispatcher interface
+
+RequestDispacher is an interface that provides the facility to forward a request to another resource or include the content of another resource. RequestDispacher provides a way to call another resource from a servlet. Another resource can be servlet, jsp or html.
+
+**Methods of RequestDispacher interface:**
+
+1. forward(ServletRequest request, ServletResponse response)
+2. include(SevletRequest request, ServletResponse response)
+
+<dl>  
+  <dt>forward(ServletRequest request,ServletResponse response):</dt>
+  <dd>This method forwards a request from a servlet to another resource on the server.</dd>
+</dl>
+
+```java
+// Syntax :
+public void forward(ServletRequest request,ServletResponse response)throws ServletException, IOException
+```
+
+<dl>  
+  <dt>include(SevletRequest request, ServletResponse response):</dt>
+  <dd>This method includes the content of a resource in the response.</dd>
+</dl>
+
+```java
+// Syntax :
+public void include(ServletRequest request,ServletResponse response)throws ServletException, IOException
+```
+
+**How to get an object of RequestDispacher.**
+
+RequestDispacher object can be gets from HttpServletRequest object. ServletRequest’s getRequestDispatcher() method is used to get RequestDispatcher object.
+
+```java
+RequestDispatcher requestDispatcher = request.getRequestDispatcher(“/another resource”);
+```
+
+After creating RequestDispatcher object you call forword or include method as per your requirement.
+
+```java
+requestDispatcher.forward(request, response);
+or
+requestDispatcher.include(request, response);
+```
+
+**Example:**
+
+```java
+
+// LoginServlet.java
+
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		// get parameters from request object.
+		String userName = request.getParameter("userName").trim();
+		String password = request.getParameter("password").trim();
+
+		// check for null and empty values.
+		if (userName == null || userName.equals("") || password == null || password.equals("")) {
+			out.print("Please enter both username" + " and password. <br/><br/>");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.html");
+			requestDispatcher.include(request, response);
+		} // Check for valid username and password.
+		else if (userName.equals("testLogin") && password.equals("servlet")) {
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("WelcomeServlet");
+			requestDispatcher.forward(request, response);
+		} else {
+			out.print("Wrong username or password. <br/><br/>");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.html");
+			requestDispatcher.include(request, response);
+		}
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.html");
+		requestDispatcher.include(request, response);
+	}
+}
+
+```
+
+
+```java
+
+// WelcomeServlet.java
+
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class WelcomeServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		out.println("<html><body>");
+		out.println("<h1>You are logged " + "in successfully.</h1>");
+		out.println("</html></body>");
+	}
+
+}
+```
+
+```java
+
+// login.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 
+Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Login</title>
+</head>
+<body>
+	<form action="LoginServlet" method="post">
+		Username:<input type="text" name="userName" /> <br />
+		<br /> Password:<input type="password" name="password" /> <br />
+		<br /> <input type="submit" value="login" />
+	</form>
+</body>
+</html>
+```
+
+```java
+
+// web.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<welcome-file-list>
+		<welcome-file>login.html</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>servlets.LoginServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern></url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>WelcomeServlet</servlet-name>
+		<servlet-class>servlets.WelcomeServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>WelcomeServlet</servlet-name>
+		<url-pattern>/WelcomeServlet</url-pattern>
+	</servlet-mapping>
+
+</web-app>
+```
 
 
 
@@ -825,7 +1064,16 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
 
+**P.S :**
 
+###serialVersionUID
 
+The serialization runtime associates with each serializable class a version number, called a serialVersionUID, which is used during deserialization to verify that the sender and receiver of a serialized object have loaded classes for that object that are compatible with respect to serialization. If the receiver has loaded a class for the object that has a different serialVersionUID than that of the corresponding sender's class, then deserialization will result in an  InvalidClassException. A serializable class can declare its own serialVersionUID explicitly by declaring a field named "serialVersionUID" that must be static, final, and of type long:
+
+```java
+ANY-ACCESS-MODIFIER static final long serialVersionUID = 42L;
+```
+
+if you don't explicitly specify serialVersionUID, a value is generated automatically - but that's brittle because it's compiler implementation dependent.
 
 
