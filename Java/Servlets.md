@@ -1230,16 +1230,273 @@ public class InitParamExample extends HttpServlet {
 ```
 
 
+# Servlet context parameters and ServletContext interface
+
+**Context parameters:**
+Context parameters refers to the initialization parameters for all servlets of an application. <context-param> attribute is used to define a context parameter. <context-param> attribute has two main sub attributes <param-name> and <param-value>. The <param-name> contains the name of the parameter and <param-value> contains the value of the parameter.
+
+## ServletContext interface:
+
+ServletContext interface is used to access the context parameters.
+
+**Commonly used methods of ServletContext interface:**
+1. getInitParameter(String name)
+2. getInitParameterNames()
+3. setAttribute(String name,Object object)
+4. getAttribute(String name)
+5. removeAttribute(String name)
+
+<dl>  
+  <dt>getInitParameter(String name):</dt>
+  <dd>Returns the value of the specified parameter if parameter exist otherwise return null.</dd>
+</dl>
+
+```java
+// Syntax :
+public String getInitParameter(String name)
+```
+
+<dl>  
+  <dt>getInitParameterNames():</dt>
+  <dd>Returns the names of init parameters as Enumeration if servlet has init parameters otherwise returns an empty Enumeration.</dd>
+</dl>
+
+```java
+// Syntax :
+public Enumeration getInitParameterNames()
+```
+
+<dl>  
+  <dt>setAttribute(String name,Object object):</dt>
+  <dd>Binds the specified object to the specified attribute name and put this attribute in application scope. </dd>
+</dl>
+
+```java
+public void setAttribute(String name,Object object). 
+```
+
+<dl>  
+  <dt>getAttribute(String name):</dt>
+  <dd>Returns the specified attribute if exist otherwise returns null.</dd>
+</dl>
+
+```java
+public Object getAttribute(String name)
+```
+
+<dl>  
+  <dt>removeAttribute(String name):</dt>
+  <dd>Removes the specified attribute.</dd>
+</dl>
+
+```java
+public void removeAttribute(String name).
+```
+
+## Example
+
+```java
+
+// ContextParamExample.java
+
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ContextParamExample extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	// no-argument constructor.
+	public ContextParamExample() {
+
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		// get ServletContext object.
+		ServletContext context = getServletContext();
+		// get context parameter from ServletContext object.
+		String appUser = context.getInitParameter("appUser");
+
+		out.print("<h1>Application User: " + appUser + "</h1>");
+
+		out.close();
+	}
+
+}
+
+```
+
+```java
+
+// web.xml
+
+	<servlet>
+		<servlet-name>ContextParamExample</servlet-name>
+		<servlet-class>servlets.ContextParamExample</servlet-class>
+	</servlet>
+
+	<context-param>
+		<param-name>appUser</param-name>
+		<param-value>SJAGATA</param-value>
+	</context-param>
+
+	<servlet-mapping>
+		<servlet-name>ContextParamExample</servlet-name>
+		<url-pattern>/ContextParamExample</url-pattern>
+	</servlet-mapping>
+
+```
 
 
 
+# Servlet Hello World Example using annotation.
+
+This servlet program is used to print "Hello World" on client browser using annotations.
+
+```java
+
+// ServletAnnotationExample.java
+
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/servletAnnotationTest")
+public class ServletAnnotationExample extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		out.print("<h1>Hello World example using annotations.</h1>");
+
+		out.close();
+	}
+
+}
+
+```
 
 
+# Session management and cookies in servlet
+
+**Session:**
+
+Session is a time interval devoted to an activity.
+
+**Session Tracking:**
+
+Session Tracking or session management is a way of maintaining the state of the user.
+
+**Need of Session Tracking:**
+
+As we discussed in earlier tutorials we are using HTTP for completing request response cycle. HTTP is a stateless protocol which means when a new request comes it can’t keep any record or state of previous request of the user. That’s why we need session tracking for maintaining the state of the user.
+
+## Way of Session Tracking in servlet:
+
+1. Cookie.
+2. Hidden form field.
+3. Url rewriting.
+4. HttpSession.
+
+## Cookie in servlet
+
+A cookie is a small piece of information as a text file stored on client’s machine by a web application.
+
+**How cookie works?**
+
+As HTTP is a stateless protocol so there is no way to identify that it is a new user or previous user for every new request. In case of cookie a text file with small piece of information is added to the response of first request. They are stored on client’s machine. Now when a new request comes cookie is by default added with the request. With this information we can identify that it is a new user or a previous user.
+
+**Types of cookies:**
+
+1. Session cookies/Non-persistent cookies
+2. Permanent cookies/Persistent cookies
+
+**_Session cookies/Non-persistent cookies:_** These types of cookies are session dependent i.e. they are accessible as long as session is open and they are lost when session is closed by exiting from the web application.
+
+**_2. Permanent cookies/Persistent cookies:_** These types of cookies are session independent i.e. they are not lost when session is closed by exiting from the web application. They are lost when they expire.
+
+**Advantages of cookies:**
+1. They are stored on client side so don’t need any server resource.
+2. and easy technique for session management.
+
+**Disadvantages of cookies:**
+1. Cookies can be disabled from the browser.
+2. Security risk is there because cookies exist as a text file so any one can open and read user’s information.
+
+## Cookie Class:
+Cookie class provides the methods and functionality for session management using cookies. Cookie class is in **_javax.servlet.http_**
+
+```java
+Package javax.servlet.http.Cookie.
+```
+
+**Commonly used constructor of Cookie class:**
+
+1. Cookie(String name,String value)
+Creates a cookie with specified name and value pair.
+
+```java
+public Cookie(String name,String value)
+```
 
 
+**Commonly used methods of cookie class:**
 
+1. setMaxAge(int expiry):
+Sets the maximum age of the cookie.
 
+```java
+public void setMaxAge(int expiry)
+```
 
+2. getMaxAge(): 
+Returns the maximum age of the cookie. Default value is -1.
+
+```java
+public int getMaxAge()
+```
+
+3. setValue(String newValue): 
+Change the value of the cookie with new value.
+
+```java
+public void setValue(String newValue)
+```
+
+4. getValue(): 
+Returns the value of the cookie.
+
+```java
+public String getValue()
+```
+
+5. getName(): 
+Returns the name of the cookie.
+
+```java
+public String getName()
+```
 
 
 
