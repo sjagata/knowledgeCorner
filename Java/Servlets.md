@@ -2,6 +2,7 @@
 ## Servlet architecture overview ([Ref:](http://tutorialspointexamples.com/servlet-architecture-overview-in-java/))
 
 
+
 - Web application:
 A web application or website is an application program which accessed over a network connection using HTTP and often runs inside a web browser.
 
@@ -51,7 +52,11 @@ CGI was the first protocol or way of communication between web server and progra
 
 
 
+
 ## Life cycle of a servlet
+
+
+
 
 Life cycle of a servlet is managed by web container.
 
@@ -87,7 +92,12 @@ Life cycle of a servlet is managed by web container.
 </dl>
   
   
+  
+  
 ## Servlet interface in java
+
+
+
   
 **Servlet interface:**
 Servlet interface contains the common methods for all servlets i.e. provides the common behaviour for all servlets.
@@ -249,11 +259,31 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
 
+## GenericServlet class in java
 
+**GenericServlet class :**
 
+GenericServlet class implements the Servlet and ServletConfig interfaces. GenericServlet  is protocol-independent. It not provides the implementation of service method.
 
+```java
+public abstract class GenericServlet implements Servlet, ServletConfig
+```
 
+GenericServlet class is in javax.servlet package (**_javax.servlet.GenericServlet_**).
 
+**Methods of GenericServlet class:**
+1. init(ServletConfig config)
+2. service(ServletRequest request,ServletResponse response)
+3. destroy()
+4. getServletConfig()
+5. getServletInfo()
+6. Init()
+7. getServletContext()
+8. getInitParameter(String name)
+9. getInitParameterNames()
+10. getServletName()
+11. log(String msg)
+12. log(String msg, Throwable t)
 
 
 
