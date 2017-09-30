@@ -1498,12 +1498,226 @@ Returns the name of the cookie.
 public String getName()
 ```
 
+## How to create cookie?
+
+**_HttpServletResponse_** interface’s addCookie(Cookie ck) method is used to add a cookie in response object.
+
+```java
+//Syntax : public void addCookie(Cookie ck)
+
+//create cookie object  
+Cookie cookie=new Cookie(“cookieName”,”cookieValue”);
+
+//add cookie object in the response
+
+response.addCookie(cookie);
+
+```
+
+## How to get cookie?
+
+**_HttpServletRequest_** interface’s getCookies() method is used to get the cookies from request object.
+
+```java
+
+// Syntax: public Cookie[] getCookies()
+
+//get all cookie objects.
+Cookie[] cookies = request.getCookies();
+
+//iterate cookies array to get individual cookie objects.
+
+for(Cookie cookie : cookies){
+
+            out.println(“Cookie Name: ” + cookie.getName());
+
+            out.println(“Cookie Value: ” + cookie.getValue());
+
+}
+```
+
+## How to remove or delete cookies?
+
+Cookies can be removed by setting its expiration time to 0 or -1. If expiration time set to 0 than cookie will be removed immediately. If expiration time set to -1 than cookie will be removed when browser closed.
+
+```java
+
+//Remove value from cookie
+Cookie cookie = new Cookie(“cookieName”, “”);
+
+//Set expiration time to 0.
+
+cookie.setMaxAge(0);
+
+//add cookie object in the response.
+
+response.addCookie(cookie);
+
+```
+
+## Session management example using cookie:
+
+```java
+
+// CreateCookieServlet.java
+
+package servlets.cookies;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class CreateCookieServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		// get parameters from request object.
+		String userName = request.getParameter("userName").trim();
+		String password = request.getParameter("password").trim();
+
+		// check for null and empty values.
+		if (userName == null || userName.equals("") || password == null || password.equals("")) {
+			out.print("Please enter both username " + "and password. <br/><br/>");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login2.html");
+			requestDispatcher.include(request, response);
+		} // Check for valid username and password.
+		else if (userName.equals("test") && password.equals("1234")) {
+			// create cookie objects.
+			Cookie cookie1 = new Cookie("userName", userName);
+			Cookie cookie2 = new Cookie("password", password);
+			// add cookie in the response object.
+			response.addCookie(cookie1);
+			response.addCookie(cookie2);
+			out.print("<h3>Cookies are created. Click on the " + "below button to get cookies.");
+			out.print("<form action='GetCookieServlet' method='GET'>");
+			out.print("<input type='submit' value='Get Cookie'>");
+			out.print("</form>");
+
+			out.close();
+		} else {
+			out.print("Wrong username or password. <br/><br/>");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login2.html");
+			requestDispatcher.include(request, response);
+		}
+	}
+
+}
+```
+
+```java
+
+// GetCookieServlet.java
+
+package servlets.cookies;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class GetCookieServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		super.doPost(request, response);
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		try {
+			Cookie cookies[] = request.getCookies();
+			for (Cookie cookie : cookies) {
+				out.println("Cookie Name: " + cookie.getName());
+				out.println("Cookie Value: " + cookie.getValue());
+				out.println("");
+			}
+
+			out.println("Click on the below button to delete cookies.");
+			out.print("<form action='DeleteCookieServlet' method='GET'>");
+			out.print("<input type='submit' value='Delete Cookies'>");
+			out.print("</form>");
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+
+```
+
+```java
+
+// DeleteCookieServlet.java
+
+package servlets.cookies;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class DeleteCookieServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		super.doPost(req, resp);
+
+		resp.setContentType("text/html");
+		PrintWriter out = ((ServletResponse) req).getWriter();
+
+		try {
+			Cookie cookies[] = req.getCookies();
+			out.print("Deleted cookie are:");
+			for (Cookie cookie : cookies) {
+				cookie.setMaxAge(0);
+				out.println("Cookie name: " + cookie.getName());
+			}
+
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+
+```
 
 
+## Hidden field in servlet
 
+**Hidden field:**
 
+Hidden field is an input text with hidden type. This field will not be visible to the user.
 
-
+```html
+<input name=”fieldName” value=”fieldValue” type=”hidden”/> 
+```
 
 
 
