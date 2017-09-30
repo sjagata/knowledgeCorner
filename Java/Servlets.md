@@ -289,6 +289,76 @@ GenericServlet class is in javax.servlet package (**_javax.servlet.GenericServle
 
 
 
+1. init(ServletConfig config): It is used to initialize the servlet. This method is called only once by the web container when it loads the servlet.
+
+Syntax: public void init(ServletConfig config)throws ServletException
+
+2. service(ServletRequest request,ServletResponse response): It is used to respond to a request. It is called for every new request by web container.
+
+Syntax: public abstract void service(ServletRequest req,ServletResponse res)throws ServletException, IOException
+
+3. destroy(): It is used to destroy the servlet. This method is called only once by the web container when all threads of the servlet have exited or in a timeout case.
+
+Syntax: public void destroy()
+
+4. getServletConfig(): It returns a servlet config object. This config object is passed in init method.  Servlet config object contains initialization parameters and startup configuration for this servlet.
+
+Syntax: public ServletConfig getServletConfig()
+
+5. getServletInfo(): It returns a string of information about servlet’s author, version, and copyright etc.
+
+Syntax: public String getServletInfo()
+
+6. Init(): It is a convenience method which can be overridden so that there is no need to call super.init(config).
+
+Syntax: public void init() throws ServletException
+
+7. getServletContext():It returns the ServletContext object in which this servlet is running.
+
+Syntax: public ServletContext getServletContext()
+
+8. getInitParameter(String name): It returns the value for given parameter name. It returns null if parameter not exist.
+
+Syntax: public String getInitParameter(String name)
+
+9. getInitParameterNames(): It returns the names of the servlet’s initialization parameters defined in web.xml file.
+
+Syntax: public Enumeration getInitParameterNames()
+
+10. getServletName(): It returns the name of this servlet object.
+
+Syntax: public String getServletName()
+
+11. log(String msg): This method writes the specified message to the servlet log file.
+
+Syntax: public void log(String msg)
+
+12. log(String msg,Throwable t): This method writes an explanatory message and a stack trace for a given exception to the servlet log file.
+
+Syntax: public void log(String msg,Throwable t).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
