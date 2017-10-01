@@ -12,13 +12,13 @@ JDBC refers to the Java Database Connectivity. It provides java API that allows 
 3. Statements
 4. ResultSets
 
+** **
 
-
-1. JDBC Drivers:
+**1. JDBC Drivers:**
 
 JDBC driver is a collection of classes which implements interfaces defined in the JDBC API for opening database connections, interacting with database and closing database connections.
 
-2. Connections:
+**2. Connections:**
 
 Before performing any database operation via JDBC, we have to open a database connection. To open a database connection we can call getConnection() method of DriverManager class.
 
