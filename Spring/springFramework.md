@@ -29,3 +29,24 @@ Spring framework is a great alternative to web MVC frameworks like Struts.
 
 ** **
 
+## Spring framework architecture modules
+
+Spring framework is designed in modular fashion from which a programmer can choose the applicable modules and ignore the rest. Spring framework modules are divided into categories given below.
+
+![alt text][logo]
+
+[logo]: http://tutorialspointexamples.com/wp-content/uploads/2015/09/spring-overview.png "Spring framework architecture"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
