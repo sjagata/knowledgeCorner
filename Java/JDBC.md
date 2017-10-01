@@ -26,10 +26,10 @@ Before performing any database operation via JDBC, we have to open a database co
 Connection connection = DriverManager.getConnection(url, user, password) 
 ```
 
-3. Statements:
+**3. Statements:**
 
 The JDBC statements are used to execute the SQL or PL/SQL queries against the database. We need a statement for every single query. JDBC API defines the Statement, CallableStatement, and PreparedStatement types of statements.
 
-4. ResultSets:
+**4. ResultSets:**
 
 A query returns the data in the form of ResultSet. To read the query result date ResultSet provides a cursor that points to the current row in the result set.
