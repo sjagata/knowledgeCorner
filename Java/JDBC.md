@@ -279,17 +279,6 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
 3. **Performance:** It increases the performance because of database statement caching.
 
 ### Difference between Statement and PreparedStatement in jdbc:
-|Statement|PreparedStatement|
-| --------|-----------------|
-| 1. Statement not executes the parameterized query.| 1. PreparedStatement can execute the parameterized query.| 
-| 2. Relational DB uses following 4 step to execute a query:| 2. Relational DB uses following 4 step to execute a query:| 
-| a. Parse the query.| a. Parse the query.| 
-| b. Compile the query.| | 
-| c. Optimize/Plan the query.| | 
-| d. Execute the query.| | 
-| A statement always executes the all four steps.| | 
-| 3. No database statement caching in case of statement.| | 
-
 
 <table>
   <tr>
@@ -306,19 +295,25 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
     * Compile the query.<br>
     * Optimize/Plan the query.<br>
     * Execute the query. <br>
-    `A statement always executes the all four steps.`<br>
+    
+    **A statement always executes the all four steps.**
+    
+    <br>
     </td>
-    <td> 2. Relational DB uses following 4 step to execute a <br>query:<br>
+    <td> 2. Relational DB uses following 4 step to execute a <br> query:<br>
     * Parse the query.<br>
     * Compile the query.<br>
     * Optimize/Plan the query.<br>
     * Execute the query. <br>
-    `PreparedStatement pre-executes first three steps in the execution.`<br>
+    
+    **PreparedStatement pre-executes first three steps in the execution.**
+    
+    <br>
     </td>
   </tr>
   <tr>
   <td>3. No database statement caching in case of statement.</td>
-  <td>3. It provides the database statement caching the execution plans of previously executed statements. Hence database engine can reuse the plans for statements that have been executed previously.</td>
+  <td>3. It provides the database statement caching the execution plans of previously executed statements. <br> Hence database engine can reuse the plans for statements that have been executed previously.</td>
   </tr>
 </table>
 
