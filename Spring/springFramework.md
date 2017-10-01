@@ -630,8 +630,9 @@ We have to use index attribute to specify the index of constructor arguments.
        <constructor-arg index="0" value="John Doe"/>
    </bean>
 ```
+<br>
 
-## Spring constructor based injection
+## Spring Setter based injection
 
 Setter based dependency injection is a process of passing the dependency to a dependent object via a setter method.
 
