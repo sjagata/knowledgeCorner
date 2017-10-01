@@ -219,7 +219,30 @@ As we discussed that spring container is responsible for creating and managing b
 
 _Note: The request, session and global-session are only available in the context of a web-aware ApplicationContext._
 
+<br>
+<br>
 
+** **
+
+## Spring bean life cycle:
+
+As we discussed earlier spring IoC container is responsible to create, configure and manage objects during their complete life cycle using configuration metadata. See the below points to understand the spring bean life cycle.
+
+**Bean lifecycle in spring framework:**
+
+1.	Spring container finds the bean definition from configuration file.
+2.	Spring container instantiates the bean using Java Reflection API.
+3.	Spring container applies the all specified properties using DI.
+4.	If the bean class implements the BeanNameAware interface, then spring container calls the setBeanName() method by passing bean’s id.
+5.	If the bean class implements the BeanClassLoaderAware interface, then spring container calls the setBeanClassLoader() method by passing an instance of the ClassLoader object that loaded this bean.
+6.	If the bean class implements the BeanFactoryAware interface, then spring container calls setBeanFactory() method by passing an instance of BeanFactory object.
+7.	If there are any BeanPostProcessors object associated with the BeanFactory than spring container calls their postProcessBeforeInitialization() method even before setting the properties for the bean.
+8.	If the bean class implements the InitializingBean interface, then spring container calls the afterPropertiesSet() method after setting bean properties.
+9.	If init-method is specified in configuration file for the bean then spring container calls the corresponding method in the bean class.
+10.	If there are any BeanPostProcessors associated with the bean then spring container calls the postProcessAfterInitialization() method.
+11.	If the bean class implements the DisposableBean interface, then spring container calls the destroy() method when the application no longer needs the bean reference.
+12.	If destroy-method is specified in the Configuration file for the bean, then spring container calls the corresponding method in the bean class.
+ 
 
 
 
