@@ -217,7 +217,7 @@ As we discussed that spring container is responsible for creating and managing b
     </tbody>
 </table>
 
-
+_Note: The request, session and global-session are only available in the context of a web-aware ApplicationContext._
 
 
 
