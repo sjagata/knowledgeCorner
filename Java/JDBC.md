@@ -1533,16 +1533,6 @@ public class JDBCretrieveFileTest {
 
 ```
 
-** **
-
-### JDBC retrieve file example
-
-PreparedStatement provides the facility to store and retrieve the file in the database using JDBC.
-
-#### Example 
-
-
-
 
 
 
