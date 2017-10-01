@@ -302,27 +302,26 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
   </tr>
   <tr>
     <td> 2. Relational DB uses following 4 step to execute a 
-    
-    **query:**
+    query:
     
     * Parse the query.
     * Compile the query.
     * Optimize/Plan the query.
     * Execute the query.
     
-    _A statement always executes the all four steps._
+    `A statement always executes the all four steps.`
     
     </td>
     <td> 2. Relational DB uses following 4 step to execute a
     
-    **query:**
+    query:
     
     * Parse the query.
     * Compile the query.
     * Optimize/Plan the query.
     * Execute the query.
     
-    _PreparedStatement pre-executes first three steps in the execution._
+    `PreparedStatement pre-executes first three steps in the execution.`
     
     </td>
   </tr>
