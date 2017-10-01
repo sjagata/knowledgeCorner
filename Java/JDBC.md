@@ -353,14 +353,14 @@ It is used to add the statement to the batch.
 public void void addBatch(String query) throws SQLException
 ```
 
-**2. executeBatch(): **
+**2. executeBatch():**
 It is used to execute batch.
 
 ```java
 public int[] executeBatch() throws SQLException
 ```
 
-**3. clearBatch(): **
+**3. clearBatch():**
 It is used to remove all statements from the batch.
 
 ```java
