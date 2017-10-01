@@ -357,6 +357,146 @@ public class SpringFrameworkApplication {
 
 ```
 
+<br>
+<br>
+
+** **
+
+## Spring bean definition inheritance
+
+As we discussed earlier a bean definition in configuration metadata can contain constructor arguments, property values etc. Spring framework provides the facility that a child bean definition can inherits configuration data from a parent definition. A child definition can override some values of parent definition or add some others, as required.
+
+**_Use parent attribute in child definition and pass parent bean into it._**
+
+Syntax:
+
+```java
+<bean id="parentBeanId" class="TestParentBean">
+      <property name="name1" value="value1"/>
+      <property name="name2" value="value2"/>
+</bean>
+ 
+<bean id="childBeanId" class="ChildBeanId" parent="parentBeanId">
+      <property name="name1" value="value"/>
+      <property name="name3" value="value3"/>
+</bean>
+```
+
+#### Example:
+
+```java
+// Get BeanInheritance bean object from ApplicationContext instance.
+BeanInheritance beanInheritance = (BeanInheritance) context.getBean("beanInheritance");
+
+// Process HelloWorld Object.
+System.out.println("BeanInheritance bean properties: ");
+System.out.println(beanInheritance.getMsg1());
+System.out.println(beanInheritance.getMsg2());
+
+// Get BeanInheritance2 bean object from ApplicationContext instance.
+BeanInheritance2 beanInheritance2 = (BeanInheritance2) context.getBean("beanInheritance2");
+
+// Process HelloJava Object.
+System.out.println("BeanInheritance2 bean properties: ");
+System.out.println(beanInheritance2.getMsg1());
+System.out.println(beanInheritance2.getMsg2());
+System.out.println(beanInheritance2.getMsg3());
+```
+
+```java
+// applicationContext.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="helloWorld" class="springframework.HelloWorld">
+		<property name="userName" value="John Doe" />
+	</bean>
+
+	<bean id="beanInheritance" class="springframework.BeanInheritance">
+		<property name="msg1" value="beanInheritance - Msg1" />
+		<property name="msg2" value="beanInheritance - Msg2" />
+	</bean>
+
+	<bean id="beanInheritance2" class="springframework.BeanInheritance2" parent="beanInheritance">
+		<property name="msg2" value="beanInheritance2 - Msg2" />
+		<property name="msg3" value="beanInheritance2 - Med3" />
+	</bean>
+
+</beans>
+
+```
+
+<br>
+<br>
+
+** **
+
+## Spring bean definition template
+
+As we discussed earlier a bean definition in configuration metadata can contain constructor arguments, property values etc. Spring framework provides the facility to define a bean definition template which can be used by child bean definitions. To define a template remove class attribute and use abstract attribute to true in bean definition.
+
+**_Use parent attribute in child definition and pass template bean into it._**
+
+Syntax:
+
+```java
+<bean id="templateId" abstract=”true”>
+      <property name="name1" value="value1"/>
+      <property name="name2" value="value2"/>
+</bean>
+ 
+<bean id="childBeanId" class="ChildBeanId" parent="templateId">
+      <property name="name1" value="value"/>
+      <property name="name3" value="value3"/>
+</bean>
+```
+
+**_Note: We can create template with or without using the class attribute. If we create template using class attribute then corresponding class can’t be instantiated._**
+
+```java
+//applicationContext.xml
+ <bean id="abstractTemplate" abstract="true">
+       <property name="msg1" value="Common World."/>
+   </bean>
+ 
+   <bean id="helloWorld" 
+       class="com.javawithease.business.HelloWorld" parent="abstractTemplate">
+     <property name="msg2" value="World."/>
+   </bean>
+ 
+    <bean id="helloJava" 
+        class="com.javawithease.business.HelloJava" parent="abstractTemplate">
+     <property name="msg2" value="Java"/>
+    </bean>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
