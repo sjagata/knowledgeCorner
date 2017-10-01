@@ -463,41 +463,283 @@ Syntax:
    </bean>
  
    <bean id="helloWorld" 
-       class="com.javawithease.business.HelloWorld" parent="abstractTemplate">
+       class="springframework.HelloWorld" parent="abstractTemplate">
      <property name="msg2" value="World."/>
    </bean>
  
     <bean id="helloJava" 
-        class="com.javawithease.business.HelloJava" parent="abstractTemplate">
+        class="springframework.HelloJava" parent="abstractTemplate">
      <property name="msg2" value="Java"/>
     </bean>
 ```
 
+<br>
+<br>
 
+** **
 
+## Spring dependency injection
 
+Injection is a process of passing the dependency to a dependent object.
 
+### Dependency Injection (DI):
 
+Dependency Injection (DI) is a design pattern that implements inversion of control principle for resolving dependencies. It allows a programmer to remove hard coded dependencies so that the application becomes loosely coupled and extendable.
 
+### Let us discuss object dependency with below example:
 
+```java
+public class Student {
+   private Address address;
+ 
+   public Student() {
+      address = new Address();
+   }
+}
+```
 
+In above example Student class requires an Address object and it is responsible for initializing and using the Address object. If Address class is changed in future then we have to make changes in Student class also. This approach makes tight coupling between Student and Address objects. We can resolve this problem using dependency injection design pattern. i.e. Address object will be implemented independently and will be provided to Student when Student is instantiated by using constructor-based or setter-based dependency injection.
 
+### Types of dependency Injection:
 
+1. Constructor-based Dependency Injection.
+2. Setter-based Dependency Injection.
 
+## Spring constructor based injection
 
+Constructor based dependency injection is a process of passing the dependency to a dependent object via a constructor.
 
+**_Note:_**
 
+1. For primitive data types use element and for dependent objects use
 
+```java
+<ref bean="beanId"/>
+```
 
+2. Index attribute is used to specify the index of constructor arguments.
 
+#### Example :
 
+We have created two beans “Student” and “Address”. Student class requires an Address class object. In struts configuration file we define Address bean and pass this as an argument in Student class using constructor-arg element.
 
+```java
+//applicationContext.xml
 
+<bean id="student" class="springframework.Student">
+	<property name="name" value="John Doe"/>
+	<property name="id" value="java"/>
+	<property name="role" value="Developer"/>
+	<constructor-arg ref="address"/>
+</bean>
 
+<bean id="address" class="springframework.Address">
+	<property name="addLine" value="Test address"/>
+	<property name="city" value="charlotte"/>
+	<property name="state" value="NC"/>
+	<property name="country" value="USA"/>
+</bean>
+```
+    
+```java
+// java code
 
+//Get ApplicationContext using spring configuration file.
+  ApplicationContext context =  new ClassPathXmlApplicationContext("applicationContext.xml");
+ 
+  //Get Student bean object from ApplicationContext instance. 
+  Student student = (Student) context.getBean("student");
+ 
+  //Process Student Object.
+  System.out.println("Student info: "); 
+  System.out.println("Name: " + student.getName());
+  System.out.println("RollNo: " + student.getId());
+  System.out.println("Class: " + student.getRole());
+ 
+  //Get Address from Student Object.
+  Address studentAddress = student.getAddress();
+ 
+  //Process Address Object.
+  System.out.println("Student Address: ");
+  System.out.println("Address Line: " + studentAddress.getAddLine());
+  System.out.println("City: " + studentAddress.getCity());
+  System.out.println("State: " + studentAddress.getState());
+  System.out.println("Country: " + studentAddress.getCountry());
+```
 
+### Constructor injection type ambiguities in spring tutorial
 
+In constructor based dependency injection if our class contains multiple constructors with different types and same number of arguments then spring framework cause the constructor injection argument type ambiguities issue. Let us discuss it with below example.
 
+#### Problem1 :
+
+We have created one bean class “Student” which have two constructors with same number of arguments but with different data types. 
+First constructor have String name, int id and second constructor have String name, String role arguments. In spring configuration file we pass arguments ‘John Doe’ and 27. 
+It should call first constructor but if it calls the second constructor and the result is not as expected.
+
+```java
+ <bean id="student" class="springFramework.Student">
+	<constructor-arg  value="John Doe"/>
+	<constructor-arg value="27"/>
+</bean>
+```
+
+#### Solution:
+
+We have to specify the constructor argument’s data types using type attribute. Now it will call the first constructor and the result is as expected.
+
+```java
+ <bean id="student" class="springFramework.Student">
+	<constructor-arg  value="John Doe"/>
+	<constructor-arg value="27" type="int"/>
+</bean>
+```
+
+#### Problem2 :
+
+In case when we have one constructor with more than one parameter and do not defined the argument type then the spring framework may through org.springframework.beans.factory.UnsatisfiedDependencyException exception.
+
+```java
+   <bean id="student" class="springFramework.Student">
+       <constructor-arg value="27"/> // no constructor with index 1 of type int 
+       <constructor-arg value="John Doe"/>
+   </bean>
+   
+   //output
+   Exception in thread "main" 
+org.springframework.beans.factory.UnsatisfiedDependencyException: 
+Error creating bean with name 'student' defined in class path resource 
+[applicationContext.xml]: Unsatisfied dependency expressed through 
+constructor argument with index 1 of type [int]: Could not convert 
+constructor argument value of type [java.lang.String] to required 
+type [int]: Failed to convert value of type 'java.lang.String' to 
+required type 'int'; nested exception is java.lang.NumberFormatException:
+For input string: "John Doe"
+```
+
+#### Solution:
+
+We have to use index attribute to specify the index of constructor arguments.
+
+```java
+   <bean id="student" class="springFramework.Student">
+       <constructor-arg index="1" value="27"/>
+       <constructor-arg index="0" value="John Doe"/>
+   </bean>
+```
+
+## Spring constructor based injection
+
+Setter based dependency injection is a process of passing the dependency to a dependent object via a setter method.
+
+**_Note:_**
+
+1. For primitive data types use element and for dependent objects use
+
+```java
+<ref bean="beanId"/>
+```
+
+2. Index attribute is used to specify the index of constructor arguments.
+
+### Example :
+
+We have created two beans “Student” and “Address”. Student class requires an Address class object. In spring configuration file we define Address bean and pass this as an argument in Student class using parameter element.
+
+```java
+   <bean id="student" class="springFramework.Student">
+       <property name="name" value="John Doe"/>
+       <property name="id" value="06"/>
+       <property name="role" value="developer"/>
+       <property name="address" ref="address"/>
+   </bean>
+ 
+    <bean id="address" class="springFramework.Address">
+       <property name="addLine" value="Test address"/>
+       <property name="city" value="Charlotte"/>
+       <property name="state" value="NC"/>
+       <property name="country" value="USA"/>
+    </bean>
+ ```
+
+<br>
+<br>
+
+** **
+
+## Spring dependency injection collections
+
+Spring framework provides the facility to inject collection values via constructor or setter method. We can use the following inside the constructor or property element.
+
+1. List.
+2. Set.
+3. Map.
+
+Syntax (constructor based dependency injection):
+
+```java
+<bean id="testBeanId" class="Test">  
+   <constructor-arg>  
+    <list>  
+     <value>value1</value>  
+     <value>value2</value>  
+     <value>value3</value>  
+   </list>  
+  </constructor-arg>  
+</bean>
+```
+
+Syntax (setter based dependency injection):
+
+```java
+<bean id="testBeanId" class="Test">  
+   <property name="testProperty">  
+    <list>  
+     <value>value1</value>  
+     <value>value2</value>  
+     <value>value3</value>  
+   </list>  
+  </property>  
+</bean>
+```
+
+#### Example :
+
+```java
+// applicationContext.xml 
+
+   <bean id="student" class="springFramework.Student">
+       <property name="name" value="Jai"/>
+       <property name="rollNo" value="MCA/07/06"/>
+       <property name="className" value="MCA"/>
+       <constructor-arg>
+        <list>
+      	 <ref bean="address1"/>
+         <ref bean="address2"/>
+        </list>
+       </constructor-arg>
+   </bean>
+ 
+    <bean id="address1" class="springFramework.Address">
+       <property name="addLine" value="Test address1"/>
+       <property name="city" value="Matthews"/>
+       <property name="state" value="SC"/>
+       <property name="country" value="USA"/>
+    </bean>
+ 
+    <bean id="address2" class="springFramework.Address">
+       <property name="addLine" value="Test address2"/>
+       <property name="city" value="Charlotte"/>
+       <property name="state" value="NC"/>
+       <property name="country" value="USA"/>
+    </bean>
+    
+    
+ // java code
+ 
+ //Get Address from Student Object.
+List<Address> studentAddressList = student.getAddress()
+ ```
 
 
 
