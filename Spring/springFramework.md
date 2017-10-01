@@ -27,6 +27,9 @@ Struts or EJB application require application server to run but spring applicati
 8. **MVC framework:**
 Spring framework is a great alternative to web MVC frameworks like Struts.
 
+<br>
+<br>
+
 ** **
 
 ## Spring framework architecture modules
@@ -53,7 +56,117 @@ Spring core container contains the following:
 * **Context:** Context module provides a way to access any object. ApplicationContext interface is the main part of Context module.
 *	**Expression language:** Expression language module provides a way to manipulate objects at runtime.
 
+### 3.	Data Access/Integration contains the following:
 
+* **JDBC:** JDBC modules provides a JDBC-abstraction layer.
+* **ORM:** ORM provides integration layers for object-relational mapping APIs like JPA, and Hibernate etc.
+* **OXM:** OXM module provides an abstraction layer for Object/XML mapping APIs like JAXB, Castor and XMLBeans etc.
+* **JMS:** JMS module provides feature of message processing.
+* **Transaction:** Transaction module provides the facility of transaction management for classes like POJOs etc.
+
+### 4.	Web:
+
+Web module consist of Web, Web-Servlet, Web-Struts, Web-Socket and Web-Portlet which provides the facility of creating web applications.
+
+### 5. AOP:
+
+AOP module provides aspect-oriented programming implementation which provides the facility to define method-interceptors.
+
+### 6.	Instrumentation:
+
+Instrumentation module provides class instrumentation support and class loader implementations
+
+<br>
+<br>
+
+** **
+
+## spring IoC container types
+
+Spring IoC container is responsible for create, wire, configure and manage objects during their complete life cycle. It uses configuration metadata for create, configure and manage objects. Configuration metadata can be represented by spring configuration xml file or annotations.
+
+#### Types of Spring IoC container:
+
+1.	BeanFactory
+2.	ApplicationContext
+
+#### BeanFactory:
+
+BeanFactory **_org.springframework.beans.factory.BeanFactory_** is the interface and **_XmlBeanFactory_** is an implementation class of it. It is a simple container which provides the basic support for dependency injection.
+
+```java
+Resource resource = new ClassPathResource(“spring configuration file”);
+BeanFactory beanFactory = new XmlBeanFactory(resource);
+```
+
+#### ApplicationContext:
+
+ApplicationContext **_org.springframework.context.ApplicationContext_** is the interface and **_ClassPathXmlApplicationContext_** is an implementation class of it. ApplicationContext container includes all functionality of the BeanFactory container with some extra functionality like internationalization, event listeners etc.
+
+```java
+ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring configuration file");
+```
+
+_Note: As ApplicationContext provides extra functionality including all given by BeanFactory it is better to use ApplicationContext container._
+
+<br>
+<br>
+
+** **
+
+## spring bean
+
+A spring bean represents an object that is created, configured and managed by spring container. A spring bean is created by configuration metadata passed to the spring container which tells the container about bean creation, bean lifecycle and bean dependencies.
+
+**Spring bean properties:**
+
+<table class="table">
+    <thead>
+      <tr>
+        <th>Bean Properties</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1. class</td>
+        <td>It is mandatory and specify the bean class which is used to create the bean.</td>
+      </tr>
+      <tr>
+        <td>2. name</td>
+        <td>It specifies the bean unique identifier.</td>
+      </tr>
+      <tr>
+        <td>3. scope</td>
+        <td>It specifies the scope of the objects created from a particular bean definition.</td>
+      </tr>
+      <tr>
+        <td>4. constructor-arg</td>
+        <td>It is used to inject the dependencies.</td>
+      </tr>
+      <tr>
+        <td>5. properties</td>
+        <td>It is used to inject the dependencies.</td>
+      </tr>
+      <tr>
+        <td>6. autowiring mode</td>
+        <td>It is used to inject the dependencies.</td>
+      </tr>
+      <tr>
+        <td>7. lazy-initialization mode</td>
+        <td>It tells the IoC container to create a bean instance when it is first requested, rather than at startup.</td>
+      </tr>
+      <tr>
+        <td>8. initialization method</td>
+        <td>It is a callback method to be called just after all necessary properties on the bean have been set by the container.</td>
+      </tr>
+      <tr>
+        <td>9. destruction method</td>
+        <td>It is a callback to be called when the container containing the bean is destroyed.
+ </td>
+      </tr>
+    </tbody>
+  </table>
 
 
 
