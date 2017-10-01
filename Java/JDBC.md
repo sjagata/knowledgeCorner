@@ -28,7 +28,7 @@ Connection connection = DriverManager.getConnection(url, user, password)
 
 **3. Statements:**
 
-The JDBC statements are used to execute the SQL or PL/SQL queries against the database. We need a statement for every single query. JDBC API defines the Statement, CallableStatement, and PreparedStatement types of statements.
+The JDBC statements are used to execute the SQL or PL/SQL queries against the database. We need a statement for every single query. JDBC API defines the _Statement_, _CallableStatement_, and _PreparedStatement_ types of statements.
 
 **4. ResultSets:**
 
