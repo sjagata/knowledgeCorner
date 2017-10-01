@@ -300,6 +300,36 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
     <td> 1. Statement not executes the parameterized query</td>
     <td> 1. PreparedStatement can execute the parameterized query.</td>
   </tr>
+  <tr>
+    <td> 2. Relational DB uses following 4 step to execute a 
+    
+    **query:**
+    
+    * Parse the query.
+    * Compile the query.
+    * Optimize/Plan the query.
+    * Execute the query.
+    
+    _A statement always executes the all four steps._
+    
+    </td>
+    <td> 2. Relational DB uses following 4 step to execute a
+    
+    **query:**
+    
+    * Parse the query.
+    * Compile the query.
+    * Optimize/Plan the query.
+    * Execute the query.
+    
+    _PreparedStatement pre-executes first three steps in the execution._
+    
+    </td>
+  </tr>
+  <tr>
+  <td>3. No database statement caching in case of statement.</td>
+  <td>3. It provides the database statement caching the execution plans of previously executed statements. Hence database engine can reuse the plans for statements that have been executed previously.</td>
+  </tr>
 </table>
 
 
