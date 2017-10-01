@@ -200,15 +200,15 @@ As we discussed that spring container is responsible for creating and managing b
       </tr>
      <tr>
           <td>2. prototype	</td>
-          <td>It scopes a single bean definition to have new bean instance each time a request for that particular bean is made./td>
+          <td>It scopes a single bean definition to have new bean instance each time a request for that particular bean is made.</td>
       </tr>
       <tr>
           <td>3. request</td>
-          <td>It scopes a bean definition to an HTTP request./td>
+          <td>It scopes a bean definition to an HTTP request.</td>
       </tr>
       <tr>
           <td>4. session</td>
-          <td>It scopes a bean definition to an HTTP session./td>
+          <td>It scopes a bean definition to an HTTP session.</td>
       </tr>
         <tr>
           <td>5. global-session</td>
@@ -243,10 +243,119 @@ As we discussed earlier spring IoC container is responsible to create, configure
 11.	If the bean class implements the DisposableBean interface, then spring container calls the destroy() method when the application no longer needs the bean reference.
 12.	If destroy-method is specified in the Configuration file for the bean, then spring container calls the corresponding method in the bean class.
  
+<br>
+<br>
+
+** **
+
+## Callback method:
+
+A callback method in java is a method which is called when an event occurs. Normally we can implement that by passing an implementation of a certain interface to the system which is responsible for triggering the event.
+
+### Post-initialization callback methods:
+
+#### Using InitializingBean interface:
+
+The InitializingBean interface provides afterPropertiesSet() method which can be used for any post-initialization task.
+
+```java
+public class TestBean implements InitializingBean {
+   public void afterPropertiesSet() {
+      // post-initialization task.
+   }
+}
+```
+
+#### Using init-method attribute:
+
+In XML configuration metadata we can specify the name of the method which has a void no-argument signature in init-method attribute for any post-initialization task.
+
+```java
+<bean id="testBean" class="Test" init-method="init"/>
+In class definition:
+public class Test {
+   public void init() {
+      // post-initialization task.
+   }
+}
+```
+
+### Pre-destroy callback methods:
+
+#### Using DisposableBean interface:
+
+The DisposableBean interface provides destroy() method which can be used for any pre-destroy task.
+
+```java
+public class TestBean implements DisposableBean {
+   public void destroy() {
+      // pre-destroy task.
+   }
+}
+```
+
+#### Using destroy-method attribute:
+
+In XML configuration metadata we can specify the name of the method which has a void no-argument signature in destroy-method attribute for any pre-destroy task.
+
+```java
+<bean id="testBean" class="Test" destroy-method=" destroy"/>
+In class definition:
+public class Test {
+   public void destroy() {
+      // pre-destroy task.
+   }
+}
+```
+
+#### Example :
+
+```java
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import springframework.HelloWorld;
+
+@SpringBootApplication
+public class SpringFrameworkApplication {
+
+	private static ApplicationContext context;
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringFrameworkApplication.class, args);
+
+		context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+		// Get HelloWorld bean object from ApplicationContext instance.
+		HelloWorld helloWorld = (HelloWorld) context.getBean("helloWorld");
+
+		// Call sayHello method of HelloWorld bean.
+		helloWorld.sayHello();
+	}
+}
+```
 
 
+```java
 
+// applicationContext.xml
 
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="helloWorld" class="springframework.HelloWorld">
+		<property name="userName" value="John Doe" />
+	</bean>
+
+</beans>
+
+```
 
 
 
