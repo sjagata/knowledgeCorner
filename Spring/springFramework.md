@@ -169,7 +169,53 @@ A spring bean represents an object that is created, configured and managed by sp
   </table>
 
 
+```java
+<bean id="..." class="..." lazy-init="true">
+       //bean configuration
+</bean>
+```
 
+<br>
+<br>
+
+** **
+
+## Spring bean scopes:
+
+As we discussed that spring container is responsible for creating and managing bean object. Spring provides the facility to return the same instance or a new instance each time when one is needed. It depends upon the bean scope.
+
+### Spring framework bean scopes:
+
+<table class="table">
+    <thead>
+      <tr>
+        <th>Bean Scope</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1. singleton</td>
+        <td>It scopes the bean definition to a single instance per spring container. It is the default scope. Spring container keeps it into cache and returns the same instance each time a request for that particular bean is made.</td>
+      </tr>
+     <tr>
+          <td>2. prototype	</td>
+          <td>It scopes a single bean definition to have new bean instance each time a request for that particular bean is made./td>
+      </tr>
+      <tr>
+          <td>3. request</td>
+          <td>It scopes a bean definition to an HTTP request./td>
+      </tr>
+      <tr>
+          <td>4. session</td>
+          <td>It scopes a bean definition to an HTTP session./td>
+      </tr>
+        <tr>
+          <td>5. global-session</td>
+          <td>It scopes a bean definition to a global HTTP session./td>
+      </tr>
+    </tbody>
+</table>
 
 
 
