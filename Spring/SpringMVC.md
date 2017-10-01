@@ -21,11 +21,11 @@ _Spring MVC framework uses the DispatcherServlet class as the controller which i
 
 ### Spring mvc framework execution flow:
 
-•	Receive the user request.
-•	Choose the controller with the help of HandlerMapping.
-•	Controller process the request by calling the appropriate service method and returns a ModeAndView object to the DispatcherServlet which contains the model data and view name.
-•	DispatcherServlet sends the view name to ViewResolver which sends the actual view to the DispatcherServlet.
-•	DispatcherServlet will pass the model data to the View and render response.
+• Receive the user request.
+• Choose the controller with the help of HandlerMapping.
+• Controller process the request by calling the appropriate service method and returns a ModeAndView object to the DispatcherServlet which contains the model data and view name.
+• DispatcherServlet sends the view name to ViewResolver which sends the actual view to the DispatcherServlet.
+• DispatcherServlet will pass the model data to the View and render response.
 
 <br>
 
@@ -292,13 +292,63 @@ public class LoginController {
 ```
 
 
+<br>
 
+## Spring MVC exception handling
 
+### Example :
 
+* Use http://localhost:8080/SpringMVCExample6/ student url to start the application. 
+* A request for respective resource will generate. 
+* Request will be handled by DispatcherServlet. 
+* It delegates the request to the ExceptionHandlingController controller. 
+* The LoginController controller resolve the request with help of RequestMapping annotation, executes the specific functionality and returns the ModelAndView object to the DispatcherServlet. 
+* The DispatcherServlet then take the help of InternalResourceViewResolver to get the actual view name. 
+* In our example it will return the “/WEB-INF/jsp/student.jsp. 
+* The DispatcherServlet then insert the model data into view and render response. Same request response cycle will execute when we click on submit button after entering the student details.
 
+ExceptionHandling-servlet.xml
 
+```java
+<bean class=
+   "org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+   <property name="exceptionMappings">
+      <props>
+         <prop key="springmvc.SpringException">
+            exceptionpage
+         </prop>
+      </props>
+   </property>
+   <property name="defaultErrorView" value="error"/>
+  </bean>
+```
 
+ExceptionHandlingController.java
 
+```java
+@Controller
+public class ExceptionHandlingController {
+   @RequestMapping(value = "/student", method = RequestMethod.GET)
+   public ModelAndView student() {
+      return new ModelAndView("student", "command", new Student());
+   }
+ 
+   @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
+   @ExceptionHandler({SpringException.class})
+   public String addStudent(@ModelAttribute("SpringWeb")Student student, ModelMap model) {
+      if(student.getName().length() < 5 ){
+         throw new SpringException("Student name should contain atleast 5 characters.");
+      }else{
+    	  model.addAttribute("name", student.getName());
+      }
+ 
+      model.addAttribute("className", student.getClassName());     
+      model.addAttribute("rollNo", student.getRollNo());
+ 
+      return "welcome";
+   }
+}
+```
 
 
 
