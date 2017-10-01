@@ -140,12 +140,14 @@ We can rollback the transaction by using rollback() method of Connection object.
 ### Explain JDBC Savepoint.
 
 A savepoint represents a point that the current transaction can roll back to. Instead of rolling all of its changes back, it can choose to roll back only some of them. For example, suppose you
-• start a transaction.
-• insert 20 rows into a table.
-• set a savepoint.
-• insert another 10 rows.
-• rollback to the savepoint.
-• commit the transaction.
+
+* start a transaction.
+* insert 20 rows into a table.
+* set a savepoint.
+* insert another 10 rows.
+* rollback to the savepoint.
+* commit the transaction.
+
 After doing this, the table will contain the first 20 rows you inserted. The other 10 rows will have been deleted by the rollback. A savepoint is just a marker that the current transaction can roll back to.
 
 ### What is the use of blob and clob datatypes in JDBC?
@@ -168,8 +170,8 @@ In the first phase, transaction manager sends commit-request to all the transact
 
 ### What are the different types of locking in JDBC?
 
-Optimistic Locking: Optimistic locking lock the record only when update take place. Optimistic locking does not use exclusive locks when reading.
-Pessimistic locking: Record are locked as it selects the row to update.
+1. **_Optimistic Locking:** Optimistic locking lock the record only when update take place. Optimistic locking does not use exclusive locks when reading.
+2. **_Pessimistic locking:_** Record are locked as it selects the row to update.
 
 ### What is a “dirty read”?
 
