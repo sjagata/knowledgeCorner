@@ -505,6 +505,8 @@ In above example Student class requires an Address object and it is responsible 
 1. Constructor-based Dependency Injection.
 2. Setter-based Dependency Injection.
 
+<br>
+
 ## Spring constructor based injection
 
 Constructor based dependency injection is a process of passing the dependency to a dependent object via a constructor.
@@ -566,6 +568,7 @@ We have created two beans “Student” and “Address”. Student class require
   System.out.println("State: " + studentAddress.getState());
   System.out.println("Country: " + studentAddress.getCountry());
 ```
+<br>
 
 ### Constructor injection type ambiguities in spring tutorial
 
@@ -740,6 +743,387 @@ Syntax (setter based dependency injection):
  //Get Address from Student Object.
 List<Address> studentAddressList = student.getAddress()
  ```
+<br>
+<br>
+
+** **
+
+## Spring AOP tutorial
+
+AOP refers to Aspect Oriented Programming which behaves like OOPs as both provides the concept of modularity. But the difference is it uses aspect rather than class for the unit of modularity.
+Aspect Oriented Programming breaks down program logic into distinct parts called concerns. A cross-cutting concerns are aspects of a program that affect other concerns like transaction management, authentication, logging etc.
+
+Spring AOP module provides the facility to add extra functionality before or after the method execution.
+Note: Aspect Oriented Programming AOP is like triggers in programming languages like java, Perl, .NET etc.
+
+**AOP Terminologies:**
+
+### Aspect:
+An aspect represents a class that contains advices, join points etc like transaction management. An aspect can be configured through Spring XML configuration or spring AspectJ integration.
+ 
+### Join point:
+Joint point represents a point in our application where we can plug-in AOP aspect. It can be method execution, exception handling, field access etc. Spring AOP only supports method execution joint type.
+ 
+### Advice:
+It represents the actual action to be taken by an aspect at a particular join point. In programming point view it represents the methods to be executed at a particular join point.
+ 
+### Pointcut:
+It represents the expression which is matched with join points to determine whether advice to be executed or not.
+ 
+### Introduction:
+It provides the facility to add new methods or attributes to existing classes.
+ 
+### Target object:
+It is an object on which advices are applied. It always be proxied object in spring because Spring AOP is implemented using runtime proxies.
+ 
+### Weaving:
+Weaving is the process of linking aspects with other application types or objects to create the advised proxy objects. This can be done at compile time, load time or at runtime. Spring AOP performs weaving at the runtime.
+
+**AOP Advice Types:**
+
+### Before:
+It executes before the method execution.
+ 
+### After:
+It executes after the method execution. It not depends upon the method outcome.
+ 
+### after-returning:
+It executes after the method execution when method completes successfully.
+ 
+### after-throwing:
+It executes after the method execution when method exits by throwing an exception.
+ 
+### Around:
+It executes before and after the advised method is called.
+
+<br>
+
+## Spring AOP AspectJ Xml Configuration Example
+AspectJ libraries provides the facility to declare aspect, pointcut etc using xml file. Let us discuss the syntax first.
+
+### Declaring an aspect:
+
+The element is used to declare an aspect. The ref attribute is used for bean reference.
+
+### Declaring a pointcut:
+
+The element is used to declare an pointcut. The expression element represents the expression used for matching the join point.
+
+### Declaring advices:
+
+The element is used to declare an advice.
+
+**Advice types:**
+
+#### Before:
+It executes before the method execution.
+
+#### After:
+It executes after the method execution. It not depends upon the method outcome.
+
+#### after-returning:
+It executes after the method execution when method completes successfully.
+
+#### after-throwing:
+It executes after the method execution when method exits by throwing an exception.
+
+#### Around:
+It executes before and after the advised method is called.
+
+
+### Spring AOP AspectJ Xml Configuration Before Advice Example:
+
+BusinessLogic.java
+
+```java
+package springframework.aop;
+
+public class BusinessLogic {
+	public void implementBusinessLogic() {
+		System.out.println("Business logic executed.");
+	}
+}
+```
+
+BeforeAdviceTest.java
+
+```java
+package springframework.aop;
+
+import java.lang.reflect.Method;
+
+import org.springframework.aop.MethodBeforeAdvice;
+
+public class BeforeAdviceTest implements MethodBeforeAdvice {
+
+	@Override
+	public void before(Method method, Object[] args, Object target) throws Throwable {
+		System.out.println("Additional concern " + "before business logic.");
+	}
+
+}
+```
+
+applicationContext.xml
+
+```java
+	<bean id="businessLogic" class="springframework.aop.BusinessLogic" />
+	<bean id="beforeAdviceTest" class="springframework.aop.BeforeAdviceTest" />
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="businessLogic"></property>
+		<property name="interceptorNames">
+			<list>
+				<value>beforeAdviceTest</value>
+			</list>
+		</property>
+	</bean>
+```
+
+Java code 
+
+```java
+// Get BusinessLogic bean object from ApplicationContext instance.
+BusinessLogic businessLogic = (BusinessLogic) context.getBean("proxy", BusinessLogic.class);
+
+// Call implementBusinessLogic method of BusinessLogic bean.
+businessLogic.implementBusinessLogic();
+```
+
+### Spring AOP AspectJ Xml Configuration after-returning Advice Example:
+
+AfterReturningAdviceTest.java
+
+```java
+package springframework.aop;
+
+import java.lang.reflect.Method;
+
+import org.springframework.aop.AfterReturningAdvice;
+
+public class AfterReturningAdviceTest implements AfterReturningAdvice {
+
+	@Override
+	public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
+		System.out.println("Additional concern " + "after returning business logic.");
+	}
+
+}
+
+```
+
+applicationContext.xml
+
+```java
+	<bean id="businessLogic" class="springframework.aop.BusinessLogic" />
+	<bean id="beforeAdviceTest" class="springframework.aop.BeforeAdviceTest" />
+	<bean id="afterReturningAdviceTest" class="springframework.aop.AfterReturningAdviceTest" />
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="businessLogic"></property>
+		<property name="interceptorNames">
+			<list>
+				<value>beforeAdviceTest</value>
+				<value>afterReturningAdviceTest</value>
+			</list>
+		</property>
+	</bean>
+```
+
+### Spring AOP AspectJ Xml Configuration after-throwing Advice Example:
+
+AfterThrowingAdviceTest.java
+
+```java
+package springframework.aop;
+
+import java.lang.reflect.Method;
+
+import org.springframework.aop.ThrowsAdvice;
+
+public class AfterThrowingAdviceTest implements ThrowsAdvice {
+	public void afterThrowing(Method m, Object args[], Object target, Exception e) {
+		System.out.println("Additional concern after" + " throwing exception in business logic.");
+	}
+}
+
+```
+
+applicationContext.xml
+
+```java
+	<bean id="businessLogic" class="springframework.aop.BusinessLogic" />
+	<bean id="beforeAdviceTest" class="springframework.aop.BeforeAdviceTest" />
+	<bean id="afterReturningAdviceTest" class="springframework.aop.AfterReturningAdviceTest" />
+	<bean id="afterThrowingAdviceTest" class="springframework.aop.AfterThrowingAdviceTest" />
+	
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="businessLogic"></property>
+		<property name="interceptorNames">
+			<list>
+				<value>beforeAdviceTest</value>
+				<value>afterReturningAdviceTest</value>
+				<value>afterThrowingAdviceTest</value>
+			</list>
+		</property>
+	</bean>
+```
+
+### Spring AOP AspectJ Xml Configuration Around Advice Example:
+
+AroundAdviceTest.java
+
+```java
+package springframework.aop;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+
+public class AroundAdviceTest implements MethodInterceptor {
+
+	@Override
+	public Object invoke(MethodInvocation invocation) throws Throwable {
+		Object obj;
+		System.out.println("Additional concern before business logic.");
+		obj = invocation.proceed();
+		System.out.println("Additional concern after business logic.");
+		return obj;
+	}
+
+}
+
+```
+
+applicationContext.xml
+
+```java
+	<bean id="businessLogic" class="springframework.aop.BusinessLogic" />
+	<bean id="beforeAdviceTest" class="springframework.aop.BeforeAdviceTest" />
+	<bean id="afterReturningAdviceTest" class="springframework.aop.AfterReturningAdviceTest" />
+	<bean id="afterThrowingAdviceTest" class="springframework.aop.AfterThrowingAdviceTest" />
+	<bean id="aroundAdviceTest" class="springframework.aop.AroundAdviceTest" />
+	
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="businessLogic"></property>
+		<property name="interceptorNames">
+			<list>
+				<value>beforeAdviceTest</value>
+				<value>afterReturningAdviceTest</value>
+				<value>afterThrowingAdviceTest</value>
+				<value>aroundAdviceTest</value>
+			</list>
+		</property>
+	</bean>
+```
+
+<br>
+
+## Spring AOP AspectJ Annotation Configuration Example
+
+AspectJ libraries provides the facility to declare aspect, pointcut etc with the help of annotations. Let us discuss the commonly used AspectJ annotations first.
+
+### Declaring an aspect:
+
+The **@Aspect** annotation is used to declare a class as an aspect.
+
+```java
+@Aspect
+public class AspectModule {
+ 
+}
+```
+
+### Declaring a pointcut:
+
+The **@Pointcut** annotation is used to declare a pointcut. The expression parameter represents the expression used for matching the join point.
+
+```java
+@Pointcut("execution(expression)")
+private void businessService() {
+	//Block of code.
+}
+```
+
+### Declaring advices:
+
+The **@{ADVICE-NAME}** annotations is used to declare an advice.
+
+### Spring AOP AspectJ Annotation Configuration Advice Example:
+
+AdviceAnnotationTest.java
+
+```java
+package springframework.aop;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+
+@Aspect
+public class AdviceAnnotationTest {
+
+	@Pointcut("execution(* springframework.aop.*.*(..))")
+	private void selectAll() {
+
+	}
+
+	@Before("selectAll()")
+	public void beforeAdvice() {
+		System.out.println("Before advice executed.");
+	}
+
+	@After("selectAll()")
+	public void afterAdvice() {
+		System.out.println("After advice executed.");
+	}
+
+	@AfterReturning(pointcut = "selectAll()", returning = "retVal")
+	public void afterReturningAdvice(Object retVal) {
+		System.out.println("After returning advice executed.");
+		System.out.println("Returning value: " + retVal);
+	}
+
+	@AfterThrowing(pointcut = "selectAll()", throwing = "ex")
+	public void afterThrowingAdvice(ArithmeticException ex) {
+		System.out.println("Throwing advice executed.");
+		System.out.println("Exception: " + ex.getMessage());
+	}
+}
+```
+
+applicationContext.xml
+
+```java
+<aop:config>
+		<aop:aspect id="log" ref="adviceTest">
+			<aop:pointcut id="selectAll" expression="execution(* springframework.aop.*.*(..))" />
+			<aop:before pointcut-ref="selectAll" method="beforeAdvice" />
+			<aop:after pointcut-ref="selectAll" method="afterAdvice" />
+			<aop:after-returning pointcut-ref="selectAll" returning="retVal" method="afterReturningAdvice" />
+			<aop:after-throwing pointcut-ref="selectAll" throwing="ex" method="afterThrowingAdvice" />
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="adviceTest" class="springframework.aop.AdviceAnnotationTest" />
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
