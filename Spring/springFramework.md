@@ -6,7 +6,7 @@ Spring Framework is one of the most popular Java EE frameworks. It is an open so
 1. Dependency Injection (DI).
 2. Aspect Oriented Programming (AOP).
 
-**Advantages of Spring Framework:
+**Advantages of Spring Framework:**
 
 1. **Light weight:**
 Spring framework is light weight framework because of its POJO model implementation.
