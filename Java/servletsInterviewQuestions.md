@@ -25,9 +25,12 @@ MIME stands for “Multipurpose Internet Mail Extensions. It is a standard way o
 
 ### What is a Servlet?
 
-Servlet as technology:
+**Servlet as technology:**
+
 As a technology servlet provides a model of communication between a web user request and the application or program on the web server.
-Servlet as component: 
+
+**Servlet as component: **
+
 As a component servlet is a program which is executed in web server and responsible for dynamic content generation
 See more at: Servlet Overview
 
@@ -51,9 +54,9 @@ See more at: Servlet Life Cycle
 
 ### What are the life-cycle methods for a servlet?
 
-1. Call init() method: After creating the servlet instance web container calls the servlet’s init method. This method is used to initialize the servlet before processing first request. It is called only once by the web container.
-2. Call service() method: After initialization process web container calls service method. Service method is called for every request. For every request servlet creates a separate thread.
-3. Call destoy() method: This method is called by web container before removing the servlet instance. Destroy method asks servlet to releases all the resources associated with it. It is called only once by the web container when all threads of the servlet have exited or in a timeout case.
+1. **Call init() method:** After creating the servlet instance web container calls the servlet’s init method. This method is used to initialize the servlet before processing first request. It is called only once by the web container.
+2. **Call service() method:** After initialization process web container calls service method. Service method is called for every request. For every request servlet creates a separate thread.
+3. **Call destoy() method:** This method is called by web container before removing the servlet instance. Destroy method asks servlet to releases all the resources associated with it. It is called only once by the web container when all threads of the servlet have exited or in a timeout case.
 See more at: Servlet Life Cycle
 
 ### Why do we need a constructor in a servlet if we use the init method?
@@ -101,7 +104,7 @@ When a browser requests for a web page, it sends lot of information to the web s
 
 When a Web server responds to a HTTP request to the browser, the response typically consists of a status line, some response headers, a blank line, and the document. HTTPServletResponse represents this HTTP Response.
 
-How can we create deadlock condition on our servlet?
+### How can we create deadlock condition on our servlet?
 
 We can create deadlock in servlet by calling doPost() method inside doGet() and doGet()method inside doPost() method.
 
@@ -120,23 +123,27 @@ ServletContext interface is used to access the context parameters. Context param
 ### How to read form data in servlet?
 
 Servlets handles form data parsing by the following methods depending on the situation:
-• getParameter(): This method is used to get the value of a form parameter.
-• getParameterValues(): This method is used to get the values of a parameter which appears more than once and returns multiple values, for example checkbox.
-• getParameterNames(): This method is used to get complete list of all parameters in the current request.
+* **getParameter():** This method is used to get the value of a form parameter.
+* **getParameterValues():** This method is used to get the values of a parameter which appears more than once and returns multiple values, for example checkbox.
+* **getParameterNames():** This method is used to get complete list of all parameters in the current request.
 
 ### How to write html contents using servlets?
 
 Get the object of PrintWriter using request and print html.
 
+```java
 PrintWriter out = response.getWriter();
 out.println("Hello World");
+```
 
 ### How to send an authentication error from a servlet?
 
 The setStatus(statuscode) method of HttpServletResponse to send an authentication error.
 
+```java
 // Set error code and reason.
 response.sendError(407, "Need authentication!" );
+```
 
 ### What is servlet collaboration?
 
@@ -155,14 +162,21 @@ The forward() method of RequestDispatcher is used to forward the request to a re
 
 ### What is the difference between sendRedirect and RequestDispatcher?
 
-See at: sendRedirect vs RequestDispatcher.
+| sendRedirect        | RequestDispatcher|
+| ------------- |-------------|
+| 1. Creates a new request from the client browser for the resource.      | 1. No new request is created.|
+| 2. Accept relative url so control can go inside or outside the server.    | 2. Not accept relative url so can go only inside the server. |
+| 3. New url can be seen in browser. | 3. New url can’t be seen in browser. |
+| 4. Work on response object. | 4. Work on request object.|
 
-Can we call a jsp from the servlet?
+### Can we call a jsp from the servlet?
 
 Yes, we can call a jsp from the servlet using RequestDispatcher interface for example:
 
+```java
 RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");  
 rd.forward(request,response);
+```
 
 ### What are servlets filters?
 
@@ -172,11 +186,23 @@ See more at: Servlet filter.
 ### What are the life-cycle methods for a servlet filter?
 
 1. init(FilterConfig config): This method is used to initialize the filter. It is called only once by web container.
-Syntax: public void init(FilterConfig config)
+
+```java
+public void init(FilterConfig config)
+```
+
 2. doFilter(HttpServletRequest request,HttpServletResponse response, FilterChain chain): This method is used for performing pre-processing and post-processing tasks. It is called every time for a request/response comes for a resource to which filter is mapped.
-Syntax: public void doFilter(HttpServletRequest request,HttpServletResponse response, FilterChain chain)
+
+```java
+public void doFilter(HttpServletRequest request,HttpServletResponse response, FilterChain chain)
+```
+
 3. destroy(): This method is called only once by the web container when filter is taken out of the service.
-Syntax: public void destroy()
+
+```java
+public void destroy()
+```
+
 See more at: Servlet filter.
 
 ### Can multiple filters be configured?
@@ -193,11 +219,14 @@ We have to use the error-page element in web.xml to specify the invocation of se
 How to configure a central error handler in servlets?
 If we want to have a generic Error Handler for all the exceptions then we should define following error-page instead of defining separate error-page elements for every exception:
 
+```java
 <error-page>
    <exception-type>java.lang.Throwable</exception-type >
    <location>/ErrorHandler</location>
 </error-page>
-What are cookies?
+```
+
+### What are cookies?
 
 A cookie is a small piece of information as a text file stored on client’s machine by a web application.
 See more at: Cookie in servlet.
@@ -222,7 +251,11 @@ See more at: Cookie in servlet.
 ### What is URL rewriting?
 
 URL rewriting is a way of appending data at the end of URL. Data is appended in name value pair form. Multiple parameters can be appended in one URL with name value pairs.
-Syntax: URL?paramName1=paramValue1& paramName2=paramValue2
+
+```html
+ URL?paramName1=paramValue1& paramName2=paramValue2
+```
+
 See more at: URL rewriting in servlet.
 
 ### What is session?
@@ -233,19 +266,31 @@ See more at: HttpSession in servlet.
 ### How to get session object?
 
 HttpServletRequest interface’s getSession() method is used to get the session object.
-Syntax: HttpSession session = request.getSession();
+
+```java
+HttpSession session = request.getSession();
+```
+
 See more at: HttpSession in servlet.
 
 ### How to set attribute in session object?
 
 HttpSession interface’s setAttribute() method is used to set attribute in session object.
 Syntax: public void setAttribute(String name,Object value);
-Example: session.setAttribute(“attName”, “attValue”);
+
+```java
+session.setAttribute(“attName”, “attValue”);
+```
+
 See more at: HttpSession in servlet.
 
 ### How to get attribute from session object?
 
 HttpSession interface’s getAttribute() method is used to get attribute from session object.
 Syntax: public Object getAttribute(String name);
-Example: String value = (String) session.getAttribute(“attName”);
+
+```java
+String value = (String) session.getAttribute(“attName”);
+```
+
 See more at: HttpSession in servlet.
