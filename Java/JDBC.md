@@ -235,7 +235,7 @@ Statement stmt=conn.createStatement();
 
 ### Commonly used methods of Statement interface:
 
-**1. execute(String SQL): ** 
+**1. execute(String SQL):** 
 It is used to execute SQL DDL statements.
 
 ```java
@@ -262,6 +262,80 @@ It is used to execute the batch of commands.
 ```java
 public int[] executeBatch()
 ```
+
+** **
+
+## JDBC PreparedStatement interface
+
+The JDBC PreparedStatement is used to execute parameterized queries against the database. PreparedStatement is an interface which provides the methods to execute parameterized queries. A parameter is represented by ? symbol in JDBC. PreparedStatement extends the Statement interface. We can get a PreparedStatement object by invoking the prepareStatement() method of Connection interface.
+
+```java
+PreparedStatement pstmt = conn.prepareStatement(SQL);
+```
+
+**Advantages of PreparedStatement:**
+1. **Parameterized query:** Provides the facility of parameterized query.
+2. **Reusable:** PreparedStatement can be easily used with new parameters.
+3. **Performance:** It increases the performance because of database statement caching.
+
+### Difference between Statement and PreparedStatement in jdbc:
+|Statement|PreparedStatement|
+| --------|-----------------|
+| 1. Statement not executes the parameterized query.| 1. PreparedStatement can execute the parameterized query.| 
+| 2. Relational DB uses following 4 step to execute a query:| 2. Relational DB uses following 4 step to execute a query:| 
+| a. Parse the query.| a. Parse the query.| 
+| b. Compile the query.| | 
+| c. Optimize/Plan the query.| | 
+| d. Execute the query.| | 
+| A statement always executes the all four steps.| | 
+| 3. No database statement caching in case of statement.| | 
+
+
+<table>
+  <tr>
+    <td>Statement</td>
+    <td>PreparedStatement</td>
+  </tr>
+  <tr>
+    <td> 1. Statement not executes the parameterized query</td>
+    <td> 1. PreparedStatement can execute the parameterized query.</td>
+  </tr>
+</table>
+
+
+a. Parse the query.
+b. Compile the query.
+c. Optimize/Plan the query.
+d. Execute the query.
+PreparedStatement pre-executes first three steps in the execution.
+3. It provides the database statement caching the execution plans of previously executed statements. Hence database engine can reuse the plans for statements that have been executed previously.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+** **
+
+# Examples :
+
+** **
 
 ### JDBC Statement creates a table example
 
@@ -597,7 +671,6 @@ public class JDBCBatchTest {
 }
 
 ```
-
 
 
 
