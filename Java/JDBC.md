@@ -1,5 +1,5 @@
 # JDBC Overview
-
+<br>
 ### What is JDBC?
 
 JDBC refers to the Java Database Connectivity. It provides java API that allows Java programs to access database management systems (relational database). The JDBC API consists of a set of interfaces and classes which enables java programs to execute SQL statements. Interfaces and classes in JDBC API are written in java.
@@ -32,6 +32,8 @@ The JDBC statements are used to execute the SQL or PL/SQL queries against the da
 
 A query returns the data in the form of ResultSet. To read the query result date ResultSet provides a cursor that points to the current row in the result set.
 
+<br>
+<br>
 ** **
 
 ## JDBC driver
@@ -97,7 +99,8 @@ Thin driver is a pure java driver which converts JDBC calls directly into the da
 1. It is database dependent.
 2. Multiple types of databases can’t be accessed at the same time.
 
-
+<br>
+<br>
 ** **
 
 ## Connect to Oracle database with JDBC driver
@@ -221,9 +224,10 @@ public class JDBCMySqlTest {
 
 ```
 
+<br>
+<br>
 
 ** **
-
 
 ## JDBC Statement interface
 
@@ -262,6 +266,9 @@ It is used to execute the batch of commands.
 ```java
 public int[] executeBatch()
 ```
+
+<br>
+<br>
 
 ** **
 
@@ -309,6 +316,21 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
   </tr>
 </table>
 
+<br>
+<br>
+
+** **
+
+## JDBC CallableStatement interface
+The JDBC CallableStatement is used to execute the store procedure and functions. CallableStatement interface provides the methods to execute the store procedure and functions. We can get a statement object by invoking the prepareCall() method of Connection interface.
+
+```java
+CallableStatement callableStatement = conn.prepareCall(“{call procedurename(?,?…?)}”);
+```
+
+_**Note:** A store procedure is used to perform business logic and may return zero or more values. A function used to perform calculation and it can return only one value._
+
+_**Note:** PreparedStatement can only use IN parameters. CallableStatement can use both IN and OUT parameters._
 
 
 
@@ -339,9 +361,16 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
 
 ** **
 
-# Examples :
+### Examples :
 
 ** **
+<br>
+<br>
+
+** **
+
+## JDBC Statement interface
+
 
 ### JDBC Statement creates a table example
 
@@ -680,23 +709,524 @@ public class JDBCBatchTest {
 
 
 
+<br>
+<br>
+
+** **
+
+## JDBC PreparedStatement interface
 
 
+### JDBC PreparedStatement creates a table example
+
+The JDBC PreparedStatement is used to execute parameterized queries against the database. Let us study JDBC PreparedStatement by creates a table example.
+
+#### Example
+
+```java
+//JDBCPSCreateTest.java
+
+package jdbc.preparedStatement;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to create a table in DB using PreparedStatement.
+ */
+public class JDBCPSCreateTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+
+		String query = "create table EMPLOYEE(" + "EMPLOYEE_ID NUMBER(5) NOT NULL, " + "NAME VARCHAR(20) NOT NULL, "
+				+ "SALARY NUMBER(10) NOT NULL, " + "PRIMARY KEY (EMPLOYEE_ID) )";
+
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(query);
+
+			// execute query
+			preparedStatement.execute();
+
+			// close connection
+			preparedStatement.close();
+			conn.close();
+
+			System.out.println("Table created successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+### JDBC PreparedStatement inserts a record example
+
+The JDBC PreparedStatement is used to execute parameterized queries against the database. Let us study JDBC PreparedStatement by inserts a record example.
+
+#### Example
+
+```java
+package jdbc.preparedStatement;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to insert a record in DB table using PreparedStatement.
+ */
+public class JDBCPSInsertTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+
+		String query = "insert into EMPLOYEE " + "(EMPLOYEE_ID, NAME, SALARY) " + "values (?,?,?)";
+
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(query);
+
+			// set values
+			preparedStatement.setInt(1, 1);
+			preparedStatement.setString(2, "John Doe");
+			preparedStatement.setInt(3, 62000);
+
+			// execute query
+			preparedStatement.executeUpdate();
+
+			// close connection
+			preparedStatement.close();
+			conn.close();
+
+			System.out.println("Record inserted successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
 
 
+### JDBC PreparedStatement updates a record example
 
+The JDBC PreparedStatement is used to execute parameterized queries against the database. Let us study JDBC PreparedStatement by updates a record example.
 
+#### Example
 
+```java
+package jdbc.preparedStatement;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
+import jdbc.JDBCUtil;
 
+/**
+ * This class is used to update a record in DB table using PreparedStatement.
+ */
+public class JDBCPSUpdateTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
 
+		String query = "update EMPLOYEE set " + "SALARY = ? " + "where EMPLOYEE_ID = ? ";
 
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
 
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(query);
 
+			// set values
+			preparedStatement.setInt(2, 1);
+			preparedStatement.setInt(1, 65000);
 
+			// execute query
+			preparedStatement.executeUpdate();
 
+			// close connection
+			preparedStatement.close();
+			conn.close();
 
+			System.out.println("Record updated successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+### JDBC PreparedStatement select records example
+
+The JDBC PreparedStatement is used to execute parameterized queries against the database. Let us study JDBC PreparedStatement by select records example.
+
+#### Example
+
+```java 
+package jdbc.preparedStatement;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to select a list of records from DB table using
+ * PreparedStatement.
+ */
+public class JDBCPSSelectTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+
+		String query = "select EMPLOYEE_ID, NAME from EMPLOYEE";
+
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(query);
+
+			// execute query
+			ResultSet rs = preparedStatement.executeQuery(query);
+			while (rs.next()) {
+				String empId = rs.getString("EMPLOYEE_ID");
+				String empName = rs.getString("NAME");
+
+				System.out.println("EmpId : " + empId);
+				System.out.println("EmpName : " + empName);
+			}
+
+			// close connection
+			preparedStatement.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+### JDBC PreparedStatement deletes a record example
+
+The JDBC PreparedStatement is used to execute parameterized queries against the database. Let us study JDBC PreparedStatement by deletes a record example.
+
+#### Example
+
+```java 
+package jdbc.preparedStatement;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to delete a record from DB table using PreparedStatement.
+ */
+public class JDBCPSDeleteTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+
+		String query = "delete EMPLOYEE " + "where EMPLOYEE_ID = 1 ";
+
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(query);
+
+			// execute query
+			preparedStatement.executeUpdate();
+
+			// close connection
+			preparedStatement.close();
+			conn.close();
+
+			System.out.println("Record deleted successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+### JDBC PreparedStatement batch update example
+
+The JDBC PreparedStatement is used to execute parameterized queries against the database. Let us study JDBC PreparedStatement by batch update example.
+
+#### Example
+
+```java 
+package jdbc.preparedStatement;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to batch update in DB table using PreparedStatement.
+ */
+public class JDBCPSBatchTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+
+		String query = "insert into EMPLOYEE " + "(EMPLOYEE_ID, NAME, SALARY) " + "values (?,?,?)";
+
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// set auto commit to false
+			conn.setAutoCommit(false);
+
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(query);
+
+			// set values
+			preparedStatement.setInt(1, 1);
+			preparedStatement.setString(2, "John Doe");
+			preparedStatement.setInt(3, 62000);
+			preparedStatement.addBatch();
+
+			// set values
+			preparedStatement.setInt(1, 4);
+			preparedStatement.setString(2, "Jane Doe");
+			preparedStatement.setInt(3, 52000);
+			preparedStatement.addBatch();
+
+			// execute query
+			preparedStatement.executeBatch();
+
+			// commit
+			conn.commit();
+
+			// close connection
+			preparedStatement.close();
+			conn.close();
+
+			System.out.println("Record inserted successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+<br>
+<br>
+
+** **
+
+## JDBC CallableStatement interface
+
+### JDBC CallableStatement Stored procedure IN parameter example
+
+The JDBC CallableStatement is used to execute the store procedure and functions. Let us study JDBC CallableStatement by IN parameter example.
+
+#### Example 
+
+```sql
+//JDBC CallableStatement Stored procedure IN parameter example.
+
+CREATE OR REPLACE PROCEDURE insertEMPLOYEE(
+	   e_id IN EMPLOYEE.EMPLOYEE_ID%TYPE,
+	   e_name IN EMPLOYEE.NAME%TYPE,
+	   e_salary IN EMPLOYEE.SALARY%TYPE)
+IS
+BEGIN
+ 
+  INSERT INTO EMPLOYEE ("EMPLOYEE_ID", "NAME", "SALARY") 
+  VALUES (e_id, e_name, e_salary);
+ 
+  COMMIT;
+ 
+END;
+```
+
+```java
+package jdbc.callableStatement;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to insert a record in DB table using CallableStatement.
+ */
+public class JDBCINTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		CallableStatement callableStatement = null;
+		String proc = "{call insertEMPLOYEE(?,?,?)}";
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create callableStatement
+			callableStatement = conn.prepareCall(proc);
+			callableStatement.setInt(1, 5);
+			callableStatement.setString(2, "John Doe");
+			callableStatement.setInt(3, 100000);
+
+			// execute query
+			callableStatement.executeUpdate();
+
+			// close connection
+			callableStatement.close();
+			conn.close();
+
+			System.out.println("Record inserted successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+### JDBC CallableStatement Stored procedure OUT parameter example
+
+The JDBC CallableStatement is used to execute the store procedure and functions. Let us study JDBC CallableStatement by OUT parameter example.
+
+#### Example 
+
+```sql
+//JDBC CallableStatement Stored procedure IN parameter example.
+CREATE OR REPLACE PROCEDURE getEmpNameByEmpId(
+	   e_id IN EMPLOYEE.EMPLOYEE_ID%TYPE,
+	   e_NAME OUT EMPLOYEE.NAME%TYPE)
+IS
+BEGIN
+ 
+  SELECT NAME INTO e_NAME 
+  FROM  EMPLOYEE WHERE EMPLOYEE_ID = e_id;
+ 
+END;
+```
+
+```java
+package jdbc.callableStatement;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to get a record from DB table using CallableStatement.
+ */
+public class JDBCOUTTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		CallableStatement callableStatement = null;
+		String proc = "{call getEmpNameByEmpId(?,?)}";
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create callableStatement
+			callableStatement = conn.prepareCall(proc);
+			callableStatement.setInt(1, 5);
+			callableStatement.registerOutParameter(2, java.sql.Types.VARCHAR);
+
+			// execute query
+			callableStatement.executeUpdate();
+
+			// get employee name
+			String empName = callableStatement.getString(2);
+			System.out.println("Emp Name: " + empName);
+
+			// close connection
+			callableStatement.close();
+			conn.close();
+
+			System.out.println("Record inserted successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
+
+### JDBC CallableStatement Stored procedure batch update example
+
+The JDBC CallableStatement is used to execute the store procedure and functions. Let us study JDBC CallableStatement by batch update example.
+
+#### Example 
+
+```java
+package jdbc.callableStatement;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to batch update in DB table using CallableStatement.
+ */
+public class JDBCBatchTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		CallableStatement callableStatement = null;
+		String proc = "{call insertEMPLOYEE(?,?,?)}";
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create callableStatement
+			callableStatement = conn.prepareCall(proc);
+
+			callableStatement.setInt(1, 7);
+			callableStatement.setString(2, "Harish Yadav");
+			callableStatement.setInt(3, 50000);
+			callableStatement.addBatch();
+
+			callableStatement.setInt(1, 8);
+			callableStatement.setString(2, "Abhishek Rathor");
+			callableStatement.setInt(3, 50000);
+			callableStatement.addBatch();
+
+			// execute query
+			callableStatement.executeBatch();
+
+			// close connection
+			callableStatement.close();
+			conn.close();
+
+			System.out.println("Records inserted successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
 
 
 
