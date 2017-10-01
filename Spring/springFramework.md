@@ -33,9 +33,45 @@ Spring framework is a great alternative to web MVC frameworks like Struts.
 
 Spring framework is designed in modular fashion from which a programmer can choose the applicable modules and ignore the rest. Spring framework modules are divided into categories given below.
 
+**Spring framework architecture Diagram:**
+
 ![alt text][logo]
 
 [logo]: http://tutorialspointexamples.com/wp-content/uploads/2015/09/spring-overview.png "Spring framework architecture"
+
+
+### 1. Test:
+
+Spring test module provides the supports for testing of spring components with JUnit or TestNG frameworks.
+
+### 2. Core Container:
+
+Spring core container contains the following:
+
+* **Core:** Core module provides the fundamental features of spring framework like IoC and DI.
+*	**Bean:** Bean module provides the BeanFactory.
+* **Context:** Context module provides a way to access any object. ApplicationContext interface is the main part of Context module.
+*	**Expression language:** Expression language module provides a way to manipulate objects at runtime.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
