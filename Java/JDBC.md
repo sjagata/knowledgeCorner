@@ -34,6 +34,7 @@ A query returns the data in the form of ResultSet. To read the query result date
 
 <br>
 <br>
+
 ** **
 
 ## JDBC driver
@@ -101,6 +102,7 @@ Thin driver is a pure java driver which converts JDBC calls directly into the da
 
 <br>
 <br>
+
 ** **
 
 ## Connect to Oracle database with JDBC driver
@@ -332,20 +334,190 @@ _**Note:** A store procedure is used to perform business logic and may return ze
 
 _**Note:** PreparedStatement can only use IN parameters. CallableStatement can use both IN and OUT parameters._
 
+<br>
+<br>
+
+** **
+
+## JDBC batch processing
+The JDBC batch processing provides the facility to execute a group of related queries. A group of related queries is known as a batch. It reduces the amount of communication overhead and hence improves the performance.
+
+### JDBC batch processing methods:
+
+**1. addBatch(String query):**
+It is used to add the statement to the batch.
+
+```java
+public void void addBatch(String query) throws SQLException
+```
+
+**2. executeBatch(): **
+It is used to execute batch.
+
+```java
+public int[] executeBatch() throws SQLException
+```
+
+**3. clearBatch(): **
+It is used to remove all statements from the batch.
+
+```java
+public void clearBatch() throws SQLException
+```
+
+<br>
+<br>
+
+** **
+
+## JDBC store file example
+PreparedStatement provides the facility to store and retrieve the file in the database using JDBC.
+
+### PreparedStatement methods to store file:
+
+```java
+public void setCharacterStream(int paramIndex,InputStream stream) throws SQLException 
+```
+
+```java
+public void setCharacterStream(int paramIndex,InputStream stream,long length) throws SQLException  
+```
+
+## JDBC retrieve file example
+PreparedStatement provides the facility to store and retrieve the file in the database using JDBC.
+
+### PreparedStatement methods to retrieve file:
+
+```java
+public Clob getClob(int columnIndex) throws SQLException
+```
+
+<br>
+<br>
+
+** **
+
+## JDBC store image example
+PreparedStatement provides the facility to store and retrieve the images in the database using JDBC.
+
+### PreparedStatement methods to store image:
+
+```java
+public void setCharacterStream(int paramIndex, InputStream stream) throws SQLException 
+```
+
+```java
+public void setCharacterStream(int paramIndex, InputStream stream, long length) throws SQLException  
+```
+
+## JDBC retrieve image example
+PreparedStatement provides the facility to store and retrieve the file in the database using JDBC.
+
+### PreparedStatement methods to retrieve image:
+
+```java
+public Blob getBlob(int columnIndex) throws SQLException 
+```
+
+<br>
+<br>
+
+** **
+
+## JDBC ResultSetMetaData interface
+The metadata refers to the data about data. The ResultSetMetaData interface provides the facility to get the information like table name, total number of column, column name and column type etc. We can get the object of ResultSetMetaData by calling getMetaData() method of ResultSet interface.
+
+```java
+ResultSetMetaData rsmd = resultSet.getMetaData();
+```
+
+### Commonly used methods of ResultSetMetaData:
+
+**1. getTableName(int index):**
+It returns the name of the table of the specified column index.
+
+```java
+public String getTableName(int index) throws SQLException
+```
+
+**2. getColumnCount():**
+It returns the no. of columns in the result set.
+
+```java
+public int getColumnCount() throws SQLException
+```
+
+**3. getColumnName(int index):**
+It returns the name of the column at the specified column index.
+
+```java
+public String getColumnName(int index) throws SQLException
+```
+
+**4. getColumnTypeName(int index):**
+It returns the type of the column at the specified column index.
+
+```java
+public String getColumnTypeName(int index) throws SQLException
+```
 
 
 
+<br>
+<br>
 
+** **
 
+## JDBC DatabaseMetaData interface
+The metadata refers to the data about data. The DatabaseMetaData interface provides the facility to get the information like driver name, total number of tables and driver version etc. We can get the object of DatabaseMetaData by calling getMetaData() method of Connection interface.
 
+```java
+DatabaseMetaData dbmd=conn.getMetaData();
+```
 
+### Commonly used methods of DatabaseMetaData:
 
+**1. getDriverName():**
+It is used to get thename of the JDBC driver.
 
+```java
+public String getDriverName()throws SQLException
+```
 
+**2. getDriverVersion():**
+ It is used to get the JDBC driver version.
 
+```java
+public String getDriverVersion()throws SQLException
+```
 
+**3. getUserName():**
+ It is used to get the database username.
 
+```java
+public String getUserName()throws SQLException
+```
 
+**4. getDatabaseProductName():**
+ It is used to get the database product name.
+
+```java
+public String getDatabaseProductName()throws SQLException
+```
+
+**5. getDatabaseProductVersion():**
+ It is used to get the database product version.
+
+```java
+public String getDatabaseProductVersion()throws SQLException
+```
+
+**6. getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types):**
+ It is used to get the tables detail of the specified catalog.
+
+```java
+public ResultSet getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)throws SQLException
+```
 
 
 
@@ -364,6 +536,7 @@ _**Note:** PreparedStatement can only use IN parameters. CallableStatement can u
 ### Examples :
 
 ** **
+
 <br>
 <br>
 
@@ -1203,12 +1376,12 @@ public class JDBCBatchTest {
 			callableStatement = conn.prepareCall(proc);
 
 			callableStatement.setInt(1, 7);
-			callableStatement.setString(2, "Harish Yadav");
+			callableStatement.setString(2, "John Doe");
 			callableStatement.setInt(3, 50000);
 			callableStatement.addBatch();
 
 			callableStatement.setInt(1, 8);
-			callableStatement.setString(2, "Abhishek Rathor");
+			callableStatement.setString(2, "Jane Doe");
 			callableStatement.setInt(3, 50000);
 			callableStatement.addBatch();
 
@@ -1226,16 +1399,145 @@ public class JDBCBatchTest {
 	}
 }
 
+
 ```
 
+** **
+
+### JDBC store file example
+
+PreparedStatement provides the facility to store and retrieve the file in the database using JDBC.
+
+#### Example 
+
+```java
+package jdbc.storeRetrieveFile;
+
+import java.io.File;
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import jdbc.JDBCUtil;
+
+/**
+ * This class is used to store a file in DB.
+ */
+public class JBDCstorefileTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+
+		String createTableQuery = "create table FILESTORE(" + "FILE_ID NUMBER(5) NOT NULL, " + "NAME CLOB NOT NULL, "
+				+ "PRIMARY KEY (FILE_ID) )";
+
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
+
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(createTableQuery);
+
+			// execute query for create table
+			preparedStatement.execute();
+			System.out.println("Table created successfully.");
+
+			String storeFileQuery = "insert into FILESTORE " + "values (?,?)";
+			preparedStatement = conn.prepareStatement(storeFileQuery);
+
+			// Read source file
+			File file = new File("F:\\test.txt");
+			FileReader fileReader = new FileReader(file);
+
+			preparedStatement.setInt(1, 2);
+			preparedStatement.setCharacterStream(2, fileReader, (int) file.length());
+
+			preparedStatement.executeUpdate();
+			System.out.println("File stored successfully.");
+
+			// close connection
+			preparedStatement.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+### JDBC retrieve file example
+
+PreparedStatement provides the facility to store and retrieve the file in the database using JDBC.
+
+#### Example 
 
 
+```java
+package jdbc.storeRetrieveFile;
 
+import java.io.FileWriter;
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
+import jdbc.JDBCUtil;
 
+/**
+ * This class is used to retrieve a file from DB.
+ */
+public class JDBCretrieveFileTest {
+	public static void main(String args[]) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
 
+		String query = "select * from FILESTORE " + "where FILE_ID = 2";
 
+		try {
+			// get connection
+			conn = JDBCUtil.getConnection();
 
+			// create preparedStatement
+			preparedStatement = conn.prepareStatement(query);
+
+			// execute query
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			resultSet.next();
+
+			Clob clob = resultSet.getClob(2);
+			Reader reader = clob.getCharacterStream();
+
+			FileWriter fileWriter = new FileWriter("F:\\savedFile.txt");
+
+			int i;
+			while ((i = reader.read()) != -1) {
+				fileWriter.write((char) i);
+			}
+
+			System.out.println("File retrieved successfully.");
+
+			// close connection
+			fileWriter.close();
+			preparedStatement.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+** **
+
+### JDBC retrieve file example
+
+PreparedStatement provides the facility to store and retrieve the file in the database using JDBC.
+
+#### Example 
 
 
 
