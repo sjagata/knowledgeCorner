@@ -294,9 +294,7 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
     * Parse the query.<br>
     * Compile the query.<br>
     * Optimize/Plan the query.<br>
-    * Execute the query. <br>
-    
-    **A statement always executes the all four steps.**
+    * Execute the query. <br><br>A statement always executes the all four steps.
     
     <br>
     </td>
@@ -304,10 +302,8 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
     * Parse the query.<br>
     * Compile the query.<br>
     * Optimize/Plan the query.<br>
-    * Execute the query. <br>
-    
-    **PreparedStatement pre-executes first three steps in the execution.**
-    
+    * Execute the query. <br><br>
+    PreparedStatement pre-executes first three steps in the execution.
     <br>
     </td>
   </tr>
@@ -318,12 +314,6 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
 </table>
 
 
-a. Parse the query.
-b. Compile the query.
-c. Optimize/Plan the query.
-d. Execute the query.
-PreparedStatement pre-executes first three steps in the execution.
-3. It provides the database statement caching the execution plans of previously executed statements. Hence database engine can reuse the plans for statements that have been executed previously.
 
 
 
