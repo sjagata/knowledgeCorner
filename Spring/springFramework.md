@@ -8,11 +8,11 @@ Spring Framework is one of the most popular Java EE frameworks. It is an open so
 
 **Advantages of Spring Framework:
 
-1.**Light weight:**
+1. **Light weight:**
 Spring framework is light weight framework because of its POJO model implementation.
-2.**Non-invasive approach:**
+2. **Non-invasive approach:**
 As we know that struts forces programmer to extend Action Class but spring framework doesn’t force a programmer to extend class or implement interface given by Spring API.
-3.**Loose Coupling:**
+3. **Loose Coupling:**
 Because of dependency injection concept, spring objects are loosely coupled.
 4. **Modular fashion:**
 Spring framework is designed in modular fashion. A programmer can use only needed modules and ignore the rest.
