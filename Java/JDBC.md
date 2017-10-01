@@ -301,23 +301,19 @@ PreparedStatement pstmt = conn.prepareStatement(SQL);
     <td> 1. PreparedStatement can execute the parameterized query.</td>
   </tr>
   <tr>
-    <td> 2. Relational DB uses following 4 step to execute a query:
-    * Parse the query.
-    * Compile the query.
-    * Optimize/Plan the query.
-    * Execute the query. 
-    
-    `A statement always executes the all four steps.`
-    
+    <td> 2. Relational DB uses following 4 step to execute a <br> query: <br>
+    * Parse the query.<br>
+    * Compile the query.<br>
+    * Optimize/Plan the query.<br>
+    * Execute the query. <br>
+    `A statement always executes the all four steps.`<br>
     </td>
-    <td> 2. Relational DB uses following 4 step to execute a query:
-    * Parse the query.
-    * Compile the query.
-    * Optimize/Plan the query.
-    * Execute the query. 
-    
-    `PreparedStatement pre-executes first three steps in the execution.`
-    
+    <td> 2. Relational DB uses following 4 step to execute a <br>query:<br>
+    * Parse the query.<br>
+    * Compile the query.<br>
+    * Optimize/Plan the query.<br>
+    * Execute the query. <br>
+    `PreparedStatement pre-executes first three steps in the execution.`<br>
     </td>
   </tr>
   <tr>
