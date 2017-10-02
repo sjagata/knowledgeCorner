@@ -636,8 +636,57 @@ That is, the data stored in `localStorage` persists until explicitly deleted. Ch
 
 For `sessionStorage`, changes are only available per window (or tab in browsers like Chrome and Firefox). Changes made are saved and available for the current page, as well as future visits to the site on the same window. Once the window is closed, the storage is deleted.
 
-`localStorage` - use for long term use.
-`sessionStorage` - use when you need to store somthing that changes or somthing temporary
+* `localStorage` - use for long term use.
+* `sessionStorage` - use when you need to store somthing that changes or somthing temporary
+
+[@articl1](https://stackoverflow.com/questions/19867599/what-is-the-difference-between-localstorage-sessionstorage-session-and-cookies)
+
+[@article2](https://stackoverflow.com/questions/5523140/html5-local-storage-vs-session-storage)
+
+### 25. Explain window.onload and onDocumentReady?
+The `onload` function is not run until all the information on the page is loaded. This leads to a substantial delay before any code is executed.
+
+`onDocumentReady` loads the code just after the DOM is loaded. This allows early manipulation of the code.
+
+* `window.load()` - is a standard event in the DOM, will runs once the entire page(images, iframes, scripts, links etc..) not just DOM
+* `$(document).ready()` - will only runs once the page DOM is ready for **JAVASCRIPT** code to execute. Fires first.
+
+### 26. What is the difference between .call() and .apply()?
+
+The function `.call()` and `.apply()` are very similar in their usage except a little difference. 
+
+* `.call()` is used when the number of the function’s arguments are known to the programmer, as they have to be mentioned as arguments in the call statement. 
+* `.apply()` is used when the number is not known. The function .apply() expects the argument to be an array.
+
+The basic difference between `.call()` and `.apply()` is in the way arguments are passed to the function. Their usage can be illustrated by the given example.
+
+```js
+var someObject = {
+ 
+myProperty : 'Foo',
+ 
+myMethod : function(prefix, postfix) {
+ 
+alert(prefix + this.myProperty + postfix);
+ 
+}
+ 
+};
+ 
+someObject.myMethod('<', '>'); // alerts '<Foo>'
+ 
+var someOtherObject  = {
+ 
+myProperty : 'Bar'
+ 
+};
+ 
+someObject.myMethod.call(someOtherObject, '<', '>'); // alerts '<Bar>'
+ 
+someObject.myMethod.apply(someOtherObject, ['<', '>']); // alerts '<Bar>'
+```
+
+
 
 
 
