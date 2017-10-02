@@ -190,11 +190,94 @@ So with above view resolver configuration, if controller method return `“login
 ### What is a MultipartResolver and when its used?
 Spring comes with MultipartResolver to handle file upload in web application. There are two concrete implementations included in Spring:
 
-CommonsMultipartResolver for Jakarta Commons FileUpload
-StandardServletMultipartResolver for Servlet 3.0 Part API
+1. **CommonsMultipartResolver** for Jakarta Commons FileUpload
+2. **StandardServletMultipartResolver** for Servlet 3.0 Part API
+
 To define an implementation, create a bean with the id “multipartResolver” in a DispatcherServlet’s application context. Such a resolver gets applied to all requests handled by that DispatcherServlet.
 
 If a DispatcherServlet detects a multipart request, it will resolve it via the configured MultipartResolver and pass on a wrapped HttpServletRequest. Controllers can then cast their given request to the MultipartHttpServletRequest interface, which permits access to any MultipartFiles.
+
+### What is Spring MVC Interceptor and how to use it?
+As you know about `servlet filters` that they can pre-handle and post-handle every web request they serve — before and after it’s handled by that servlet. In the similar way, you can use `HandlerInterceptor` interface in your spring mvc application **to pre-handle and post-handle web requests** that are handled by Spring MVC controllers. These handlers are mostly used to manipulate the model attributes returned/submitted they are passed to the views/controllers.
+
+A handler interceptor can be registered for particular URL mappings, so it only intercepts requests mapped to certain URLs. Each handler interceptor must implement the `HandlerInterceptor` interface, which contains three callback methods for you to implement: `preHandle()`, `postHandle()` and `afterCompletion()`.
+
+Problem with `HandlerInterceptor` interface is that your new class will have to implement all three methods irrespective of whether it is needed or not. To avoid overriding, you can use `HandlerInterceptorAdapter` class. This class implements `HandlerInterceptor` and provide default blank implementations.
+
+### How to handle exceptions in Spring MVC Framework?
+In a Spring MVC application, you can register one or more exception resolver beans in the web application context to resolve uncaught exceptions. These beans have to implement the `HandlerExceptionResolver` interface for `DispatcherServlet` to auto-detect them. Spring MVC comes with a simple exception resolver for you to map each category of exceptions to a view i.e. `SimpleMappingExceptionResolver` to map each category of exceptions to a view in a configurable way.
+
+Let’s say we have an exception class i.e. `AuthException`. And we want that everytime this exception is thrown from anywhere into application, we want to show a pre-determined view page `/WEB-INF/views/error/authExceptionView.jsp`. So the configuration would be.
+
+```java
+<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <property name="exceptionMappings">
+        <props>
+            <prop key="com.howtodoinjava.demo.exception.AuthException">
+                error/authExceptionView
+            </prop>
+        </props>
+    </property>
+    <property name="defaultErrorView" value="error/genericView"/>
+</bean>
+```
+
+The “**defaultErrorView**” property can be configured to show a generic message for all other exceptions which are not configured inside “exceptionMappings” list.
+
+### How to get ServletContext and ServletConfig object in a Spring Bean?
+Simply implement `ServletContextAware` and `ServletConfigAware` interfaces and override below methods.
+
+```java
+@Controller
+@RequestMapping(value = "/magic")
+public class SimpleController implements ServletContextAware, ServletConfigAware {
+ 
+    private ServletContext context;
+    private ServletConfig config;
+ 
+    @Override
+    public void setServletConfig(final ServletConfig servletConfig) {
+        this.config = servletConfig;
+ 
+    }
+ 
+    @Override
+    public void setServletContext(final ServletContext servletContext) {
+        this.context = servletContext;
+    }
+     
+    //other code
+}
+```
+
+### How would you relate Spring MVC Framework to 3 tier architecture?
+
+![alt text][https://howtodoinjava.com/wp-content/uploads/2015/02/3-tier-architechture-with-mvc-part-of-it.png "MVC 3tier"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
