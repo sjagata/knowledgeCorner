@@ -149,7 +149,10 @@ fn2(2); // num: 8; anArray: 1,2,3,6,8; ref.someVar: 5;
 
 
 
+<br>
+<br>
 
+[@article](https://stackoverflow.com/questions/111102/how-do-javascript-closures-work)
 
 
 
