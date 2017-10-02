@@ -366,6 +366,85 @@ serviceApp.provider("logService", function()
 });  
 ```
 
+### Services
+Syntax: `module.service( 'serviceName', function );`
+
+When declaring serviceName as an injectable argument **you will be provided with an instance of the function. In other words** `new FunctionYouPassedToService()`.
+
+### Factories
+Syntax: `module.factory( 'factoryName', function );` 
+
+When declaring factoryName as an injectable argument you will be provided with the value that is returned by invoking the function reference passed to module.factory.
+
+### Providers
+Syntax: `module.provider( 'providerName', function );`
+
+Result: When declaring providerName as an injectable argument **you will be provided with `(new ProviderFunction()).$get()`.** The constructor function is instantiated before the $get method is called - `ProviderFunction` is the function reference passed to module.provider.
+
+* Providers have the advantage that they can be configured during the module configuration phase.
+
+```html
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.1/angular.min.js"></script>
+	<meta charset=utf-8 />
+	<title>JS Bin</title>
+</head>
+<body ng-controller="MyCtrl">
+	{{serviceOutput}}
+	<br/><br/>
+	{{factoryOutput}}
+	<br/><br/>
+	{{providerOutput}}
+
+	<script>
+		var app = angular.module( 'app', [] );
+
+		var MyFunc = function() {
+
+			this.name = "default name";
+
+			this.$get = function() {
+				this.name = "new name"
+				return "Hello from MyFunc.$get(). this.name = " + this.name;
+			};
+
+			return "Hello from MyFunc(). this.name = " + this.name;
+		};
+
+		// returns the actual function
+		app.service( 'myService', MyFunc );
+
+		// returns the function's return value
+		app.factory( 'myFactory', MyFunc );
+
+		// returns the output of the function's $get function
+		app.provider( 'myProv', MyFunc );
+
+		function MyCtrl( $scope, myService, myFactory, myProv ) {
+
+			$scope.serviceOutput = "myService = " + myService;
+			$scope.factoryOutput = "myFactory = " + myFactory;
+			$scope.providerOutput = "myProvider = " + myProv;
+
+		}
+	</script>
+
+</body>
+</html>
+
+//Output
+
+myService = [object Object] 
+myFactory = Hello from MyFunc(). this.name = default name 
+myProvider = Hello from MyFunc.$get(). this.name = new name
+```
+
+[@article](https://stackoverflow.com/a/15666049)
+
+
+
 ### 24. Explain $routeProvider in AngularJS?
 The $routeProvider is used to set the configuration of urls and map them with the corresponding html page or ng-template and also attach a controller. Routing in AngularJS is taken care of by a service provide that is called $routeProvider. Routes for templates and urls in Angular are declared via the$routeProvider, that is the provider of the $route service. This service makes it easy to wire together controllers, view templates, and the current URL location in the browser.
 
