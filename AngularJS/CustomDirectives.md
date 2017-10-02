@@ -1,5 +1,9 @@
 # Demystifying Custom Directives
 
+[ref](https://www.toptal.com/angular-js/angular-js-demystifying-directives)
+
+<br>
+
 ## The Four Functions of the AngularJS Directive Life Cycle
 
 There are many options that can be configured and how those options are related to each other is important. Each directive undergoes something similar to a life cycle as AngularJS compiles and links the DOM. The directive lifecycle begins and ends within the AngularJS bootstrapping process, before the page is rendered. In a directive’s life cycle, there are four distinct functions that can execute if they are defined. Each enables the developer to control and customize the directive at different points of the life cycle.
