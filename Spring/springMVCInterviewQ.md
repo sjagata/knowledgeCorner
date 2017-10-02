@@ -252,7 +252,7 @@ public class SimpleController implements ServletContextAware, ServletConfigAware
 
 ### How would you relate Spring MVC Framework to 3 tier architecture?
 
-![alt text][https://howtodoinjava.com/wp-content/uploads/2015/02/3-tier-architechture-with-mvc-part-of-it.png "MVC 3tier"]
+![alt text](https://howtodoinjava.com/wp-content/uploads/2015/02/3-tier-architechture-with-mvc-part-of-it.png "MVC 3tier")
 
 
 
