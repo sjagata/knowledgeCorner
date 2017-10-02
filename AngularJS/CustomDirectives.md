@@ -78,6 +78,10 @@ Consider the following HTML snippet with the directives parentDir, childDir and 
 ```
 The execution order of the functions within a directive, and relative to other directives, is as follows:
 
+1. First ordered list item
+2. Another item
+⋅⋅* Unordered sub-list. 
+
 1. Compile Phase
 
 ..* Compile Function: parentDir
