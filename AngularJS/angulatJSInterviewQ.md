@@ -48,7 +48,7 @@ Using a service is the cleanest, fastest and easiest way to test. However, there
 
 
 ```diff
-* Using events
+* Using - events
 + this text is highlighted in green
 - this text is highlighted in red
 ```
