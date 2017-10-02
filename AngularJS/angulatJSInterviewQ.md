@@ -45,10 +45,10 @@ Create an AngularJS service that will hold the data and inject it inside of the 
 
 Using a service is the cleanest, fastest and easiest way to test. However, there are couple of other ways to implement data sharing between controllers, like:
 
-* Using <p style="color:red;">events</p>
-* [events](https://placehold.it/15/f03c15/000000?text=+) `#f03c15`
+
 
 ```diff
+* Using events
 + this text is highlighted in green
 - this text is highlighted in red
 ```
