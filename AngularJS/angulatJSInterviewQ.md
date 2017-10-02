@@ -1,5 +1,5 @@
 
-### How can you can pass arguments to your custom directive as you do with the builtin Angular-directives - by specifying an attribute on the directive-element:
+### 1. How can you can pass arguments to your custom directive as you do with the builtin Angular-directives - by specifying an attribute on the directive-element:
 
 ```js
 angular.element(document.getElementById('wrapper')).append('<directive-name title="title2"></directive-name>');
@@ -41,8 +41,17 @@ scope: {
 }
 ```
 
+### 2. How do you share data between controllers?
 
+Create an AngularJS service that will hold the data and inject it inside of the controllers.
 
+Using a service is the cleanest, fastest and easiest way to test. However, there are couple of other ways to implement data sharing between controllers, like:
+
+– Using events
+– Using $parent, nextSibling, controllerAs, etc. to directly access the controllers
+– Using the $rootScope to add the data on (not a good practice)
+
+The methods above are all correct, but are not the most efficient and easy to test.
 
 
 
