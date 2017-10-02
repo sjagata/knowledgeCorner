@@ -29,9 +29,7 @@ In some cases you may want use an "external" name which differs from the "intern
 
 For example if we look at above directive, you might not want to specify another, additional attribute for the title, even though you internally want to work with a title-property. Instead you want to use your directive as follows:
 
-```java
-<directive-name="title2"></directive-name>
-```
+```java<directive-name="title2"></directive-name>```
 
 This can be achieved by specifying a name behind the above mentioned option in the scope definition:
 
