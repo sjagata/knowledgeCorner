@@ -24,9 +24,113 @@ In JavaScript, if you declare a function within another function, then the local
 function() { console.log(text); } // Output of say2.toString();
 ```
 
-Looking at the output of say2.toString(), we can see that the code refers to the variable text. The anonymous function can reference text which holds the value 'Hello Bob' because the local variables of sayHello2() are kept in a closure.
+Looking at the output of `say2.toString()`, we can see that the code refers to the variable text. The anonymous function can reference `text` which holds the value `'Hello Bob'` because the local variables of `sayHello2()` are kept in a closure.
 
 The magic is that in JavaScript a function reference also has a secret reference to the closure it was created in — similar to how delegates are a method pointer plus a secret reference to an object.
+
+#### Example 1
+
+This example shows that the local variables are not copied — they are kept by reference. It is kind of like keeping a stack-frame in memory when the outer function exits!
+
+```js
+function say667() {
+  // Local variable that ends up within closure
+  var num = 42;
+  var say = function() { console.log(num); }
+  num++;
+  return say;
+}
+var sayNumber = say667();
+sayNumber(); // logs 43
+```
+
+#### Example 2
+
+All three global functions have a common reference to the same closure because they are all declared within a single call to `setupSomeGlobals()`.
+
+```js
+var gLogNumber, gIncreaseNumber, gSetNumber;
+function setupSomeGlobals() {
+  // Local variable that ends up within closure
+  var num = 42;
+  // Store some references to functions as global variables
+  gLogNumber = function() { console.log(num); }
+  gIncreaseNumber = function() { num++; }
+  gSetNumber = function(x) { num = x; }
+}
+
+setupSomeGlobals();
+gIncreaseNumber();
+gLogNumber(); // 43
+gSetNumber(5);
+gLogNumber(); // 5
+
+var oldLog = gLogNumber;
+
+setupSomeGlobals();
+gLogNumber(); // 42
+
+oldLog() // 5
+```
+
+The three functions have shared access to the same closure — the local variables of `setupSomeGlobals()` when the three functions were defined.
+
+Note that in the above example, if you call `setupSomeGlobals()` again, then a new closure (stack-frame!) is created. The old `gLogNumber`, `gIncreaseNumber`, `gSetNumber` variables are overwritten with new functions that have the new closure. (In JavaScript, whenever you declare a function inside another function, the inside function(s) is/are recreated again each time the outside function is called.)
+
+#### Example 3
+This one is a real gotcha for many people, so you need to understand it. Be very careful if you are defining a function within a loop: the local variables from the closure do not act as you might first think.
+
+```js
+function buildList(list) {
+    var result = [];
+    for (var i = 0; i < list.length; i++) {
+        var item = 'item' + i;
+        result.push( function() {console.log(item + ' ' + list[i])} );
+    }
+    return result;
+}
+
+function testList() {
+    var fnlist = buildList([1,2,3]);
+    // Using j only to help prevent confusion -- could use i.
+    for (var j = 0; j < fnlist.length; j++) {
+        fnlist[j]();
+    }
+}
+
+ testList() //logs "item2 undefined" 3 times
+
+```
+
+
+#### Example 4 
+
+This final example shows that each call creates a separate closure for the local variables. There is not a single closure per function declaration. There is a closure for each call to a function.
+
+```js
+function newClosure(someNum, someRef) {
+    // Local variables that end up within closure
+    var num = someNum;
+    var anArray = [1,2,3];
+    var ref = someRef;
+    return function(x) {
+        num += x;
+        anArray.push(num);
+        console.log('num: ' + num +
+            '; anArray: ' + anArray.toString() +
+            '; ref.someVar: ' + ref.someVar + ';');
+      }
+}
+obj = {someVar: 4};
+fn1 = newClosure(4, obj);
+fn2 = newClosure(5, obj);
+fn1(1); // num: 5; anArray: 1,2,3,5; ref.someVar: 4;
+fn2(1); // num: 6; anArray: 1,2,3,6; ref.someVar: 4;
+obj.someVar++;
+fn1(2); // num: 7; anArray: 1,2,3,5,7; ref.someVar: 5;
+fn2(2); // num: 8; anArray: 1,2,3,6,8; ref.someVar: 5;
+```
+
 
 
 ### Final points:
