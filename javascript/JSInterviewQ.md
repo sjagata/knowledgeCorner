@@ -686,6 +686,17 @@ someObject.myMethod.call(someOtherObject, '<', '>'); // alerts '<Bar>'
 someObject.myMethod.apply(someOtherObject, ['<', '>']); // alerts '<Bar>'
 ```
 
+### 27. Define event bubbling?
+JavaScript allows DOM elements to be nested inside each other. In such a case, if the handler of the child is clicked, the handler of parent will also work as if it were clicked too.
+
+### 28. How to stop event bubbling on checkbox click
+
+* `event.stopPropagation()` - 
+> Stops the bubbling of an event to parent elements, preventing any parent handlers from being notified of the event.
+
+* `event.preventDefault()` - 
+> Prevents the browser from executing the default action. Use the method isDefaultPrevented to know whether this method was ever called (on that event object).
+
 
 
 
