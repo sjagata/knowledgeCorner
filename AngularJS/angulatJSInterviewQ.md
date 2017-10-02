@@ -47,9 +47,9 @@ Create an AngularJS service that will hold the data and inject it inside of the 
 
 Using a service is the cleanest, fastest and easiest way to test. However, there are couple of other ways to implement data sharing between controllers, like:
 
-– Using events
-– Using $parent, nextSibling, controllerAs, etc. to directly access the controllers
-– Using the $rootScope to add the data on (not a good practice)
+* Using <span style="color:red;">events</span>
+* Using <span style="color:red;">$parent, nextSibling, controllerAs</span>, etc. to directly access the controllers
+* Using the <span style="color:red;">$rootScope</span> to add the data on (not a good practice)
 
 The methods above are all correct, but are not the most efficient and easy to test.
 
