@@ -80,23 +80,23 @@ The execution order of the functions within a directive, and relative to other d
 
 * Compile Phase
 
-..* Compile Function: parentDir
-..* Compile Function: childDir
-..* Compile Function: grandChildDir
+... Compile Function: parentDir
+... Compile Function: childDir
+... Compile Function: grandChildDir
 
 * Controller & Pre-Link Phase
 
-..* Controller Function: parentDir
-..* Pre-Link Function: parentDir
-..* Controller Function: childDir
-..* Pre-Link Function: childDir
-..* Controller Function: grandChildDir
-..* Pre-Link Function: grandChildDir
+... Controller Function: parentDir
+... Pre-Link Function: parentDir
+... Controller Function: childDir
+... Pre-Link Function: childDir
+... Controller Function: grandChildDir
+... Pre-Link Function: grandChildDir
 
-*Post-Link Phase
+* Post-Link Phase
 
-..* Post-Link Function: grandChildDir
-..* Post-Link Function: childDir
-..* Post-Link Function: parentDir
+... Post-Link Function: grandChildDir
+... Post-Link Function: childDir
+... Post-Link Function: parentDir
 
 
