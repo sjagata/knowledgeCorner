@@ -579,7 +579,65 @@ In above example phoneNo property didn't show up because we made it non-enumerab
 Changing non-enumerable property value will return error in strict mode. In non-strict mode it won't through any error but it won't change the value of phoneNo.
 
 
+### 18. Explain the difference between “==” and “===”?
+“==” checks only for equality in value whereas “===” is a stricter equality test and returns false if either the value or the type of the two variables are different.
 
+### 19. Explain how to detect the operating system on the client machine?
+In order to detect the operating system on the client machine, the `navigator.appVersion` string (property) should be used.
+
+### 20. What are JavaScript Cookies?
+Cookies are the small test files stored in a computer and it gets created when the user visits the websites to store information that they need. Example could be User Name details and shopping cart information from the previous visits.
+
+### 21. Which keywords are used to handle exceptions?
+
+```js
+Try{
+ 
+Code
+ 
+}
+ 
+Catch(exp){
+ 
+Code to throw an exception
+ 
+}
+ 
+Finally{
+ 
+Code runs either it finishes successfully or after catch
+ 
+}
+```
+
+### 22. What is unshift method in JavaScript?
+Unshift method is like push method which works at the beginning of the array.  This method is used to prepend one or more elements to the beginning of the array.
+
+### 23. What is the ‘Strict’ mode in JavaScript and how can it be enabled?
+Strict Mode adds certain compulsions to JavaScript. Under the strict mode, JavaScript shows errors for a piece of codes, which did not show an error before, but might be problematic and potentially unsafe. Strict mode also solves some mistakes that hamper the JavaScript engines to work efficiently.
+
+```js
+function myfunction()
+ 
+{
+ 
+“use strict";
+ 
+var v = “This is a strict mode function";
+ 
+}
+```
+
+
+### 24. HTML5 Local storage vs. Session storage?
+`localStorage` and `sessionStorage` both extend `Storage`. There is no difference between them except for the intended "non-persistence" of `sessionStorage`.
+
+That is, the data stored in `localStorage` persists until explicitly deleted. Changes made are saved and available for all current and future visits to the site.
+
+For `sessionStorage`, changes are only available per window (or tab in browsers like Chrome and Firefox). Changes made are saved and available for the current page, as well as future visits to the site on the same window. Once the window is closed, the storage is deleted.
+
+`localStorage` - use for long term use.
+`sessionStorage` - use when you need to store somthing that changes or somthing temporary
 
 
 
