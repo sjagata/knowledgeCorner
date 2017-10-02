@@ -614,19 +614,26 @@ Code runs either it finishes successfully or after catch
 Unshift method is like push method which works at the beginning of the array.  This method is used to prepend one or more elements to the beginning of the array.
 
 ### 23. What is the ‘Strict’ mode in JavaScript and how can it be enabled?
-Strict Mode adds certain compulsions to JavaScript. Under the strict mode, JavaScript shows errors for a piece of codes, which did not show an error before, but might be problematic and potentially unsafe. Strict mode also solves some mistakes that hamper the JavaScript engines to work efficiently.
+The short and most important answer here is that `use strict` is a way to voluntarily enforce stricter parsing and error handling on your JavaScript code at runtime. Code errors that would otherwise have been ignored or would have failed silently will now generate errors or throw exceptions. In general, it is a good practice.
 
 ```js
-function myfunction()
- 
-{
- 
+function myfunction(){
 “use strict";
  
 var v = “This is a strict mode function";
  
 }
 ```
+
+Some of the key benefits of strict mode include:
+
+* `Makes debugging easier.` Code errors that would otherwise have been ignored or would have failed silently will now generate errors or throw exceptions, alerting you sooner to problems in your code and directing you more quickly to their source.
+* `Prevents accidental globals.` Without strict mode, assigning a value to an undeclared variable automatically creates a global variable with that name. This is one of the most common errors in JavaScript. In strict mode, attempting to do so throws an error.
+* `Eliminates this coercion.` Without strict mode, a reference to a `this` value of null or undefined is automatically coerced to the global. This can cause many headfakes and pull-out-your-hair kind of bugs. In strict mode, referencing a `this` value of null or undefined throws an error.
+* `Disallows duplicate parameter values.` Strict mode throws an error when it detects a duplicate named argument for a function (e.g., `function foo(val1, val2, val1){})`, thereby catching what is almost certainly a bug in your code that you might otherwise have wasted lots of time tracking down.
+ **_Note: It used to be (in ECMAScript 5) that strict mode would disallow duplicate property names (e.g. `var object = {foo: "bar", foo: "baz"};)` but as of ECMAScript 2015 this is no longer the case._**
+* `Makes eval() safer.` There are some differences in the way `eval()` behaves in strict mode and in non-strict mode. Most significantly, in strict mode, variables and functions declared inside of an `eval()` statement are not created in the containing scope (they are created in the containing scope in non-strict mode, which can also be a common source of problems).
+* `Throws error on invalid usage of **delete.**` The `delete` operator (used to remove properties from objects) cannot be used on non-configurable properties of the object. Non-strict code will fail silently when an attempt is made to delete a non-configurable property, whereas strict mode will throw an error in such a case.
 
 
 ### 24. HTML5 Local storage vs. Session storage?
@@ -689,14 +696,37 @@ someObject.myMethod.apply(someOtherObject, ['<', '>']); // alerts '<Bar>'
 ### 27. Define event bubbling?
 JavaScript allows DOM elements to be nested inside each other. In such a case, if the handler of the child is clicked, the handler of parent will also work as if it were clicked too.
 
-### 28. How to stop event bubbling on checkbox click
+### 28. How to stop event bubbling on click
 
-* `event.stopPropagation()` - 
-> Stops the bubbling of an event to parent elements, preventing any parent handlers from being notified of the event.
+> `event.stopPropagation()` - Stops the bubbling of an event to parent elements, preventing any parent handlers from being notified of the event.
 
-* `event.preventDefault()` - 
-> Prevents the browser from executing the default action. Use the method isDefaultPrevented to know whether this method was ever called (on that event object).
 
+> `event.preventDefault()` - Prevents the browser from executing the default action. Use the method isDefaultPrevented to know whether this method was ever called (on that event object).
+
+* `event.stopPropagation()` :- stops an event from bubbling uo the event.
+* `event.preventDefault` :- only precludes the brower's default action on that event from occuring.
+
+### 29. Define unescape() and escape() functions?
+The `escape ()` function is responsible for coding a string so as to make the transfer of the information from one computer to the other, across a network.
+
+```js
+document.write(escape(“Hello? How are you!”)); // Output: Hello%3F%20How%20are%20you%21
+```
+
+The `unescape()` function is very important as it decodes the coded string.
+
+```js
+document.write(unescape(“Hello%3F%20How%20are%20you%21”)); // Output: Hello? How are you!
+```
+ 
+ ### 30. What are the decodeURI() and encodeURI()?
+ `EncodeURl()` is used to convert URL into their hex coding. And `DecodeURI()` is used to convert the encoded URL back to normal.
+
+```js
+var uri="my test.asp?name=ståle&car=saab";
+document.write(encodeURI(uri)+ "<br>");
+document.write(decodeURI(uri));
+```
 
 
 
