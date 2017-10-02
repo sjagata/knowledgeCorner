@@ -729,8 +729,14 @@ document.write(decodeURI(uri));
 ```
 
 
+### 31. How do you clone an object?
 
+```js
+var obj = {a: 1 ,b: 2}
+var objclone = object.assign({},obj);
+```
 
+Now the value of objclone is `{a: 1 ,b: 2}` but points to a different object than `obj`.
 
 
 
