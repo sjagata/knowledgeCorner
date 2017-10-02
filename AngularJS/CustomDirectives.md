@@ -78,13 +78,13 @@ Consider the following HTML snippet with the directives parentDir, childDir and 
 ```
 The execution order of the functions within a directive, and relative to other directives, is as follows:
 
-* Compile Phase
+1. Compile Phase
 
-... Compile Function: parentDir
-... Compile Function: childDir
-... Compile Function: grandChildDir
+..* Compile Function: parentDir
+..* Compile Function: childDir
+..* Compile Function: grandChildDir
 
-* Controller & Pre-Link Phase
+2. Controller & Pre-Link Phase
 
 ... Controller Function: parentDir
 ... Pre-Link Function: parentDir
@@ -93,7 +93,7 @@ The execution order of the functions within a directive, and relative to other d
 ... Controller Function: grandChildDir
 ... Pre-Link Function: grandChildDir
 
-* Post-Link Phase
+3. Post-Link Phase
 
 ... Post-Link Function: grandChildDir
 ... Post-Link Function: childDir
