@@ -49,6 +49,12 @@ Using a service is the cleanest, fastest and easiest way to test. However, there
 
 * Using <p style="color:red;">events</p>
 * [events](https://placehold.it/15/f03c15/000000?text=+) `#f03c15`
+
+```diff
++ this text is highlighted in green
+- this text is highlighted in red
+```
+
 * Using <span style="color:red;">$parent, nextSibling, controllerAs</span>, etc. to directly access the controllers
 * Using the <span style="color:red;">$rootScope</span> to add the data on (not a good practice)
 
