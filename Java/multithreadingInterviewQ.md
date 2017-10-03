@@ -449,14 +449,233 @@ class RejectedExecutionHandelerImpl implements RejectedExecutionHandler
 * Use a back-off switch, so if something goes wrong and is non-recoverable, you don’t escalate the situation by eagerly starting another loop. Instead, you need to wait until the situation goes back to normal and then start again.
 * Please note that the whole point of executors is to abstract away the specifics of execution, so ordering is not guaranteed unless explicitly stated.
 
+### ScheduledThreadPoolExecutor – Task Scheduling with Executors
+The Java Executor Framework provides the `ThreadPoolExecutor` class to execute Callable and Runnable tasks with a pool of threads, which avoid you writing lots of boiler plate complex code. The way executors work is when you send a task to the executor, it’s executed as soon as possible. But there may be used cases when you are not interested in executing a task as soon as possible. Rather You may want to execute a task after a period of time or to execute a task periodically. For these purposes, the Executor framework provides the `ScheduledThreadPoolExecutor` class.
 
+**Task to be executed**
+Let’s write a very basic task which we can use for demo purpose.
 
+```java
+class Task implements Runnable
+{
+    private String name;
+ 
+    public Task(String name) {
+        this.name = name;
+    }
+     
+    public String getName() {
+        return name;
+    }
+ 
+    @Override
+    public void run()
+    {
+        try {
+            System.out.println("Doing a task during : " + name + " - Time - " + new Date());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
+**Execute a task after a period of time**
 
+```java
+package com.howtodoinjava.demo.multithreading;
+ 
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+ 
+public class ScheduledThreadPoolExecutorExample
+{
+    public static void main(String[] args)
+    {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
+        Task task1 = new Task ("Demo Task 1");
+        Task task2 = new Task ("Demo Task 2");
+         
+        System.out.println("The time is : " + new Date());
+         
+        executor.schedule(task1, 5 , TimeUnit.SECONDS);
+        executor.schedule(task2, 10 , TimeUnit.SECONDS);
+         
+        try {
+              executor.awaitTermination(1, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+              e.printStackTrace();
+        }
+         
+        executor.shutdown();
+    }
+}
+ 
+Output:
+ 
+The time is : Wed Mar 25 16:14:07 IST 2015
+Doing a task during : Demo Task 1 - Time - Wed Mar 25 16:14:12 IST 2015
+Doing a task during : Demo Task 2 - Time - Wed Mar 25 16:14:17 IST 2015
+```
 
+As with class `ThreadPoolExecutor`, to create a scheduled executor, Java recommends the utilization of the `Executors` class. In this case, you have to use the `newScheduledThreadPool()` method. You have passed the number 1 as a parameter to this method. This parameter is the number of threads you want to have in the pool.
 
+To execute a task in this scheduled executor after a period of time, you have to use the `schedule()` method. This method receives the following three parameters:
 
+* The task you want to execute
+* The period of time you want the task to wait before its execution
+* The unit of the period of time, specified as a constant of the TimeUnit class
 
+Also note that You can also use the `Runnable` interface to implement the tasks, because the `schedule()` method of the `ScheduledThreadPoolExecutor` class accepts both types of tasks.
+
+Moreover ,although the `ScheduledThreadPoolExecutor` class is a child class of the `ThreadPoolExecutor` class and, therefore, inherits all its features, Java recommends the utilization of `ScheduledThreadPoolExecutor` only for scheduled tasks.
+
+Finally, you can configure the behavior of the `ScheduledThreadPoolExecutor` class when you call the `shutdown()` method and there are pending tasks waiting for the end of their delay time. The default behavior is that those tasks will be executed despite the finalization of the executor. You can change this behavior using the `setExecuteExistingDelayedTasksAfterShutdownPolicy()` method of the `ScheduledThreadPoolExecutor` class. With false, at the time of `shutdown()`, pending tasks won’t get executed.
+
+#### Execute a task periodically
+
+Now let’s learn how to use ScheduledThreadPoolExecutor to schedule a periodic task.
+
+```java
+public class ScheduledThreadPoolExecutorExample
+{
+    public static void main(String[] args)
+    {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        Task task1 = new Task ("Demo Task 1");
+         
+        System.out.println("The time is : " + new Date());
+         
+        ScheduledFuture<?> result = executor.scheduleAtFixedRate(task1, 2, 5, TimeUnit.SECONDS);
+         
+        try {
+            TimeUnit.MILLISECONDS.sleep(20000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+         
+        executor.shutdown();
+    }
+}
+ 
+Output:
+ 
+The time is : Wed Mar 25 16:20:12 IST 2015
+Doing a task during : Demo Task 1 - Time - Wed Mar 25 16:20:14 IST 2015
+Doing a task during : Demo Task 1 - Time - Wed Mar 25 16:20:19 IST 2015
+Doing a task during : Demo Task 1 - Time - Wed Mar 25 16:20:24 IST 2015
+Doing a task during : Demo Task 1 - Time - Wed Mar 25 16:20:29 IST 2015
+```
+
+In this example, we have created `ScheduledExecutorService` instance just like above example using `newScheduledThreadPool()` method. Then we have used the `scheduledAtFixedRate()` method. This method accepts four parameters:
+
+* the task you want to execute periodically,
+* the delay of time until the first execution of the task,
+* the period between two executions,
+* and the time unit of the second and third parameters.
+
+An important point to consider is that the period between two executions is the period of time between these two executions that begins. If you have a periodic task that takes 5 seconds to execute and you put a period of 3 seconds, you will have two instances of the task executing at a time.
+
+### Java Fixed Size Thread Pool Executor Example
+**Fixed size thread pool executor** which will help in improved performance and better system resource utilization by limiting the maximum number of threads in thread pool.
+
+#### 1) Create a task to execute
+Obviously, first step is to have a task which you would like to execute using executors.
+
+```java
+class Task implements Runnable
+{
+    private String name;
+ 
+    public Task(String name)
+    {
+        this.name = name;
+    }
+     
+    public String getName() {
+        return name;
+    }
+ 
+    @Override
+    public void run()
+    {
+        try
+        {
+            Long duration = (long) (Math.random() * 10);
+            System.out.println("Doing a task during : " + name);
+            TimeUnit.SECONDS.sleep(duration);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+#### 2) Execute tasks using Executors
+
+Now all you have to do is to create an instance of `ThreadPoolExecutor` with fixed size and pass the tasks to be executed into it’s `execute()` method.
+
+```java
+package com.howtodoinjava.demo.multithreading;
+ 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+ 
+public class FixedThreadPoolExecutorExample
+{
+    public static void main(String[] args)
+    {
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+        for (int i = 0; i < 10; i++)
+        {
+            Task task = new Task("Task " + i);
+            System.out.println("A new task has been added : " + task.getName());
+            executor.execute(task);
+        }
+        System.out.println("Maximum threads inside pool " + executor.getMaximumPoolSize());
+        executor.shutdown();
+    }
+}
+ 
+Output:
+ 
+A new task has been added : Task 0
+A new task has been added : Task 1
+A new task has been added : Task 2
+A new task has been added : Task 3
+A new task has been added : Task 4
+A new task has been added : Task 5
+A new task has been added : Task 6
+A new task has been added : Task 7
+Doing a task during : Task 0
+Doing a task during : Task 2
+Doing a task during : Task 1
+A new task has been added : Task 8
+Doing a task during : Task 3
+A new task has been added : Task 9
+ 
+Maximum threads inside pool 4
+ 
+Doing a task during : Task 4
+Doing a task during : Task 5
+Doing a task during : Task 6
+Doing a task during : Task 7
+Doing a task during : Task 8
+Doing a task during : Task 9
+```
+
+1) newFixedThreadPool() method creates an executor with a maximum number of threads at any time. If you send more tasks than the number of threads, the remaining tasks will be blocked until there is a free thread to process them This method receives the maximum number of threads as a parameter you want to have in your executor. In your case, you have created an executor with four threads.
+
+2) The Executors class also provides the newSingleThreadExecutor() method. This is an extreme case of a fixed-size thread executor. It creates an executor with only one thread, so it can only execute one task at a time.
+
+### 
 
 
 
