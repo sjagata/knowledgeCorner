@@ -1,5 +1,7 @@
 
+[reference](https://github.com/oreillymedia/knockout_js)
 
+<br>
 
 ### Knockout offers several useful variables that allow you to navigate between the context you are in to a parent or even the root context:
 
@@ -48,4 +50,117 @@ using $parents[$parents.length - 1] is the same as using $root.
 </html>
 ```
 
-> The foreach binding was not bound to an HTML tag; instead, it is placed inside HTML comments. I find this quite convenient when using a foreach binding because it avoids an unnecessary element to wrap the HTML that I want repeated for each element in the array.
+> The **foreach binding was not bound to an HTML tag; instead, it is placed inside HTML comments.** I find this quite convenient when using a foreach binding because it avoids an unnecessary element to wrap the HTML that I want repeated for each element in the array.
+
+### foreach Callbacks (Events)
+The foreach binding contains several callback methods that can be executed by Knockout after certain events happen:
+* **afterRender**
+This is called when the foreach first finishes initializing and every time an element is added to the array.
+* **afterAdd**
+This is called every time an element is added to the array. Unlike afterRender, this is not called when the array is first initialized.
+* **beforeRemove** 
+This is called when an item is removed from the array. This is often used to animate a removal of an item.
+* **beforeMove**
+This is called when an item is moved within the array. It’s another great opportunity to begin an animation or add an effect to the element being interacted with.
+* **afterMove**
+This is called after the item is moved within the array. Much like the beforeMove, this would be the opportunity to finish any effects on the moved element.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<table>
+	<thead>
+		<tr>
+			<th>Thumbnail</th>
+			<th>Title</th>
+			<th>ISBN</th>
+			<th>Published</th>
+		</tr>
+	</thead>
+	<tbody data-bind="foreach: { data: books, afterRender: loadImage }">
+		<tr>
+			<td><img src="images/loading.gif" data-bind="attr { id: 'image_' + isbn }" /></td>
+			<td data-bind="text: title"></td>
+			<td data-bind="text: isbn"></td>
+			<td data-bind="text: $parent.formatDate(publishedDate)"></td>
+		</tr>
+	</tbody>
+	</table>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.books = [
+				{
+					title: 'Rapid Application Development With CakePHP',
+					isbn: '1460954394',
+					publishedDate: '2011-02-17',
+					image: 'http://ecx.images-amazon.com/images/I/41JC54HEroL._AA160_.jpg'
+				},
+				{
+					title: '20 Recipes for Programming MVC 3: Faster, Smarter Web Development', 
+					isbn: '1449309860',
+					publishedDate: '2011-10-14',
+					image: 'http://ecx.images-amazon.com/images/I/51LpqnDq8-L._AA160_.jpg'
+				},
+				{
+					title: '20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone', 
+					isbn: '1449319548',
+					publishedDate: '2012-04-06',
+					image: 'http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg'
+				}
+			];
+			
+			self.loadImage = function(element, index, data) {
+				$('#image_' + index.isbn).attr('src', index.image);
+			};
+			
+			self.formatDate = function(dateToFormat) {
+				var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+				var d = new Date(dateToFormat);
+				
+				return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
