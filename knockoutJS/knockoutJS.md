@@ -200,6 +200,56 @@ using the full variable path (e.g., book.title). The other difference is that th
 Date function no longer needs to be prefixed with $parent because a child context
 was not created, and it is still in the root context.
 
+### Defining an Observable
+There are three different types of observables that are most commonly used.
+
+#### first type
+
+```js
+var myObservable = ko.observable();
+myObservable('Hello');
+alert(myObservable());
+```
+
+> To create an observable, assign the `ko.observable` function to the variable. A default
+value can be specified in the constructor of the call. Knockout then converts your
+variable into a function and tracks when the value changes, in order to notify the UI
+elements associated with the variable.
+
+**Accessing an Observable**
+After an observable is defined, it needs to be called like a function
+in order to get or set its value. If you try setting it directly as if it
+were a variable, the observable would be destroyed.
+
+#### second type
+Just like observable variables, when elements are added or removed from the array, Knockout notifies elements that are subscribed to the notifications.
+
+An observable array is great for use with tables where elements are being dynamically added and removed.
+
+```js
+var myObservableArray = ko.observableArray([]);
+myObservableArray.push('Hello');
+// the array is instantiated as an empty array by passing two square brackets in the constructor.
+```
+
+#### third type
+The final type of observable, as shown in Example below, is a **_computed observable._** This is slightly different than the previous two types in that a computed observable is commonly used to combine one or more observables into a single object.
+
+```js
+self.firstName = ko.observable('Steve');
+self.lastName = ko.observable('Kennedy');
+
+self.fullName = ko.computed(function() {
+	return 'Hello ' + self.firstName() + ' ' + self.lastName();
+});
+```
+
+Once the ViewModel is bound to Knockout, the computed function is executed. For
+each observable that is used within that function, it subscribes to any change events to
+that variable. When it changes, Knockout knows that the computed variable should
+be updated.
+
+
 
 
 
