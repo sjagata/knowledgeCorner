@@ -139,10 +139,66 @@ This is called after the item is moved within the array. Much like the beforeMov
 </html>
 ```
 
+> `foreach` data binding has been changed to include the `afterRender` callback. It will call the function `loadImage`.
 
+### with Binding
+The with binding is similar to the foreach binding in that it creates a new child context. Everything within the binding is now relative to the variable to which it is bound. The major difference between the two is that with is a single object with multiple properties, whereas the foreach repeats the HTML in the binding.
 
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<div id="book" data-bind="with: book">
+		<h1 data-bind="text: title"></h1>
+		<h2>Published on <span data-bind="text: $parent.formatDate(publishedDate)"></span></h2>
+		<p data-bind="text: synposis"></p>
+	</div>
+	
+	<div id="book">
+		<h1 data-bind="text: book.title"></h1>
+		<h2>Published on <span data-bind="text: formatDate(book.publishedDate)">
+		</span></h2>
+		<p data-bind="text: book.synposis"></p>
+	</div>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel(book) {
+			var self = this;
+			
+			self.book = book;
+			
+			self.formatDate = function(dateToFormat) {
+				var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 
+				var d = new Date(dateToFormat);
+				
+				return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+			};
+		};
+		
+		var book = {
+			title: 'Rapid Application Development With CakePHP',
+			synposis: '...',
+			isbn: '1460954394',
+			publishedDate: '2011-02-17'
+		};
+		
+		var viewModel = new ViewModel(book);
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
+```
 
+> When the with binding is not used, notice how the HTML elements are data-bound
+using the full variable path (e.g., book.title). The other difference is that the format
+Date function no longer needs to be prefixed with $parent because a child context
+was not created, and it is still in the root context.
 
 
 
