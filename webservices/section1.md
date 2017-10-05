@@ -11,7 +11,7 @@ _(Application A which is using the services of Application B through WebServices
 * we can also develop **mashup application** which can be consumers of more that one webservices. 
 Ex: demo app using google map webservices.
 
-### Type
+### Types
 
 1. SOAP - Use XML based SOAP messaages on http post method to do message exchange
 2. RESTFUL - Use http method to the full that is they use all the methods available in the http protocol as a standard and support multiple data formats - along with XML they support JSON, Text etc..
@@ -31,6 +31,50 @@ Example:
 `Appointment Management` ---> `Doctor Services` ---> `Client Services` ---> `Patient Service` ---> `Bed Management Service`
 
 `Appointment Management` ---> `Patient Service` ---> `Bed Management Service`
+
+They communicate with each other in a loosely coupled passion using a standard inteface meaning as long as this inteface b/w the doctor service and the clinical service remains the same. 
+
+We can replace clinical service from a different company and use it as long as the contract b/w these DS and CS remain same.
+
+This contract in case of 
+
+SOAP ---> WSDL file
+REST ---> WADL file
+
+XML is the data format used to exchange messages.
+
+### Advantages of WebServices 
+
+**1. Platform Independent 
+2. Focussed Developer roles (ex : Doctor services, client services etc..)
+3. Loosely Coupled
+4. Reusability
+5. Cost Reduction
+6. Scalability (we can deploy services in multiple servers)
+7. Availability (one servers goes down our consumers can call another server)**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
