@@ -360,9 +360,11 @@ If an element is being added to the DOM because of a user interaction
 that had one or more JavaScript side effects performed on it
 during the original page load, these would need to be executed
 after adding them back to the DOM.
+
 For example, if you have a field that is linked to a jQuery date
 picker, JavaScript is required to initialize it. This needs to be executed
 after the element is added to the DOM.
+
 In a scenario like this, it might be more prudent to use the visible
 data binding because the elements will remain in the DOM and can
 be initialized upon the document load.
