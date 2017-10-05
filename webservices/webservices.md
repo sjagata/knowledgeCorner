@@ -57,7 +57,7 @@ XML is the data format used to exchange messages.
 6. Scalability (we can deploy services in multiple servers)
 7. Availability (one servers goes down our consumers can call another server)
 
-XML - carries both Data and MetaData 
+**XML** - carries both Data and MetaData, `Well-formedness` and `Validation`
 
 Example : 
 
@@ -66,8 +66,21 @@ Example :
 <ShippingInfo>...</ShippingInfo>
 ```
 
-MetaData - OrderID, ShippingInfo
-Data - 123 and info
+> MetaData - OrderID, ShippingInfo
+> Data - 123 and info
+
+* XML is mostly used for` data exchange`,  `configuration` files to `save data and manipulate and present` the data. 
+
+Example : web.xml, server.xml, pom.xml and build.xml
+
+**XML Schema Definition**
+If XML follows XSD then it is called a valid xml document.
+
+1. You can test the proper hierarchy of the XML nodes. [xsd defines which child should come under which parent, etc, abiding which will be counted as error, in above example, child_two cannot be the immediate child of root, but it is the child of "parent" tag which is in-turn a child of "root" node, there is a hierarchy..]
+2. You can define Data type of the values of the nodes. [in above example child_two cannot have any-other data than number]
+3. You can also define custom data_types, [example, for node <month>, the possible data can be one of the 12 months.. so you need to define all the 12 months in a new data type writing all the 12 month names as enumeration values .. validation shows error if the input XML contains any-other value than these 12 values .. ]
+4. You can put the restriction on the occurrence of the elements, using minOccurs and maxOccurs, the default values are 1 and 1.
+
 
 
 
