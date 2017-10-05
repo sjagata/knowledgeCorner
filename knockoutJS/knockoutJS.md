@@ -495,6 +495,322 @@ when the DOM element receives user focus.
 </html>
 ```
 
+### Listening for Changes
+
+```html
+<select data-bind="options: availableCountries, optionsText: 'name',
+optionsValue: 'id', optionsCaption: 'Select a country...',
+value: selectedCountry"></select>
+
+<select data-bind="options: availableStates, optionsText: 'name',
+optionsValue: 'id', value: selectedState, visible: availableStates().length >
+0" style="display:none"></select>
+```
+
+```js
+function ViewModel() {
+	var self = this;
+
+	self.selectedCountry = ko.observable();
+	self.selectedState = ko.observable();
+
+	self.availableCountries = ko.observableArray([
+		{
+			id: 1, name: 'United States', states: [
+				{
+					id: 1, name: 'Alabama'
+				},
+				// ...
+			]
+		},
+		{
+			id: 2, name: 'Canada', states: [
+				{
+					id: 53, name: 'Alberta'
+				},
+				// ...
+			]
+		}
+	]);
+
+	self.availableStates = ko.observableArray([]);
+
+	self.selectedCountry.subscribe(function() {
+		self.availableStates([]);
+
+		for (var i = 0; i < self.availableCountries().length; i++) {
+			if (self.availableCountries()[i].id == self.selectedCountry()) {
+				self.availableStates(self.availableCountries()[i].states);
+				break;
+			}
+		}
+	});
+};
+
+var viewModel = new ViewModel();
+ko.applyBindings(viewModel);
+```
+
+> The first example contains a list of countries to select from. It uses the previously
+mentioned data bindings to populate a `select` element option, define the value used
+for the text, and define the values in the drop-down.
+
+The second list contains available states for the selected country. By default, this will
+be hidden until a country that contains an array of states is selected.
+
+### Binding Multiple ViewModels
+
+```html
+<div id="viewModel1">
+	<h1 data-bind="text: name"></h1>
+</div>
+
+<div id="viewModel2">
+	<h1 data-bind="text: name"></h1>
+</div>
+
+<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+<script>
+	function ViewModel(name) {
+		var self = this;
+
+		self.name = name;
+	};
+
+	var viewModel1 = new ViewModel('Steve Kennedy');
+	ko.applyBindings(viewModel1, document.getElementById('viewModel1'));
+
+	var viewModel2 = new ViewModel('Mike Wilson');
+	ko.applyBindings(viewModel2, document.getElementById('viewModel2'));
+</script>
+```
+
+### Binding to a WYSIWYG Editor
+
+```html
+<form>
+	<textarea data-bind="tinymce: htmlText"></textarea>
+</form>
+
+<button type="button" data-bind="click: resetContent">Reset content</button>
+
+<h2>Preview</h2>
+<div data-bind="html: htmlText"></div>
+
+<script type='text/javascript' src='js/jquery.js'></script>
+<script type='text/javascript' src='js/tinymce/jquery.tinymce.min.js'></script>
+<script type='text/javascript' src='js/tinymce/tinymce.min.js'></script>
+<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+<script type='text/javascript' src='js/kobinding.js'></script>
+<script>
+	function ViewModel() {
+		var self = this;
+
+		self.htmlText = ko.observable();
+
+		self.resetContent = function() {
+			self.htmlText('');
+		};
+	};
+
+	var viewModel = new ViewModel();
+	ko.applyBindings(viewModel);
+</script>
+```
+
+### Binding to a Knockout Template
+
+```html
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>ISBN</th>
+<th>Published</th>
+</tr>
+</thead>
+<tbody data-bind="template: { name: 'book-template', foreach: books }">
+</tbody>
+</table>
+```
+
+```js
+function ViewModel() {
+	var self = this;
+
+	self.books = [
+		{
+			title: 'Rapid Application Development With CakePHP',
+			isbn: '1460954394',
+			publishedDate: '2011-02-17'
+		},
+		{
+			title: '20 Recipes for Programming MVC 3: Faster, Smarter Web Development', 
+			isbn: '1449309860',
+			publishedDate: '2011-10-14'
+		},
+		{
+			title: '20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone', 
+			isbn: '1449319548',
+			publishedDate: '2012-04-06'
+		}
+	];
+
+	self.formatDate = function(dateToFormat) {
+		var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+		var d = new Date(dateToFormat);
+
+		return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+	};
+};
+
+var viewModel = new ViewModel();
+ko.applyBindings(viewModel);
+```
+
+### Adding Custom Functions to Observables
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	List of books
+	<ul>
+	<!-- ko foreach: books -->
+		<li>
+			<input type="checkbox" data-bind="attr: { id: isbn }, checked: owned "/>
+			<label data-bind="attr: { for: isbn }, text: title"></label>
+		</li>
+	<!-- /ko -->
+	</ul>
+	
+	Books you own
+	<ul>
+	<!-- ko foreach: booksOwned -->
+		<li data-bind="text: title"></li>
+	<!-- /ko -->
+	</ul>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script type='text/javascript' src='js/booksOwned.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.books = ko.observableArray([
+				{
+					title: 'Rapid Application Development With CakePHP',
+					isbn: '1460954394',
+					owned: ko.observable(false)
+				},
+				{
+					title: '20 Recipes for Programming MVC 3: Faster, Smarter Web Development', 
+					isbn: '1449309860',
+					owned: ko.observable(false)
+				},
+				{
+					title: '20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone', 
+					isbn: '1449319548',
+					owned: ko.observable(false)
+				}
+			]);
+			
+			self.booksOwned = self.books.booksOwned('owned', true);
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
+```
+
+```js
+// booksOwned.js
+
+ko.observableArray.fn.booksOwned = function(property, value) {
+	return ko.pureComputed(function() {
+		var allItems = this();
+		var matchingItems = [];
+		
+		for (var i = 0; i < allItems.length; i++) {
+            var current = allItems[i];
+            if (ko.unwrap(current[property]) === value)
+                matchingItems.push(current);
+        }
+		
+        return matchingItems;
+	}, this);
+};
+```
+
+### Rate-Limiting Observables
+
+**Delay updates by one second**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<label for="tags">Filter a tag: </label>
+	<input id="tags" data-bind="textInput: tag"><br/><br/>
+	
+	Tags Matching:
+	<ul>
+	<!-- ko foreach: matchedTags -->
+		<li data-bind="text: $data"></li>
+	<!-- /ko -->
+	</ul>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.availableTags = [
+			  "ActionScript", "AppleScript", "Asp",
+			  "BASIC", "C", "C++", "Clojure",
+			  "COBOL", "ColdFusion", "Erlang",
+			  "Fortran", "Groovy", "Haskell",
+			  "Java", "JavaScript", "Lisp",
+			  "Perl", "PHP", "Python",
+			  "Ruby", "Scala", "Scheme"
+			];
+			
+			self.matchedTags = ko.observableArray([]);
+			
+			self.tag = ko.observable().extend( { rateLimit: { timeout: 1000, method: "notifyWhenChangesStop" } });
+			
+			self.tag.subscribe(function(value) {
+				self.matchedTags.removeAll();
+				
+				if (value !== '') {
+					for (var i = 0; i < self.availableTags.length; i++) {
+						if (self.availableTags[i].toLowerCase().indexOf(value) >= 0)
+							self.matchedTags.push(self.availableTags[i]);
+					}
+				}
+			});
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
+```
+
+
+
 
 
 
