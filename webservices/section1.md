@@ -29,6 +29,7 @@ SOA standard is maintained by open parties like `W3C` and `OASIS` who come up wi
 Example:
 
 `Appointment Management` ---> `Doctor Services` ---> `Client Services` ---> `Patient Service` ---> `Bed Management Service`
+
 `Appointment Management` ---> `Patient Service` ---> `Bed Management Service`
 
 
