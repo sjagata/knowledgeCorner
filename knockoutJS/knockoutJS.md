@@ -250,6 +250,123 @@ that variable. When it changes, Knockout knows that the computed variable should
 be updated.
 
 
+### pureComputed Observables
+As of Knockout version 3.2, a new type of observable called **_pureComputed observable_** was introduced.
+It is quite similar to the computed observable with several performance and memory improvements. The name is borrowed from the **Pure function** programming term.
+
+```js
+self.firstName = ko.observable('Steve');
+self.lastName = ko.observable('Kennedy');
+
+self.fullName = ko.pureComputed(function() {
+	return 'Hello ' + self.firstName() + ' ' + self.lastName();
+});
+```
+
+> The observables are treated differently because when there are no elements listening
+for changes to the computed variable, they are placed in `sleeping mode` versus `listening
+mode`. While in `sleeping mode`, Knockout disposes all dependencies and reevaluates
+the content when it is read—unlike `listening mode`, which manages
+references to all subscribers and ensures the value is up-to-date prior to first access.
+
+The previous example follows both rules for being a pure function:
+* Given the same input, it will output the same result.
+* No side effects occur because of the function executed.
+
+The second rule is probably the most important when deciding whether to use a computed or a pureComputed observable with Knockout. **Within your observable, if you need to execute other code, then you should use a `computed observable` to ensure it is in listening mode instead of sleeping mode.**
+
+### Showing and Hiding Elements
+
+```js
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<button type="button" data-bind="click: updateObservable">Click me</button>
+	
+	<div data-bind="visible: showExtraData" style="display: none">
+		Now you see me!
+	</div>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.showExtraData = ko.observable(false);
+			
+			self.updateObservable = function() {
+				self.showExtraData(!self.showExtraData());
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
+```
+
+Pervious example combines the use of an observable variable with a new data binding called `visible`. The `visible` data binding sets the CSS property display to either block or none depending on the results of the condition used in the binding.
+
+### Adding and Removing Elements
+The `if` and `ifnot` data bindings are quite similar to the previous `visible` data binding.
+The difference between the two is that, unlike the `visible` binding setting a CSS
+style to show or hide the element, `if` and `ifnot` physically add or remove the elements
+from the Document Object Model (DOM).
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<button type="button" data-bind="click: updateObservable">Click me</button>
+	
+	<!-- ko if: showExtraData -->
+	<div>
+		Now you see me!
+	</div>
+	<!-- /ko -->
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.showExtraData = ko.observable(false);
+			
+			self.updateObservable = function() {
+				self.showExtraData(!self.showExtraData());
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
+```
+
+> HTML to be dynamically inserted into the DOM.
+
+**Adding and Removing from the DOM**
+If an element is being added to the DOM because of a user interaction
+that had one or more JavaScript side effects performed on it
+during the original page load, these would need to be executed
+after adding them back to the DOM.
+For example, if you have a field that is linked to a jQuery date
+picker, JavaScript is required to initialize it. This needs to be executed
+after the element is added to the DOM.
+In a scenario like this, it might be more prudent to use the visible
+data binding because the elements will remain in the DOM and can
+be initialized upon the document load.
+
 
 
 
