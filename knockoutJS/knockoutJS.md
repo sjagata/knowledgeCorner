@@ -369,7 +369,139 @@ In a scenario like this, it might be more prudent to use the visible
 data binding because the elements will remain in the DOM and can
 be initialized upon the document load.
 
+I find using the `if` and `ifnot` data bindings very convenient when I want to remove
+content that I only want the user to be able to access in specific scenarios.
 
+```js
+ifnot: !showExtraData()
+```
+
+**The Use of Brackets and Observables**
+In case you didn’t notice, in the previous example, I had to execute
+the `showExtraData` observable like it was a function by adding
+brackets at the end. All of the previous examples did not require
+the brackets because Knockout intuitively knew to execute the
+observable; however, because I added the ! to the state when false, I
+had to tell Knockout to execute the observable and then apply the !
+statement.
+
+**When to Use Observables**
+
+It’s important to make conscious decisions about what you define as an observable. If
+the value can potentially change (either programmatically or from user interaction),
+an observable property is completely valid. However, if you have four properties and
+only two of them will change, and the other properties are needed but will never
+change, there is no need to make them observed
+
+```js
+function ViewModel(person) {
+	var self = this;
+
+	self.person = {
+		id: person.id,
+		firstName: ko.observable(person.firstName),
+		lastName: ko.observable(person.lastName),
+		status: person.status
+	};
+};
+
+var person = {
+	id: 1,
+	firstName: 'Steve',
+	lastName: 'Kennedy',
+	status: 'Active'
+};
+
+var viewModel = new ViewModel(person);
+ko.applyBindings(viewModel);
+```
+
+Knockout provides several different bindings that work with specific form elements.
+* The `value` binding is used with `input`, `select`, and `textarea` form inputs.
+* The `textInput` binding is also used with `input` and `textarea` and is quite similar
+to the value binding. When the `textInput` is used, the observable updates with
+every user interaction, as opposed to the value binding, which defaults to updating
+when the form element changes (typically when the field loses focus). 
+* The `checked` binding is used with `checkboxes` and `radio buttons`.
+* The `options` binding is used on the `select` form input to populate the list of
+options available in the drop-down list.
+* The `selectedOptions` binding is also used with the `select` form input; more
+specifically when you are using a multiselect list. This is commonly bound to an
+observable array, as opposed to an observable variable.
+* The `enable` and `disable` bindings work with all form inputs to either enable or
+disable the form element when the condition results to true or false, respectively.
+
+All of these bindings are what Knockout calls **two-way bindings**.
+
+### Event Data Bindings
+
+The first Knockout binding event was used (click). Knockout provides
+several other events that are commonly used with forms:
+* The `submit` binding is used on the `form` element and is triggered when a form is
+submitted.
+* The `click` binding is commonly used on buttons and links, but can be applied to
+any DOM element that is visible.
+* The `hasFocus` binding is commonly used on `input` elements and is triggered
+when the DOM element receives user focus.
+* The `event` binding allows you to specify any other DOM event (including the
+`click` and `submit` bindings), such as `mouseover`, `keypress`, etc.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<img id="current_book" />
+	
+	<ul>
+		<!-- ko foreach: books -->
+		<li data-bind="text: title, event: { mouseover: $parent.loadImage }"></li>
+		<!-- /ko -->
+	</ul>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.books = [
+				{
+					title: 'Rapid Application Development With CakePHP',
+					image: 'http://ecx.images-amazon.com/images/I/41JC54HEroL._AA160_.jpg'
+				},
+				{
+					title: '20 Recipes for Programming MVC 3: Faster, Smarter Web Development', 
+					image: 'http://ecx.images-amazon.com/images/I/51LpqnDq8-L._AA160_.jpg'
+				},
+				{
+					title: '20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone', 
+					image: 'http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg'
+				}
+			];
+			
+			self.loadImage = function(data, event) {
+				$('#current_book').attr('src', data.image);
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+		
 
 
 
