@@ -187,11 +187,19 @@ If XML follows XSD then it is called a valid xml document.
 
 #### When we have to use SOAP ?
 
-Formal Contract is Required ---> WSDL
-Non Functional Requirements
-   Security
-   Transaction Management
-Reliable Asynchronous Processing
+* If a **Formal Contract is Required**  b/w webservice provider and consumer ---> WSDL
+* lot of **Non Functional Requirements**
+   * Security
+   * Transaction Management
+* If we need **Reliable Asynchronous Processing** or messaging b/w our webservice provider and consumer.
+
+#### SOAP message structure:
+
+* **Envelope:** It is a mandatory element and used to define the start and the end of the message.
+* **Header:** It is an optional element which provides the information on authentication, encoding of data, or how a recipient of a SOAP message should process the message.
+* **Body:** It is a mandatory element and contains the XML data comprising the message being sent.
+* **Fault:** It is an optional element which provides information about errors that occur while processing the message.
+
 
 
 
