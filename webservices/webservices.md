@@ -466,13 +466,16 @@ It provides an esay way to map Java classes and xml schema hiding the complexity
 JAVA ---> JAXB ---> XML
 JAVA <--- JAXB <--- XML
 
-* JAXB provides three tools:
-   * XJC(XML Schema Compiler) - which can generate JAVA classes from a given xml schema file <br>
-   Ex: `XML Schema` ---> `XJC` ---> `JAVA Classes`
-   * SCHEMAGEN
-   Ex: `Java Classes` --> SCHEMAGEN --> `XML Schema`
-   * RUNTIME API
-   Ex: `JAVA Objects` --> Runtime API --> `XML`, `XML` --> Runtime API --> `JAVA Objects`
+**JAXB provides three tools:**
+
+:one: **XJC** (XML Schema Compiler) - which can generate JAVA classes from a given xml schema file <br>
+Ex: `XML Schema` ---> `XJC` ---> `JAVA Classes`
+
+:two: SCHEMAGEN <br>
+Ex: `Java Classes` --> SCHEMAGEN --> `XML Schema`
+
+:three: RUNTIME API <br>
+Ex: `JAVA Objects` --> Runtime API --> `XML`, `XML` --> Runtime API --> `JAVA Objects`
 
 
 
