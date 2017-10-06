@@ -388,7 +388,34 @@ Steps :
 **Advantages:**
 * Contract with the consumer signed off.
 * Better Interoperability
+* Faster Integration
 
+
+#### Code First or Bottom Up
+Steps:
+1. Write Java code and annotate
+2. Generate the WSDL from the code using java2wsdl
+
+**Advantages**
+* Legacy Application Integration.
+
+#### Which design to choose?
+
+* Contract first except while exposing legacy applications as WS.
+* If there we are designing a WS from scratch then use Contract First and if you going to expose a existing legacy application as WS then go with Code first.
+
+
+### JAX - WS
+JAVA API XML based WEB SERVICES
+
+**JAX-WS** consists of:
+* Specification - is a set of rules or guidelines from Oracle
+   * This guidelines in the specification helps engines like `CXF`, `GlassFish` to implement JAX-WS
+* API - is for developers.
+   * It consists of a set of JAVA annotations 
+   
+**CORE Annotations**
+:point_right: @javax.jws.WebService
 
 
 
