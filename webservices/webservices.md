@@ -226,25 +226,33 @@ SOAP stands for Simple Object Access Protocol. It is used to transfer the data. 
 ```
 
 ### WSDL 
-**WSDK** (Web Services Description Language) is a contract b/w the web services provider and the consumer. It is a XML file with a .wsdl extension.
+**WSDL** (Web Services Description Language) is a contract b/w the web services provider and the consumer. It is a XML file with a .wsdl extension.
 
 Ex : userProfile.wsdl
 
-It tells - _what this web service proides_, _how it provides it_ and _how you can consume it_?
+It tells - **_what this web service proides_**, **_how it provides it_** and **_how you can consume it_**?
 
 * It tells what message a consumer should send in the request and what response will go back as the webservice.
 * The wsdl file is divided into `abstract` portion and `physical` portion. 
 
-**Abstract/What**
-* The root element of wsdl file is _definitions_. 
+#### Abstract/What
+
+* The root element of wsdl file is **_definitions_**. 
 * The Abstract portion tells what this webservice provides is comprised of four elements
-   * type - We define all the data types which we need to exchange information for a particular webservice
-      * Ex: GetUserProfile(Request), GetUserProfileResponse(Response)
-   * messages
-   * operation 
-   * porttype
-**Physcial/How**
-* It is comproses of two elements _binding_ and _service_ tells how to consume this WS from the consumer.
+   * **_type_** - We define all the data types which we need to exchange information for a particular webservice
+      * Ex: `<xsd:element name="GetUserProfile">`(Request), `<xsd:element name="GetUserProfileResponse">`(Response)
+   * **_messages_** - are analogous to parameters and return types in JAVA. We use these messages to come up with operations whicch are analoguous to the methods in JAVA
+      * Ex: `<wsdl:message name="GetUserProfileRequest">` , `<wsdl:message name="GetUserProfileResponse">`
+   * **_operation_**
+   * **_porttype_** - is a container of all the operations your WS is providing
+   
+#### Physcial/How
+* It is comproses of two elements **_binding_** and **_service_** tells how to consume this WS from the consumer.
+   *  **_binding_** - tells how the consumer can consume WS and how the providers is going to send the responses back. Binding element comprises of a soap binding which by default is document literal wrapped and that is the recommeneded binding because the XML engines like apache cxf can validate the entire soap message. For each operation we wil define a binding.
+   * **_service_** - tells how to access this WS that actually url inside a sub lement called port. We define a port for each WS and a url to access that WS.
+   
+**_Note : The link b/w abstract and physical section of a wsdl file is PortType `type="tns:UserProfilePortType"`._**
+   
 
 > userProfile.wsdl 
 
