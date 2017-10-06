@@ -175,8 +175,23 @@ If XML follows XSD then it is called a valid xml document.
 * Ambiguous web services standards
 * Performance Impact due to Serialization and De-Serialization
 
+<br>
+<br>
 
+** **
 
+<br>
+<br>
+
+### SOAP
+
+#### When we have to use SOAP ?
+
+Formal Contract is Required ---> WSDL
+Non Functional Requirements
+   Security
+   Transaction Management
+Reliable Asynchronous Processing
 
 
 
