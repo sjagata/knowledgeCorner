@@ -161,6 +161,26 @@ If XML follows XSD then it is called a valid xml document.
 </tns:patient>
 ```
 
+**Pros**
+
+* They are platform independet
+...* HTTP - Transport Independent
+...* XML - Data Independent
+
+* Application Tailoring/Customization
+* Legacy Application are Great
+...* HTML and XML
+
+* New Revenue/Profit Channels
+* Firewalls like Web Services
+
+**Cons**
+
+* Ambiguous web services standards
+* Performance Impact due to Serialization and De-Serialization
+
+
+
 
 
 
