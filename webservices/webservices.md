@@ -164,12 +164,11 @@ If XML follows XSD then it is called a valid xml document.
 **Pros**
 
 * They are platform independet
-...* HTTP - Transport Independent
-...* XML - Data Independent
-
+   * HTTP - Transport Independent
+   * XML - Data Independent
 * Application Tailoring/Customization
 * Legacy Application are Great
-...* HTML and XML
+   * HTML and XML
 
 * New Revenue/Profit Channels
 * Firewalls like Web Services
