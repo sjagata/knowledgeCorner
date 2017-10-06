@@ -458,17 +458,18 @@ public interface OrderService
 ### JAXB
 JAVA ARCHITECTURE for XML binding
 
-It provides an esay way to map Java classes and xml schema hiding the complexity of XML programming 
+* It provides an esay way to map Java classes and xml schema hiding the complexity of XML programming.
+* Marshalling and Unmarshalling
 
-`XML Schema` ---> `JAVA Objects`
+`XML Schema` ---> `JAVA Objects` <br>
 `Java Objects` ---> `XML Schema`
 
-JAVA ---> JAXB ---> XML
+JAVA ---> JAXB ---> XML <br>
 JAVA <--- JAXB <--- XML
 
 **JAXB provides three tools:**
 
-:one: **XJC** (XML Schema Compiler) - which can generate JAVA classes from a given xml schema file <br>
+:one: **XJC** (XML Schema Compiler) <br> which can generate JAVA classes from a given xml schema file <br>
 Ex: `XML Schema` ---> `XJC` ---> `JAVA Classes`
 
 :two: SCHEMAGEN <br>
@@ -476,6 +477,9 @@ Ex: `Java Classes` --> SCHEMAGEN --> `XML Schema`
 
 :three: RUNTIME API <br>
 Ex: `JAVA Objects` --> Runtime API --> `XML`, `XML` --> Runtime API --> `JAVA Objects`
+
+* Runtime API consists of marshalling class, unmarshalling class and then a set of annotations.
+
 
 
 
