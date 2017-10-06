@@ -161,20 +161,6 @@ If XML follows XSD then it is called a valid xml document.
 </tns:patient>
 ```
 
-**Pros**
-* They are platform independet
-   * HTTP - Transport Independent
-   * XML - Data Independent
-* Application Tailoring/Customization
-* Legacy Application are Great
-   * HTML and XML
-* New Revenue/Profit Channels
-* Firewalls like Web Services
-
-**Cons**
-* Ambiguous web services standards
-* Performance Impact due to Serialization and De-Serialization
-
 <br>
 <br>
 
@@ -188,6 +174,20 @@ If XML follows XSD then it is called a valid xml document.
 SOAP stands for Simple Object Access Protocol. It is used to transfer the data. It is a XML-based messaging-layer protocol. SOAP can be used in combination with a variety of transport protocols like HTTP, SMTP, and JMS etc.
 
 **_Note: SOAP is part of the set of standards specified by the W3C._**
+
+**Pros**
+* They are platform independet
+   * HTTP - Transport Independent
+   * XML - Data Independent
+* Application Tailoring/Customization
+* Legacy Application are Great
+   * HTML and XML
+* New Revenue/Profit Channels
+* Firewalls like Web Services
+
+**Cons**
+* Ambiguous web services standards
+* Performance Impact due to Serialization and De-Serialization
 
 #### When we have to use SOAP ?
 
@@ -353,13 +353,41 @@ It tells - **_what this web service proides_**, **_how it provides it_** and **_
 </xsd:schema>
 ```
 
+#### WSDL binding styles
+There are 3 styles that will be impacted depending on the style we choose.
+
+1. SOAP Payload
+2. Validation
+3. Operation Name SOAP Message
+
+A WSDL document describes a web service. A WSDL binding describes how the service is bound to a messaging protocol, particularly the SOAP messaging protocol. A WSDL SOAP binding can be either a Remote Procedure Call (RPC) style binding or a document style binding. A SOAP binding can also have an encoded use or a literal use. 
+
+This gives you four style/use models:
+
+* RPC/encoded
+* RPC/literal
+* Document/encoded
+* Document/literal
+
+Add to this collection a pattern which is commonly called the document/literal wrapped pattern and you have five binding styles to choose from when creating a WSDL file. 
+
+[Which style of wsdl i should use?](https://www.ibm.com/developerworks/library/ws-whichwsdl/)
 
 
+### SOAP WS Design
+Two different design approaches to impement SOAP WS: 
+* Top Down or WSDL First or Contract First
+* Code First or Bottom Up
 
+#### Top Down or WSDL First or Contract First
+Steps :
+1. Create the WSDL File
+2. Generate the java stubs using tools like wsdl2java
+3. Implement the web services endpoint
 
-
-
-
+**Advantages:**
+* Contract with the consumer signed off.
+* Better Interoperability
 
 
 
