@@ -185,6 +185,10 @@ If XML follows XSD then it is called a valid xml document.
 
 ### SOAP
 
+SOAP stands for Simple Object Access Protocol. It is used to transfer the data. It is a XML-based messaging-layer protocol. SOAP can be used in combination with a variety of transport protocols like HTTP, SMTP, and JMS etc.
+
+**_Note: SOAP is part of the set of standards specified by the W3C._**
+
 #### When we have to use SOAP ?
 
 * If a **Formal Contract is Required**  b/w webservice provider and consumer ---> WSDL
@@ -195,10 +199,154 @@ If XML follows XSD then it is called a valid xml document.
 
 #### SOAP message structure:
 
-* **Envelope:** It is a mandatory element and used to define the start and the end of the message.
-* **Header:** It is an optional element which provides the information on authentication, encoding of data, or how a recipient of a SOAP message should process the message.
+* **Envelope:** It is a mandatory element and used to define the start and the end of the message. Root element in SOAP namespace
+* **Header:** It is an optional element which provides the information on authentication, encoding of data, or how a recipient of a SOAP message should process the message. Used to send Meta information.
 * **Body:** It is a mandatory element and contains the XML data comprising the message being sent.
 * **Fault:** It is an optional element which provides information about errors that occur while processing the message.
+
+
+```xml
+<soap:Envelope>
+	<soap:header>
+		<soap:Body>
+			<creditcard>
+				...
+			</creditcard>
+			<soap:Fault>
+				<soap:code>soap:Server</soap:code>
+				<soap:Reason>
+					<soap:text>
+						Card Expired
+					</soap:text>
+				</soap:Reason>
+			</soap:Fault>
+		</soap:Body>
+	</soap:header>
+</soap:Envelope>
+```
+
+### WSDL 
+**WSDK** (Web Services Description Language) is a contract b/w the web services provider and the consumer. It is a XML file with a .wsdl extension.
+
+Ex : userProfile.wsdl
+
+It tells - _what this web service proides_, _how it provides it_ and _how you can consume it_?
+
+* It tells what message a consumer should send in the request and what response will go back as the webservice.
+* The wsdl file is divided into `abstract` portion and `physical` portion. 
+
+**Abstract/What**
+* The root element of wsdl file is _definitions_. 
+* The Abstract portion tells what this webservice provides is comprised of four elements
+   * type - We define all the data types which we need to exchange information for a particular webservice
+      * Ex: GetUserProfile(Request), GetUserProfileResponse(Response)
+   * messages
+   * operation 
+   * porttype
+**Physcial/How**
+* It is comproses of two elements _binding_ and _service_ tells how to consume this WS from the consumer.
+
+> userProfile.wsdl 
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions 
+		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:tns="http://wsdltest.com/userProfile" 
+		xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		name="UserProfileService" 
+		targetNamespace="http://wsdltest.com/userProfile"
+		xmlns:upSchema="http://wsdltest.com/userProfile/schema/UserProfile.xsd">
+		
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://wsdltest.com/userProfile" elementFormDefault="qualified">
+	  <xsd:import  namespace="http://wsdltest.com/userProfile/schema/UserProfile.xsd" schemaLocation="UserProfile.xsd"/>
+		<xsd:element name="GetUserProfile">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="userName" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		</xsd:element>
+	    <xsd:element name="GetUserProfileResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="UserProfile" type="upSchema:UserProfile"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		</xsd:element>
+    </xsd:schema>
+  </wsdl:types> 
+  
+  <wsdl:message name="GetUserProfileRequest">
+    <wsdl:part name="params" element="tns:GetUserProfile"/>
+  </wsdl:message>
+  <wsdl:message name="GetUserProfileResponse">
+    <wsdl:part name="result" element="tns:GetUserProfileResponse"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="UserProfilePortType">
+    <wsdl:operation name="GetUserProfile">
+      <wsdl:input message="tns:GetUserProfileRequest"/>
+      <wsdl:output message="tns:GetUserProfileResponse"/>
+    </wsdl:operation>	
+  </wsdl:portType>
+  
+  <wsdl:binding name="UserProfileBinding" type="tns:UserProfilePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetUserProfile">
+      <soap:operation soapAction="urn:GetUserProfile"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="UserProfileService">
+    <wsdl:port binding="tns:UserProfileBinding" name="UserProfilePort">
+		<soap:address location="http://localhost/services/UserProfileService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+```
+
+> userProfile.xsd
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+	xmlns:up="http://wsdltest.com/userProfile/schema/UserProfile.xsd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://wsdltest.com/userProfile/schema/UserProfile.xsd"
+	targetNamespace="http://wsdltest.com/userProfile/schema/UserProfile.xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:complexType name="UserProfile">
+		<xsd:sequence>
+			<xsd:element name="userName" type="xsd:string" minOccurs="0" />
+			<xsd:element name="email" type="xsd:string" minOccurs="0" />
+			<xsd:element name="address" type="up:Address" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Address">
+		<xsd:sequence>
+			<xsd:element name="streetAddress" type="xsd:string" />
+			<xsd:element name="city" type="xsd:string" />
+			<xsd:element name="state" type="xsd:string" />
+			<xsd:element name="country" type="xsd:string" />
+			<xsd:element name="zipcode" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
+```
+
+
+
 
 
 
