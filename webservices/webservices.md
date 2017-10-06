@@ -415,8 +415,16 @@ JAVA API XML based WEB SERVICES
    * It consists of a set of JAVA annotations 
    
 **CORE Annotations**
+
 :point_right: @javax.jws.WebService
 
+:point_right: @javax.jws.WebService
+
+:point_right: @javax.jws.WebService
+
+:point_right: @javax.jws.WebService
+
+:point_right: @javax.jws.WebService
 
 
 
