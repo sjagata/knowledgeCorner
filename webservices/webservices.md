@@ -414,17 +414,26 @@ JAVA API XML based WEB SERVICES
 * API - is for developers.
    * It consists of a set of JAVA annotations 
    
-**CORE Annotations**
+#### CORE Annotations
 
-:point_right: @javax.jws.WebService
+:point_right: **@javax.jws.WebService**
 
-:point_right: @javax.jws.WebService
+```java
+@javax.jws.WebService
+public class OrderService
+```
 
-:point_right: @javax.jws.WebService
+:point_right: **@javax.jws.WebMethod**
 
-:point_right: @javax.jws.WebService
+```java
+@WebResult(name="order") Order getOrder(@WebParam(name="orderId") Long orderId)
+```
 
-:point_right: @javax.jws.WebService
+:point_right: **@javax.xml.ws.WebFault**
+
+```java
+MyException extends Exception
+```
 
 
 
