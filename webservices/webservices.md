@@ -82,10 +82,84 @@ If XML follows XSD then it is called a valid xml document.
 4. You can put the restriction on the occurrence of the elements, using minOccurs and maxOccurs, the default values are 1 and 1.
 
 
+```xml
+
+<!-- XSD -->
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.test.com/Patient"
+	xmlns:tns="http://www.test.com/Patient" xmlns:common="http://www.test.com/Common"
+	elementFormDefault="qualified">
+
+<!-- 	<include schemaLocation="PaymentType.xsd" /> -->
+
+<!-- 	<import schemaLocation="Common.xsd" namespace="http://www.test.com/Common" /> -->
+
+	<element name="patient" type="tns:Patient" />
+
+	<complexType name="Patient">
+		<sequence>
+			<element name="name" type="tns:String15Chars" />
+			<element name="age" type="int" />
+			<element name="dob" type="date" />
+			<element name="email" type="string" maxOccurs="unbounded" />
+			<element name="gender" type="tns:Gender" />
+			<element name="phone" type="string" />
+			<element name="payment" type="tns:PaymentType" />
+		</sequence>
+		<attribute name="id" type="tns:Id" use="required" />
+	</complexType>
+	<complexType name="PaymentType">
+		<choice>
+			<element name="cash" type="int" />
+			<element name="insurance" type="tns:Insurance" />
+		</choice>
+	</complexType>
+	<complexType name="Insurance">
+		<all>
+			<element name="provider" type="string" />
+			<element name="limit" type="int" />
+		</all>
+	</complexType>
+	
+	
+	<simpleType name="Id">
+		<restriction base="int">
+			<pattern value="[0-9]*"></pattern>
+		</restriction>
+	</simpleType>
+	<simpleType name="String15Chars">
+		<restriction base="string">
+			<maxLength value="15" />
+		</restriction>
+	</simpleType>
+	<simpleType name="Gender">
+		<restriction base="string">
+			<enumeration value="M" />
+			<enumeration value="F" />
+		</restriction>
+	</simpleType>
+
+</schema>
+
+```
 
 
-
-
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:patient id="0" xmlns:tns="http://www.test.com/Patient"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.test.com/Patient Patient.xsd ">
+	<tns:name>tns:name</tns:name>
+	<tns:age>0</tns:age>
+	<tns:dob>2001-01-01</tns:dob>
+	<tns:email>tns:email</tns:email>
+	<tns:gender>M</tns:gender>
+	<tns:phone>tns:phone</tns:phone>
+	<tns:payment>
+		<tns:cash>0</tns:cash>
+	</tns:payment>
+</tns:patient>
+```
 
 
 
