@@ -435,6 +435,16 @@ public class OrderService
 MyException extends Exception
 ```
 
+:point_right: **@javax.jws.soap.SOAPBinding** -> document\literal
+
+```java
+@SOAPBinding(style=Style.RPC, use=Use.LITERAL)
+public interface OrderService
+```
+
+:point_right: **@javax.xml.ws.RequestWrapper** 
+:point_right: **@javax.xml.ws.ResponseWrapper** 
+
 
 
 
