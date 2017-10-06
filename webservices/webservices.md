@@ -225,6 +225,9 @@ SOAP stands for Simple Object Access Protocol. It is used to transfer the data. 
 </soap:Envelope>
 ```
 
+<br>
+<br>
+
 ### WSDL 
 **WSDL** (Web Services Description Language) is a contract b/w the web services provider and the consumer. It is a XML file with a .wsdl extension.
 
@@ -373,6 +376,8 @@ Add to this collection a pattern which is commonly called the document/literal w
 
 [Which style of wsdl i should use?](https://www.ibm.com/developerworks/library/ws-whichwsdl/)
 
+<br>
+<br>
 
 ### SOAP WS Design
 Two different design approaches to impement SOAP WS: 
@@ -404,6 +409,8 @@ Steps:
 * Contract first except while exposing legacy applications as WS.
 * If there we are designing a WS from scratch then use Contract First and if you going to expose a existing legacy application as WS then go with Code first.
 
+<br>
+<br>
 
 ### JAX - WS
 JAVA API XML based WEB SERVICES
@@ -445,8 +452,27 @@ public interface OrderService
 :point_right: **@javax.xml.ws.RequestWrapper** 
 :point_right: **@javax.xml.ws.ResponseWrapper** 
 
+<br>
+<br>
 
+### JAXB
+JAVA ARCHITECTURE for XML binding
 
+It provides an esay way to map Java classes and xml schema hiding the complexity of XML programming 
+
+`XML Schema` ---> `JAVA Objects`
+`Java Objects` ---> `XML Schema`
+
+JAVA ---> JAXB ---> XML
+JAVA <--- JAXB <--- XML
+
+* JAXB provides three tools:
+   * XJC(XML Schema Compiler) - which can generate JAVA classes from a given xml schema file <br>
+   Ex: `XML Schema` ---> `XJC` ---> `JAVA Classes`
+   * SCHEMAGEN
+   Ex: `Java Classes` --> SCHEMAGEN --> `XML Schema`
+   * RUNTIME API
+   Ex: `JAVA Objects` --> Runtime API --> `XML`, `XML` --> Runtime API --> `JAVA Objects`
 
 
 
