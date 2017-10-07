@@ -520,17 +520,17 @@ Ex:
 Here, the bank will ask us to authenticate by passing a username and password to make sure it is genuine.
 Banks uses some WS-Standards to make sure it is a genuine call.
 
-**WS-Security** standard addresses three important issues around security.
+:hocho: **WS-Security** standard addresses three important issues around security.
 
-:hocho: **Authentication** <br>
+:bomb: **Authentication** <br>
 Three ways to do it: 
 * User name token profile.
 * X 508 Certificates
 * SAML - single signon
 
-:hocho: **Confidentiality** - Encryption and Decryption
+:bomb: **Confidentiality** - Encryption and Decryption
 
-:hocho: **Integrity** - XML Signature
+:bomb: **Integrity** - XML Signature
 
 :hocho: **MTOM** - For exchanging files
 
