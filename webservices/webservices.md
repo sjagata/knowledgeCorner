@@ -522,8 +522,7 @@ Banks uses some WS-Standards to make sure it is a genuine call.
 
 :hocho: **WS-Security** standard addresses three important issues around security.
 
-:bomb: **Authentication** <br>
-Three ways to do it: 
+:bomb: **Authentication** - Three ways to do it: 
 * User name token profile.
 * X 508 Certificates
 * SAML - single signon
@@ -542,8 +541,52 @@ Three ways to do it:
 	
 :hocho: **WS-SecurityPolicy** - Assert WS-Security requirements.
 
+<br>
+<br>
+
+### JAX-WS Handler
+As we create service oriented applications and develop several web service endpoints and web services consumers or clients, once in a while we need to address some cross-cutting concerns or non functional requirements whch have to be applied across WS clients ot across WS endpoints. These requirements might not have anything to do with the business logic, but they need us to manipulate the SOAP message/SOAP headers/SOAP body.
+
+ll'ly to servlet Filters can be applied both on client side and server side.
+
+* Used when we need custom authnetication mechanism.
+* Caching calls
+* Versioning (to call WS-Enpoint 1.0 or WS-Endpoint 1.1 can be declared in JAX-WS Handlers)
+
+#### Two types of handlers
+
+1. SOAP Handlers - have access to entire message [<soap-header>, <soap-body>]
+2. Logical Handlers - payload only [<soap-body>...</soap-body>]
 
 
+```java
+SOAPHAndler<SOAPMessageContext>
+```
+
+* handleMessage
+* handleFault
+* getHandlers
+* close
+
+> `handleMessage` and `getHeaders` are called both on the way in as well as on way out on the client side as well as on the provider side. They are called twice
+
+> `handleFault` is called only when there is a SOAP Fault
+
+> `close` is called on the way out at the end of the entire flow. cleanup code 
+
+```java
+LogicalHandler<LogicalMessageContext
+```
+
+* handleMessage
+* handleFault
+* close
+
+
+#### Steps:
+* Design the handler chain
+* Create the handlers
+* Configure the handlers
 
 
 
