@@ -522,32 +522,32 @@ Banks uses some WS-Standards to make sure it is a genuine call.
 
 **WS-Security** standard addresses three important issues around security.
 
-:hocho: **Authentication**
-Three ways to do it:
-	* User name token profile.
-	* X 508 Certificates
-	* SAML - single signon
+:hocho: **Authentication** <br>
+Three ways to do it: <br>
+* User name token profile.
+* X 508 Certificates
+* SAML - single signon
 
 :hocho: **Confidentiality**
-	* Encryption and Decryption
+* Encryption and Decryption
 
 :hocho: **Integrity**
-	* XML Signature
+* XML Signature
 
 :hocho: **MTOM**
-	* For exchanging files
+* For exchanging files
 
 :hocho: **WS-Addressing**
-	* Asynchronous Callbacks
+* Asynchronous Callbacks
 
 :hocho: **WS-Policy**
-	* Assert and mandate certain rules to consume our WS
+* Assert and mandate certain rules to consume our WS
 	
 :hocho: **WS-SecureConversation**
-	* Improve performance while encrypting and decrypting by negotiating a key at the beginning
+* Improve performance while encrypting and decrypting by negotiating a key at the beginning
 	
 :hocho: **WS-SecurityPolicy**
-	* Assert WS-Security requirements.
+* Assert WS-Security requirements.
 
 
 
