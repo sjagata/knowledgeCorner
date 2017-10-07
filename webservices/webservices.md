@@ -480,6 +480,56 @@ Ex: `JAVA Objects` --> Runtime API --> `XML`, `XML` --> Runtime API --> `JAVA Ob
 
 * Runtime API consists of marshalling class, unmarshalling class and then a set of annotations.
 
+<br>
+<br>
+
+### Apache CXF
+Using this we can develop the WS providers and WS Consumers for both SOAP and RESTFul WS
+
+#### Why CXF?
+
+* It comes with the both SOAP/REST Engine (JAX-WS and JAX-RS)
+   * Serialize and De-Serialize
+   * Publish and Dispatch <br>
+   `XML` <--> `SOAP/Rest Engine` <--> `JAVA Objects` <--> `WS Endpoint Method` 
+* It implements Web Service Standards 
+   * WS-Security
+   * WS-Policy etc
+* Tools   
+   * wsdl2java
+   * java2wsdl
+* Spring Configuration
+* Extend and Customize
+   * Interceptors and Handler
+* Documentation and Samples
+
+[More Info for cxf](http://cxf.apache.org)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
