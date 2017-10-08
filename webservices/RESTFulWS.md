@@ -68,11 +68,32 @@ POST /patients <br>
 * Existing logic can be exposed easily
 
 
+### [JAX-RS](http://docs.oracle.com/javaee/6/tutorial/doc/gilik.html)
+JAX-RS is a Java programming language API designed to make it easy to develop applications that use the REST architecture.
 
+The JAX-RS API uses Java programming language annotations to simplify the development of RESTful web services. Developers decorate Java programming language class files with JAX-RS annotations to define resources and the actions that can be performed on those resources. JAX-RS annotations are runtime annotations; therefore, runtime reflection will generate the helper classes and artifacts for the resource. A Java EE application archive containing JAX-RS resource classes will have the resources configured, the helper classes and artifacts generated, and the resource exposed to clients by deploying the archive to a Java EE server.
   
 
- 
- 
+ **JAX-RS** provides :
+* Specification - Apache CXF, Jersey
+* API - for developers(Set of annonatations)
+
+**import javax.ws.rs.**
+1. **@Path("users/{username}")** : allows us to mark our Java classes and methods with a relative URI path.
+2. **HTTP Methods**
+   * @GET
+   * @POST
+   * @PUT
+   * @DELETE
+3. **Data Formats**
+   * **@Consumes("text/plain)** - tells what kind of data this particular REST provider can accept
+   * **@Produces({"application/json", "application/xml"})** - tells what kind od data REST provider can produce or send back to the client
+4. **Parameter Calues:**
+   * **@ParhParam** 
+   * **@QueryParam** - to map the request query parameters in a GET method to a Java Object automatically.
+   * **@FormParam** - map form submission
+5. **Exception Mappers:**
+   * **@Provider**
  
  
  
