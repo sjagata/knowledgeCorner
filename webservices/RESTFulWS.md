@@ -281,3 +281,7 @@ Features
  
 ![Alt text](https://developers.google.com/accounts/images/webflow.png "OAuth")
  
+ 
+ #### Roles
+ 
+![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/roles.png "roles")
