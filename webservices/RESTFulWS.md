@@ -251,22 +251,22 @@ Features
  
  * Below is called "Federated authentication"
  
- ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/OAuth.png "OAuth")
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/OAuth.png "OAuth")
  
  
  * Delegated Authorization
  
- ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/DelegatedAuth.png "DelegatedAuth")
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/DelegatedAuth.png "DelegatedAuth")
  
  
  #### Why OAuth?
  
- ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/whyOAuth.png "whyOAuth")
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/whyOAuth.png "whyOAuth")
  
  
  #### When OAuth?
  
- ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/whenOAuth.png "whenOAuth")
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/whenOAuth.png "whenOAuth")
  
  
  
