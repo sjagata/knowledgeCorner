@@ -179,12 +179,12 @@ Features
  2. Add the Filter - **DelegatingFilterProxy**
     * to web.xml
  3. **SpringConfiguration.xml**
-    * <global-method-security/> - enables the security annotations
-    * <http/> - to configure what kind of security we want, 
+    * `<global-method-security/>` - enables the security annotations
+    * `<http/>` - to configure what kind of security we want, 
        * form based security 
        * form based authentication
        * basic authentication etc..
-    * **<AuthenticationManager/>** - to define users and rules 
+    * `**<AuthenticationManager/>**` - to define users and rules 
  4. **@Security("ROLE_NAME")**
  
  
