@@ -184,12 +184,32 @@ Features
        * form based security 
        * form based authentication
        * basic authentication etc..
-    * `**<AuthenticationManager/>**` - to define users and rules 
+    * `<AuthenticationManager/>` - to define users and rules 
  4. **@Security("ROLE_NAME")**
  
  
- 
- 
+ ```xml
+	<security:global-method-security
+		secured-annotations="enabled" />
+
+	<security:http>
+		<security:http-basic />
+	</security:http>
+
+	<security:authentication-manager>
+
+		<security:authentication-provider>
+
+			<security:user-service>
+				<security:user name="customer" password="customer"
+					authorities="ROLE_CUSTOMER" />
+				<security:user name="admin" password="admin"
+					authorities="ROLE_CUSTOMER,ROLE_ADMIN" />
+
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+  ```
  
  
  
