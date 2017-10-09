@@ -256,7 +256,7 @@ Features
  
  * Delegated Authorization
  
- ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/OAuth.png "DelegatedAuth")
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/DelegatedAuth.png "DelegatedAuth")
  
  
  
