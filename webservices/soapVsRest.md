@@ -30,4 +30,13 @@ If you perform POST more than once, it could result in different results or it c
 
 
 
-Finally, to make a choice SOAP or REST, the non-functional requirements play a key role. If you have a lot of non-functionality for your application especially  in a huge enterprise where there are several applications communicating with each other and if you non-functional requirements(Security, Transcations, Reliable messaging) you should use SOAP 
+Finally, to make a choice SOAP or REST, the non-functional requirements play a key role. If you have a lot of non-functionality for your application especially  in a huge enterprise where there are several applications communicating with each other and if you non-functional requirements(Security, Transcations, Reliable messaging) you should use SOAP as the REST is still evolving and it doesn't have a matured stack to perform all these non-functional requirements out of box.
+
+* If you are exposing out your web services to various clients whom you even don't know today and you need a stric contract for that data, that is when we should be using SOAP because SOPA allows us to use WSLD which can define the contract both for operations as well as the data that is being exchanged.
+
+* REST should be used especially because it scales well and it performs better because all its requests can be cached.
+ 
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/soapVsrest.png "soapVsrest")
+ 
+ 
+
