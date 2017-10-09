@@ -237,4 +237,30 @@ Features
 }
 ```
  
+ <br>
+ <br>
+ 
+ ### OAuth
+ 
+ When we access a secured web application, it first verifies our identity by logging us in and then it ensures that we have access only to that data or functionality in the application which we are authorized for.
+ * So the basic requirements are identity and permissions or authentication and authorization.
+ * REST applications are lightweight applications and are no exception to this kind of access.
+ * OAuth is a authentication and authorization standard which allows an application to gain access to user's data within an other application without knowing the user's user ID and password for the second application. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
