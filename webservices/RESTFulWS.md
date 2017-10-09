@@ -153,8 +153,11 @@ The JAX-RS API uses Java programming language annotations to simplify the develo
  #### Furture vs Callback
  * If we need the control on the various web services client calls that we are making (If we all the data before doing something else) then Future else Callback 
  
+ <br>
+ <br>
  
-#### [Spring security](https://docs.spring.io/spring-security/site/docs/5.0.0.M3/reference/htmlsingle/)
+ 
+### [Spring security](https://docs.spring.io/spring-security/site/docs/5.0.0.M3/reference/htmlsingle/)
  
 Spring Security is a framework that focuses on providing both authentication and authorization to Java applications. Like all Spring projects, the real power of Spring Security is found in how easily it can be extended to meet custom requirements
 
@@ -169,19 +172,20 @@ Features
  It provides both authentication and authorization to Java applications at **URL level**, **Method level** and the **Object level**
  
  #### 4 steps:
- 1. pom.xml
+ 1. **pom.xml**
     * spring-security-core
     * spring-security-config
     * spring-security-web
- 2. Add the Filter - DelegatingFilterProxy
+ 2. Add the Filter - **DelegatingFilterProxy**
     * to web.xml
- 3. SpringConfiguration.xml
+ 3. **SpringConfiguration.xml**
     * <global-method-security/> - enables the security annotations
     * <http/> - to configure what kind of security we want, 
        * form based security 
        * form based authentication
        * basic authentication etc..
-  4. <AuthenticationManager/> - to define users and rules
+    * **<AuthenticationManager/>** - to define users and rules 
+ 4. **@Security("ROLE_NAME")**
  
  
  
