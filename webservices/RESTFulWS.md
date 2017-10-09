@@ -285,3 +285,28 @@ Features
  #### Roles
  
 ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/roles.png "roles")
+
+* Variation in implementation
+* [OAuth Support](https://oauth.net/code/)
+* [Apache CXF](http://cxf.apache.org/docs/jax-rs-oauth2.html)
+
+
+* [Google OAuth Playground](https://developers.google.com/oauthplayground/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
