@@ -259,6 +259,10 @@ Features
  ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/DelegatedAuth.png "DelegatedAuth")
  
  
+ #### Why OAuth?
+ 
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/whyOAuth.png "whyOAuth")
+ 
  
  
  
