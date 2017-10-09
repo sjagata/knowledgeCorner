@@ -187,30 +187,54 @@ Features
     * `<AuthenticationManager/>` - to define users and rules 
  4. **@Security("ROLE_NAME")**
  
+ ```xml
+// web.xml
+<filter>
+	<filter-name>springSecurityFilterChain</filter-name>
+	<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+	</filter-class>
+</filter>
+<filter-mapping>
+	<filter-name>springSecurityFilterChain</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+```
  
  ```xml
-	<security:global-method-security
-		secured-annotations="enabled" />
+ //security.xml
+<security:global-method-security
+	secured-annotations="enabled" />
 
-	<security:http>
-		<security:http-basic />
-	</security:http>
+<security:http>
+	<security:http-basic />
+</security:http>
 
-	<security:authentication-manager>
-
-		<security:authentication-provider>
-
-			<security:user-service>
-				<security:user name="customer" password="customer"
-					authorities="ROLE_CUSTOMER" />
-				<security:user name="admin" password="admin"
-					authorities="ROLE_CUSTOMER,ROLE_ADMIN" />
-
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager>
+<security:authentication-manager>
+	<security:authentication-provider>
+		<security:user-service>
+			<security:user name="customer" password="customer"
+				authorities="ROLE_CUSTOMER" />
+			<security:user name="admin" password="admin"
+				authorities="ROLE_CUSTOMER,ROLE_ADMIN" />
+		</security:user-service>
+	</security:authentication-provider>
+</security:authentication-manager>
   ```
  
- 
+ ```java
+ //Java code
+ public interface ProductService {
+
+	@Secured("ROLE_CUSTOMER")
+	@GET
+	@Path("/products")
+	List<Product> getProducts();
+
+	@Secured("ROLE_ADMIN")
+	@POST
+	@Path("/products")
+	int addProduct(Product product);
+}
+```
  
  
