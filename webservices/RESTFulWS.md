@@ -294,11 +294,44 @@ Features
 * [Google OAuth Playground](https://developers.google.com/oauthplayground/)
 
 
+<br>
+<br>
+
+### REST Attachements
+
+* check the project
+
+<br>
+<br>
+
+### [Jersey](https://jersey.github.io/)
+
+Jersey is Sun's production quality reference implementation for JSR 311: JAX-RS: The Java API for RESTful Web Services. Jersey implements support for the annotations defined in JSR-311, making it easy for developers to build RESTful web services with Java and the Java JVM. Jersey also adds additional features not specified by the JSR.
+* Jersey provide servlet implementation which scans through the predefined classes which we define to identify the RESTful resources
+* we configure Jersey servlet in web.xml.
+* It also provides several custom tools for security like OAuth, WADL generation, bean validation support etc...
+* By implement one simple REST resource and a client using Jersey - it easy to use any WS stack.
 
 
+<br>
+<br>
+
+### Spring MVC
+* Spring is a popular Dependency Injection framework in the Java Enterprise world.
+* Along with DI, Spring provides easy ways to implement JDBC, messaging, ORM support like JPA and Hibernate support and even the spring MVC which makes it every easy to implemnt the web layer ot tier of our application.
+* Starting from Spring 3.0 version, spring also supports implementation of RESTful web services in very easy fashion.
+* It does not implement the JAX-RS standard ot it does not use the JAX-RS API or annotations.
+* It comes up with its own set of annotations like the `@RequestMapping` annotation which is similar to the `@Path` annotation in the JAX-RS API
+* `@PathVariable` similar to the `@PathParam` in the JAX-RS API on so on..
+
+#### Spring MVC Flow
+1. Typically, a client sends in a HTTP request which will be handled by the Front Controller(Dispatcher Servelt) very similar to Apache CXF or any other web service stacks like Jersey.
+2. Front Controller will read the handler mappings or scan through all the controllers 
+3. These controllers will handle th incoming requests and send back the appropriate response which could be JSON or XML or whatever back to the client.
+4. If it a pure Spring MVC application, this controller would return the next view like a JSP page to the dispatcher servlet and the dispatcher servlet would send that reponse back to the client. But in case of RESTful WS we usually skip that step of using the model view or returning a, or using a view resolver and we simply return a reponse directly back to the client.
 
 
-
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/mvcflow.png "mvcflow")
 
 
 
