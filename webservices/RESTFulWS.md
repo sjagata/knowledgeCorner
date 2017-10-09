@@ -268,5 +268,16 @@ Features
  
  ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/images/whenOAuth.png "whenOAuth")
  
+ #### OAuth workflow
+ 1. JavaWorld registers with Google and gets a client ID
+ 2. Java world redirects
+    * Ex : http://googleapis.com/oauth?client_id=javaworld&state=123456789&redirect_uri=http%3A%2F%2Fjavaworld.com
+ 3. User Logs In
+ 4. Google Authenticates and redirects
+    * http://javaworld.com/state=12345678&code=000222
+ 5. Java world ---> code=000222 ---> Google
+ 6. JavaWorld <--- Token=2basd23445345sdfsdfsdf23423423412qwe ---> Google.
  
+ 
+![Alt text](https://developers.google.com/accounts/images/webflow.png "OAuth")
  
