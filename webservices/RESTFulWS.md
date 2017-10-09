@@ -247,16 +247,16 @@ Features
  * REST applications are lightweight applications and are no exception to this kind of access.
  * OAuth is a authentication and authorization standard which allows an application to gain access to user's data within an other application without knowing the user's user ID and password for the second application. 
  
+ Example: 
  
+ * Below is called "Federated authentication"
  
  ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/OAuth.png "OAuth")
  
  
+ * Delegated Authorization
  
- 
- 
- 
- 
+ ![Alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/webservices/OAuth.png "DelegatedAuth")
  
  
  
