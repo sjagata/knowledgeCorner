@@ -95,7 +95,93 @@ The JAX-RS API uses Java programming language annotations to simplify the develo
 5. **Exception Mappers:**
    * **@Provider**
  
+ <br>
+ <br>
  
+ ### HTTP Status Codes:
+ * Success : 200 to 399
+    * Ex : 200 OK
+ * Failure : 400 to 599
+    * EX : 404 Not Found
+    
+ #### Two Type
+ * Standard Error
+ * Application Errors
+
+
+<br>
+<br>
+
+ ### javax.ws.rs.client.*
+ 
+ * ClientBuilder
+ * Client
+ * WebTarget
+ * Entity
+ * Invoke.Builder
+ 
+ <br>
+ <br>
+ 
+ ### JAX-RS Injection
+ * @PathParam
+ * @QueryParam
+ * @FormParam
+ * @HeaderParam
+ * @CookieParam
+ 
+ <br>
+ <br>
+ 
+ ### Async
+ 
+ `Asynchronous` - JAX-RS - `Provider/Server` <br>
+ 
+ `Asynchronous` - JAX-RS - `Client API` - `Polling` <br>
+ `Asynchronous` - JAX-RS - `Client API` - `CallBAck`
+ 
+ **Provider**
+ * @javax.ws.rs.container.Suspended
+ * javax.ws.rs.container.AsyncResponse
+ 
+ **Client**
+ * javax.ws.rs.client.AsyncInvoker
+ * java.util.concurrent.Future
+ * javax.ws.rs.client.InvocationCallback
+ 
+ 
+ #### Furture vs Callback
+ * If we need the control on the various web services client calls that we are making (If we all the data before doing something else) then Future else Callback 
+ 
+ 
+#### [Spring security](https://docs.spring.io/spring-security/site/docs/5.0.0.M3/reference/htmlsingle/)
+ 
+Spring Security is a framework that focuses on providing both authentication and authorization to Java applications. Like all Spring projects, the real power of Spring Security is found in how easily it can be extended to meet custom requirements
+
+Features
+
+* Comprehensive and extensible support for both Authentication and Authorization
+* Protection against attacks like session fixation, clickjacking, cross site request forgery, etc
+* Servlet API integration
+* Optional integration with Spring Web MVC
+* Much more…
+ 
+ It provides both authentication and authorization to Java applications at **URL level**, **Method level** and the **Object level**
+ 
+ #### 4 steps:
+ 1. pom.xml
+    * spring-security-core
+    * spring-security-config
+    * spring-security-web
+ 2. Add the Filter - DelegatingFilterProxy
+    * to web.xml
+ 3. SpringConfiguration.xml
+    * <global-method-security/> - enables the security annotations
+    * <http/> - to configure what kind of security we want, 
+       * form based security 
+       * form based authentication
+       * basic authentication etc..
+  4. <AuthenticationManager/> - to define users and rules
  
  
  
