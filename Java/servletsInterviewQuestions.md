@@ -29,7 +29,7 @@ MIME stands for “Multipurpose Internet Mail Extensions. It is a standard way o
 
 As a technology servlet provides a model of communication between a web user request and the application or program on the web server.
 
-**Servlet as component: **
+**Servlet as component:**
 
 As a component servlet is a program which is executed in web server and responsible for dynamic content generation
 See more at: Servlet Overview
