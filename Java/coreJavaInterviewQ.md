@@ -273,33 +273,143 @@ The key interfaces used by the collections framework are **List, Set and Map**. 
 
 * Common collection activities include adding objects, removing objects, verifying object inclusion, retrieving objects, and iterating.
 * Three meanings for "collection":
-    * collection Represents the data structure in which objects are stored
-    * Collection java.util interface from which Set and List extend
-    * Collections A class that holds static collection utility methods
+    * **collection** Represents the data structure in which objects are stored
+    * **Collection** java.util **interface** from which Set and List extend
+    * **Collections** A **class** that holds static collection utility methods
 * Four basic flavors of collections include Lists, Sets, Maps, Queues:
     * **Lists** of things **Ordered, duplicates allowed, with an index.**
     * **Sets** of things **May or may not be ordered and/or sorted; duplicates not allowed.**
     * **Maps** of things with keys **May or may not be ordered and/or sorted; duplicate keys are not allowed.**
     * **Queues** of things to process Ordered by FIFO or by priority.
 * Four basic sub-flavors of collections Sorted, Unsorted, Ordered, Unordered.
-    * Ordered Iterating through a collection in a specific, non-random order.
-    * Sorted Iterating through a collection in a sorted order.
+    * **Ordered** Iterating through a collection in a specific, non-random order.
+    * **Sorted** Iterating through a collection in a sorted order.
 * Sorting can be alphabetic, numeric, or programmer-defined.
 
-Key Attributes of Common Collection Classes (Objective 6.1)
+Key Attributes of Common Collection Classes
 * **ArrayList:** Fast iteration and fast random access.
 * **Vector:** It's like a slower ArrayList, but it has synchronized methods.
 * **LinkedList:** Good for adding elements to the ends, i.e., stacks and queues.
 * **HashSet:** Fast access, assures no duplicates, provides no ordering.
 * **LinkedHashSet:** No duplicates; iterates by insertion order.
-* **TreeSet:** No duplicates; iterates in sorted order.
+* **TreeSet:** No duplicates; iterates in sorted order. 
+   * A TreeSet is an **ordered HashSet**, which implements the **SortedSet** interface.
 * **HashMap:** Fastest updates (key/values); allows one null key, many null values.
 * **Hashtable:** Like a slower HashMap (as with Vector, due to its synchronized methods). No null values or null keys allowed.
 * **LinkedHashMap:** Faster iterations; iterates by insertion order or last accessed; allows one null key, many null values.
 * **TreeMap:** A sorted map.
 * **PriorityQueue:** A to-do list ordered by the elements' priority.
 
+Using Collection Classes
+* Collections hold only Objects, but primitives can be autoboxed.
+* Iterate with the enhanced for, or with an Iterator via hasNext() & next().
+    * **hasNext()** determines if more elements exist; the Iterator does NOT move.
+    * **next()** returns the next element AND moves the Iterator forward.
+* To work correctly, a Map's keys must override **equals()** and **hashCode()**.
+* Queues use **offer() to add an element**, **poll() to remove the head of the queue**, and **peek() to look at the head of a queue.**
+* As of Java 6 TreeSets and TreeMaps have new navigation methods like floor() and higher().
+* You can create/extend "backed" sub-copies of TreeSets and TreeMaps.
 
+Utility Classes: Collections and Arrays 
+* Both of these java.util classes provide
+    * A sort() method. Sort using a Comparator or sort using natural order.
+    * A binarySearch() method. Search a pre-sorted array or List.
+* `Arrays.asList()` creates a List from an array and links them together.
+* `Collections.reverse()` reverses the order of elements in a List.
+* `Collections.reverseOrder()` returns a Comparator that sorts in reverse.
+* `Lists and Sets` have a `toArray()` method to create arrays.
+
+
+#### Q. How to implement collection ordering?
+**SortedSet** and **SortedMap interfaces** maintain sorted order. The classes, which implement the Comparable interface, impose natural order. By implementing Comparable, sorting an array of objects or a collection (List etc) is as simple as:
+
+```java
+Arrays.sort(myArray);
+Collections.sort(myCollection); // do not confuse “Collections” utility class with the 
+                                // “Collection” interface without an “s”.
+```
+
+For classes that don’t implement Comparable interface, or when one needs even more control over ordering based on multiple attributes, a Comparator interface should be used.
+
+* Sorting can be in natural order, or via a Comparable or many Comparators.
+* Implement **Comparable** using **compareTo()**; provides only one sort order.
+* Create many **Comparators** to sort a class many ways; implement **compare()**.
+* To be sorted and searched, a List's elements must be comparable.
+* To be searched, an array or List must first be sorted.
+
+```java
+if compare(o1,o2) == 0 then o1.equals(o2) should be true.
+if compare(o1,o2) != 0 then o1.equals(o2) should be false.
+```
+
+#### Q. What is an Iterator?
+An Iterator is a use once object to access the objects stored in a collection. **Iterator design pattern** (aka Cursor) is used, which is a behavioral design pattern that provides a way to access elements of a collection sequentially without exposing its internal representation.
+
+#### Q. Why do you get a ConcurrentModificationException when using an iterator?
+**Problem:**
+The `java.util Collection` classes are fail-fast, which means that if one thread changes a collection while another thread is traversing it through with an `iterator` the `iterator.hasNext()` or `iterator.next()` call will throw `ConcurrentModificationException`. Even the synchronized collection wrapper classes `SynchronizedMap` and `SynchronizedList` are only conditionally thread-safe, which means all individual operations are thread-safe but compound operations where flow of control depends on the results of previous operations may be subject to threading issues.
+
+```java
+Collection<String> myCollection = new ArrayList<String>(10);
+
+myCollection.add("123");
+myCollection.add("456");
+myCollection.add("789");
+
+for (Iterator it = myCollection.iterator(); it.hasNext();) {
+  String myObject = (String)it.next();
+  System.out.println(myObject);
+  if (someConditionIsTrue) {
+    myCollection.remove(myObject); //can throw ConcurrentModificationException in single as well as multi-thread access situations.
+  }
+}
+```
+
+**Solutions 1-3: for multi-thread access situation:**
+* **Solution 1:** You can convert your list to an array with `list.toArray()` and iterate on the array. This approach is not recommended if the list is large.
+* **Solution 2:** You can lock the entire list while iterating by wrapping your code within a `synchronized block`. This approach adversely affects scalability of your application if it is highly concurrent.
+* **Solution 3:** If you are using JDK 1.5 then you can use the `ConcurrentHashMap` and `CopyOnWriteArrayList` classes, which provide much better scalability and the iterator returned by `ConcurrentHashMap.iterator()` will not throw `ConcurrentModificationException` while preserving thread-safety.
+
+**Solution 4: for single-thread access situation:**
+
+```java
+//Use:
+it.remove(); // removes the current object via the Iterator “it” which has a reference to
+// your underlying collection “myCollection”. Also can use solutions 1-3.
+
+//Avoid:
+myCollection.remove(myObject); // avoid by-passing the Iterator. When it.next() is called, can throw the exception
+// ConcurrentModificationException
+```
+
+#### Q. What is a list iterator?
+The `java.util.ListIterator` is an iterator for lists that allows the programmer to traverse the list in either direction (i.e. forward and or backward) and modify the list during iteration.
+
+#### Q. What are static factory methods?
+Some of the above mentioned features like searching, sorting, shuffling, immutability etc are achieved with `java.util.Collections` class and `java.util.Arrays` utility classes. The great majority of these implementations are provided via **static factory methods in a single, non-instantiable (i.e. private constrctor) class.** 
+**Speaking of static factory methods, they are an alternative to creating objects through constructors.** 
+Unlike constructors, **static factory methods are not required to create a new object (i.e. a duplicate object) each time they are invoked (e.g. immutable instances can be cached)** and also they have a more meaningful names like valueOf, instanceOf, asList etc. 
+
+For example:
+
+```java
+// Instead of:
+String[] myArray = {"Java", "J2EE", "XML", "JNDI"};
+for (int i = 0; i < myArray.length; i++) {
+  System.out.println(myArray[i]);
+}
+
+// You can use:
+String[] myArray = {"Java", "J2EE", "XML", "JNDI"};
+System.out.println(Arrays.asList(myArray)); //factory method Arrays.asList(…)
+```
+* The following static factory method (an alternative to a constructor) example **converts a boolean primitive value to a Boolean wrapper object.**
+
+```java
+public static Boolean valueOf(boolean b) {
+  return (b ? Boolean.TRUE : Boolean.FALSE)
+}
+```
 
 
 
