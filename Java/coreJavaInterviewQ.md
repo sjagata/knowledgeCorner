@@ -317,6 +317,173 @@ The **non-final methods** are **equals(), hashCode(), toString(), clone(), and f
 * You can uneligibilize an object for GC from within `finalize()`.
 
 ### Q9. When providing a user defined key class for storing objects in the HashMaps or Hashtables, what methods do you have to provide or override (i.e. method overriding)?
+You should override the equals() and hashCode() methods from the Object class. The default implementation of the equals() and hashcode(), which are inherited from the `java.lang.Object` uses an object instance’s memory location (e.g. MyObject@6c60f2ea). This can cause problems when two instances of the car objects have the same color but the inherited equals() will return false because it uses the memory location, which is different for the two instances. Also the toString() method can be overridden to provide a proper string representation of your object.
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/hascodeEquals.png "class object")
+
+#### Q. What are the primary considerations when implementing a user defined key?
+* If a class overrides equals(), it must override hashCode().
+* If 2 objects are equal, then their hashCode values must be equal as well.
+* If a field is not used in equals(), then it must not be used in hashCode().
+* If it is accessed often, hashCode() is a candidate for caching to enhance performance.
+* It is a best practice to implement the user defined key class as an immutable object.
+
+#### Q. Why it is a best practice to implement the user defined key class as an immutable object?
+**Problem:**
+As per the code snippet shown below if you use a mutable user defined class “UserKey” as a HashMap key and subsequently if you mutate (i.e. modify via setter method e.g. key.setName(“Sam”)) the key after the object has been added to the HashMap then you will not be able to access the object later on. The original key object will still be in the HashMap (i.e. you can iterate through your HashMap and print it – both prints as “Sam” as opposed to “John” & Sam) but you cannot access it with map.get(key) or querying it with map.containsKey(key) will return false because the key “John” becomes “Sam” in the “List of keys” at the key index “345678965” if you mutate the key after adding. These types of errors are very hard to trace and fix.
+
+```java
+Map myMap = new HashMap(10);
+//add the key “John”
+UserKey key = new UserKey(“John”); //Assume UserKey class is mutable
+myMap.put(key, “Sydney”);
+//now to add the key “Sam”
+key.setName(“Sam”); // same key object is mutated instead of creating a new instance.
+                    // This line modifies the key value “John” to “Sam” in the “List of keys”
+                    // as shown in the diagram above. This means that the key “John” cannot be
+                    // accessed. There will be two keys with “Sam” in positions with hash
+                    // values 345678965 and 76854676.
+myMap.put(key, “Melbourne”);
+myMap.get(new UserKey(“John”)); // key cannot be accessed. The key hashes to the same position
+// 345678965 in the “Key index array” but cannot be found in the “List of keys”
+```
+
+**Solution:**
+Generally you use a `java.lang.Integer` or a `java.lang.String` class as the key, which are immutable Java objects. If you define your own key class then it is a best practice to make the key class an immutable object (i.e. do not provide any setXXX() methods in your key class. e.g. no setName(…) method in the UserKey class). If a programmer wants to insert a new key then he/she will always have to instantiate a new object (i.e. cannot mutate the existing key because immutable key object class has no setter methods).
+
+```java
+Map myMap = new HashMap(10);
+//add the key “John”
+UserKey key1 = new UserKey(“John”); //Assume UserKey is immutable
+myMap.put(key1, “Sydney”);
+
+//add the key “Sam”
+UserKey key2 = new UserKey(“Sam”); //Since UserKey is immutable, new instance is created.
+myMap.put(key2, “Melbourne”);
+myMap.get(new UserKey(“John”)); //Now the key can be accessed
+```
+
+**Similar issues are possible with the Set** (e.g. HashSet) as well. If you add an object to a `Set` and subsequently modify the added object and later on try to query the original object it may not be present. `mySet.contains(originalObject)` may return `false`.
+
+* `J2SE 5.0` introduces enumerated constants, which improves readability and maintainability of your code. Java programming language enums are more powerful than their counterparts in other languages. Example: As shown below a class like “Weather” can be built on top of simple enum type “Season” and the class “Weather” can be made immutable, and only one instance of each “Weather” can be created, so that your Weather class does not have to override equals() and hashCode() methods.
+
+```java
+public class Weather {
+  public enum Season {WINTER, SPRING, SUMMER, FALL}
+  private final Season season;
+  private static final List<Weather> listWeather = new ArrayList<Weather> ();
+  
+  private Weather (Season season) { this.season = season;}
+  public Season getSeason () { return season;}
+    static {
+      for (Season season : Season.values()) { //using J2SE 5.0 for each loop
+        listWeather.add(new Weather(season));
+      }
+    }
+  }
+  public static ArrayList<Weather> getWeatherList () { return listWeather; }
+  public String toString(){ return season;} //takes advantage of toString() method of Season.
+}
+```
+
+* An enum specifies a list of constant values assigned to a type.
+* An enum is NOT a String or an int; **an enum constant's type is the enum type.** For example, SUMMER and FALL are of the enum type Season.
+* An enum can be declared outside or inside a class, **but NOT in a method**.
+* An enum declared outside a class must NOT be marked static, final, abstract, protected, or private.
+* Enums can contain constructors, methods, variables, and constant class bodies.
+* enum constants can send arguments to the enum constructor, using the syntax BIG(8), where the int literal 8 is passed to the enum constructor.
+* enum constructors can have arguments, and can be overloaded.
+* enum constructors can NEVER be invoked directly in code. They are always called automatically when an enum is initialized.
+* The semicolon at the end of an enum declaration is optional. These are legal:
+    * enum Foo { ONE, TWO, THREE}
+    * enum Foo { ONE, TWO, THREE};
+* **MyEnum.values()** returns an array of MyEnum's values.
+
+### Q10. What is the main difference between a String and a StringBuffer class?
+* **String objects** are **immutable**, and **String reference variables are not.**
+* If you create a new String without assigning it, it will be lost to your program.
+* If you redirect a String reference to a new String, the old String can be lost.
+* String methods use zero-based indexes, except for the second argument of substring().
+* The String class is final—its methods can't be overridden.
+* When the JVM finds a String literal, it is added to the String literal pool.
+* Strings have a method: length(); arrays have an attribute named length.
+* The **StringBuffer's** API is the same as the new **StringBuilder's API,** except that **StringBuilder's methods are not synchronized for thread safety.**
+* **StringBuilder** methods should **run faster** than **StringBuffer** methods.
+* All of the following bullets apply to both StringBuffer and StringBuilder:
+    * They are mutable—they can change without creating a new object.
+    * StringBuffer methods act on the invoking object, and objects can change without an explicit assignment in the statement.
+    * StringBuffer equals() is not overridden; it doesn't compare values.
+* Remember that chained methods are evaluated from left to right.
+* **String methods** to remember: `charAt()`, `concat()`, `equalsIgnoreCase()`, `length()`, `replace()`, `substring()`, `toLowerCase()`, `toString()`, `toUpperCase()`, and `trim()`.
+* **StringBuffer methods** to remember: `append()`, `delete()`, `insert()`, `reverse()`, and `toString()`.
+
+### Q11. How would you defensively copy a Date field in your immutable class?
+
+```java
+public final class MyDiary {
+  private Date myDate = null;
+  
+  public MyDiary(Date aDate){
+    this.myDate = new Date(aDate.getTime()); // defensive copying by not exposing the “myDate” reference
+  }
+  
+  public Date getDate() {
+    return new Date(myDate.getTime); // defensive copying by not exposing the “myDate” reference
+  }
+}
+```
+
+### Q12. What is the main difference between pass-by-reference and pass-by-value? 
+Other languages use pass-by-reference or pass-by-pointer. But in **Java no matter what type of argument you pass the corresponding parameter (primitive variable or object reference) will get a copy of that data, which is exactly how pass-by-value (i.e. copy-by-value) works.**
+
+In Java, if a calling method passes a reference of an object as an argument to the called method then the **passedin reference gets copied first** and then passed to the called method. **Both the original reference that was passed-in and the copied reference will be pointing to the same object. So no matter which reference you use, you will be always modifying the same original object, which is how the pass-by-reference works as well.**
+
+
+
+
+<br>
+<br>
+## Serialization
+
+* The classes you need to understand are all in the `java.io` package; they include: `ObjectOutputStream` and `ObjectInputStream` primarily, and `FileOutputStream` and `FileInputStream` because you will use them to create the low-level streams that the ObjectXxxStream classes will use.
+* A class must implement Serializable before its objects can be serialized.
+* The `ObjectOutputStream.writeObject()` method serializes objects, and the `ObjectInputStream.readObject()` method deserializes objects.
+* If you mark an instance variable `transient`, it will not be serialized even thought the rest of the object's state will be.
+* You can supplement a class's automatic serialization process by implementing the `writeObject()` and `readObject()` methods. If you do this, embedding calls to `defaultWriteObject()` and `defaultReadObject()`, respectively, will handle the part of serialization that happens normally.
+* If a superclass implements Serializable, then its subclasses do automatically.
+* If a superclass doesn't implement Serializable, then when a subclass object is deserialized, the superclass constructor will be invoked, along with its superconstructor(s).
+* `DataInputStream` and `DataOutputStream`.
+
+### Q1. What is serialization? How would you exclude a field of a class from serialization or what is a transient variable? What is the common use? What is a serial version id?
+
+`Serialization` is a process of reading or writing an object. It is a process of saving an object’s state to a sequence of bytes, as well as a process of rebuilding those bytes back into a live object at some future time. An object is marked serializable by implementing the `java.io.Serializable` interface, which is only a marker interface -- it simply allows the serialization mechanism to verify that the class can be persisted, typically to a file.
+
+`Transient` variables cannot be serialized. The fields marked transient in a serializable object will not be transmitted in the byte stream. An example would be a file handle, a database connection, a system thread etc. Such objects are only meaningful locally. So they should be marked as transient in a serializable class.
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/serialization.png "class object")
+
+#### Q. When to use serialization? 
+Do not use serialization if you do not have to. **A common use of serialization is to use it to send an object over the network or if the state of an object needs to be persisted to a flat file or a database.** Deep cloning or copy can be achieved through serialization. This may be fast to code but will have performance implications.
+
+To serialize the above “Car” object to a file (sample for illustration purpose only, should use try {} catch {} block):
+
+```java
+Car car = new Car(); // The “Car” class implements a java.io.Serializable interface
+FileOutputStream fos = new FileOutputStream(filename);
+ObjectOutputStream out = new ObjectOutputStream(fos);
+out.writeObject(car); // serialization mechanism happens here
+out.close();
+```
+
+The objects stored in an HTTP session should be serializable to support in-memory replication of sessions to achieve scalability (Refer Q20 in Enterprise section). Objects are passed in RMI (Remote Method Invocation) across network using serialization (Refer Q57 in Enterprise section).
+
+#### Q. What is Java Serial Version ID? 
+Say you create a “Car” class, instantiate it, and write it out to an object stream. The flattened car object sits in the file system for some time. Meanwhile, if the “Car” class is modified by adding a new field. Later on, when you try to read (i.e. deserialize) the flattened “Car” object, you get the `java.io.InvalidClassException` – because all serializable classes are automatically given a unique identifier. This exception is thrown when the identifier of the class is not equal to the identifier of the flattened object. If you really think about it, the exception is thrown because of the addition of the new field. You can avoid this exception being thrown by controlling the versioning yourself by declaring an explicit `serialVersionUID`. There is also a small performance benefit in explicitly declaring your serialVersionUID (because does not have to be calculated). So, it is best practice to add your own serialVersionUID to your Serializable classes as soon as you create them as shown below:
+
+```java
+public class Car {
+  static final long serialVersionUID = 1L; //assign a long value
+}
+```
 
 
 
