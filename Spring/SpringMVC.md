@@ -21,11 +21,11 @@ _Spring MVC framework uses the DispatcherServlet class as the controller which i
 
 ### Spring mvc framework execution flow:
 
-• Receive the user request.
-• Choose the controller with the help of HandlerMapping.
-• Controller process the request by calling the appropriate service method and returns a ModeAndView object to the DispatcherServlet which contains the model data and view name.
-• DispatcherServlet sends the view name to ViewResolver which sends the actual view to the DispatcherServlet.
-• DispatcherServlet will pass the model data to the View and render response.
+* Receive the user request.
+* Choose the controller with the help of HandlerMapping.
+* Controller process the request by calling the appropriate service method and returns a ModeAndView object to the DispatcherServlet which contains the model data and view name.
+* DispatcherServlet sends the view name to ViewResolver which sends the actual view to the DispatcherServlet.
+* DispatcherServlet will pass the model data to the View and render response.
 
 <br>
 
