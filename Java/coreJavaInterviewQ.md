@@ -307,7 +307,7 @@ A pool of Strings is maintained by the String class. When the intern() method is
 
 The **non-final methods** are **equals(), hashCode(), toString(), clone(), and finalize().** The other methods like **wait(), notify(), notifyAll(), getClass()** etc are **final methods** and therefore cannot be overridden. Let us look at these non-final methods, which are meant primarily for extension (i.e. inheritance).
 
-[!Alt image](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/classObjct.png "class object")
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/classObjct.png "class object")
 
 **The equals() and hashCode() methods prove to be very important, when objects implementing these two methods are added to collections. If implemented incorrectly or not implemented at all then your objects stored in a collection like a Set, List or Map may behave strangely and also is hard to debug.**
 
