@@ -218,6 +218,106 @@ Both the above methods have the same method names and the signatures but the met
 * Reference type determines which overloaded method will be used at compile time.
 
 
+### Q8. What is the difference between “==” and equals(…) method? What is the difference between shallow comparison and deep comparison of objects?
+**== [ shallow comparison ]**
+* The `==` returns true, **if the variable reference points to the same object in memory.** This is a `shallow comparison`.
+
+**equals( ) [deep comparison ]**
+* **The equals()** - returns the results of running the equals() method of a user supplied class, **which compares the attribute values.** The equals() method provides `deep comparison` by checking if two objects are logically equal as opposed to the shallow comparison provided by the operator ==. 
+* If equals() method does not exist in a user supplied class then the inherited Object class's equals() method is run which evaluates if the references point to the same object in memory. The object.equals() works just like the "==" operator (i.e shallow comparison).
+* Overriding the Object class may seem simple but there are many ways to get it wrong, and consequence can be unpredictable behavior.
+
+
+* String assignment with the “new” operator follow the same rule as == and equals( ) as mentioned above.
+
+```java
+String str = new String(“ABC”); //Wrong. Avoid this because a new String instance is created each time it is executed.
+```
+
+* The `literal` String assignment is shown below, where if the assignment value is identical to another String assignment value created then a new String object is not created. A reference to the existing String object is returned.
+
+```java
+String str = “ABC”; //Right because uses a single instance rather than creating a new instance each time it is executed.
+```
+
+```java
+public class StringBasics {
+  public static void main(String[] args) {
+    String s1 = new String("A"); //not recommended, use String s1 = "A"
+    String s2 = new String("A"); //not recommended, use String s2 = "A"
+    
+    //standard: follows the == and equals() rule like plain java objects.
+    
+    if (s1 == s2) { //shallow comparison
+      System.out.println("references/identities are equal"); //never reaches here
+    }
+    if (s1.equals(s2)) { //deep comparison
+      System.out.println("values are equal"); // this line is printed
+    }
+    
+    //variation: does not follow the == and equals rule
+    
+    String s3 = "A"; //goes into a String pool.
+    String s4 = "A"; //refers to String already in the pool.
+    if (s3 == s4) { //shallow comparison
+      System.out.println("references/identities are equal"); //this line is printed
+    }
+    if (s3.equals(s4)) { //deep comparison
+      System.out.println("values are equal"); //this line is also printed
+    }
+  }
+}
+```
+
+* String class is designed with **Flyweight design pattern.** When you create a String constant as shown above in the variation, (i.e. String s3 = “A”, s4= “A”), it will be checked to see if it is already in the String pool. If it is in the pool, it will be picked up from the pool instead of creating a new one. **Flyweights are shared objects and using them can result in substantial performance gains.**
+
+#### Q. What is an intern() method in the String class?
+A pool of Strings is maintained by the String class. When the intern() method is invoked equals(…) method is invoked to determine if the String already exist in the pool. If it does then the String from the pool is returned. Otherwise, this String object is added to the pool and a reference to this object is returned. **For any two Strings s1 & s2, s1.intern() == s2.intern() only if s1.equals(s2) is true.**
+
+### Q8. What are the non-final methods in Java Object class, which are meant primarily for extension?
+
+* equals(), hashCode(), and toString() are public.
+* Override toString() so that System.out.println() or other methods can see something useful, like your object's state.
+* Use **==** to determine if two reference variables refer to the same object.
+* Use **equals()** to determine if two objects are meaningfully equivalent.
+* If you don't override equals(), your objects won't be useful hashing keys.
+* If you don't override equals(), different objects can't be considered equal.
+* **Strings** and **wrappers override equals()** and make **good hashing keys**.
+* When overriding equals(), use the instanceof operator to be sure you're evaluating an appropriate class.
+* When overriding equals(), compare the objects' significant attributes.
+* Highlights of the **equals() contract**:
+    * **Reflexive**: x.equals(x) is true.
+    * **Symmetric**: If x.equals(y) is true, then y.equals(x) must be true.
+    * **Transitive**: If x.equals(y) is true, and y.equals(z) is true, then z.equals(x) is true.
+    * **Consistent**: Multiple calls to x.equals(y) will return the same result.
+    * **Null**: If x is not null, then x.equals(null) is false.
+* If **x.equals(y)** is **true**, then **x.hashCode() == y.hashCode()** is **true**.
+* If you override equals(), override hashCode().
+* HashMap, HashSet, Hashtable, LinkedHashMap, & LinkedHashSet use hashing.
+* An appropriate hashCode() override sticks to the hashCode() contract.
+* An efficient hashCode() override distributes keys evenly across its buckets.
+* An overridden equals() must be at least as precise as its hashCode() mate.
+* To reiterate: if two objects are equal, their hashcodes must be equal.
+* It's legal for a hashCode() method to return the same value for all instances (although in practice it's very inefficient).
+* Highlights of the **hashCode() contract**:
+    * **Consistent**: multiple calls to x.hashCode() return the same integer.
+    * If x.equals(y) is true, x.hashCode() == y.hashCode() is true.
+    * If x.equals(y) is false, then x.hashCode() == y.hashCode() can be either true or false, but false will tend to create better efficiency.
+* **transient variables** aren't appropriate for equals() and hashCode().
+
+The **non-final methods** are **equals(), hashCode(), toString(), clone(), and finalize().** The other methods like **wait(), notify(), notifyAll(), getClass()** etc are **final methods** and therefore cannot be overridden. Let us look at these non-final methods, which are meant primarily for extension (i.e. inheritance).
+
+[]()
+
+**The equals() and hashCode() methods prove to be very important, when objects implementing these two methods are added to collections. If implemented incorrectly or not implemented at all then your objects stored in a collection like a Set, List or Map may behave strangely and also is hard to debug.**
+
+* Class Object has a finalize() method.
+* The `finalize()` method is guaranteed to run once and only once before the garbage collector deletes an object.
+* The garbage collector makes no guarantees, `finalize()` may never run.
+* You can uneligibilize an object for GC from within `finalize()`.
+
+### Q9. When providing a user defined key class for storing objects in the HashMaps or Hashtables, what methods do you have to provide or override (i.e. method overriding)?
+
 
 
 <br>
@@ -410,6 +510,37 @@ public static Boolean valueOf(boolean b) {
   return (b ? Boolean.TRUE : Boolean.FALSE)
 }
 ```
+
+### Q3. What are some of the best practices relating to Java collection?
+1. **Use ArrayList, HashMap etc as opposed to Vector, Hashtable etc, where possible to avoid any synchronization overhead.** Even better is to use just arrays where possible. If multiple threads concurrently access a collection and at least one of the threads either adds or deletes an entry into the collection, then the collection must be externally synchronized. This is achieved by:
+
+```java
+Map myMap = Collections.synchronizedMap (myMap); //conditional thread-safety
+List myList = Collections.synchronizedList (myList); //conditional thread-safety
+// use java.util.concurrent package for J2SE 5.0 Refer Q16 in Java section under ConcurrentModificationException
+```
+
+2. Set the initial capacity of a collection appropriately (e.g. ArrayList, HashMap etc). This is because Collection classes like ArrayList, HashMap etc must grow periodically to accommodate new elements. But if you have a very large array, and you know the size in advance then you can speed things up by setting the initial size appropriately.
+For example: HashMaps/Hashtables need to be created with sufficiently large capacity to minimize rehashing (which happens every time the table grows). HashMap has two parameters initial capacity and load factor that affect its performance and space requirements. Higher load factor values (default load factor of 0.75 provides a good trade off between performance and space) will reduce the space cost but will increase the lookup cost of myMap.get(…) and myMap.put(…) methods. When the number of entries in the HashMap exceeds the current capacity * loadfactor then the capacity of the HasMap is roughly doubled by calling the rehash function. It is also very important not to set the initial capacity too high or load factor too low if iteration performance or reduction in space is important.
+
+3. **Program in terms of interface not implementation:** For example you might decide a LinkedList is the best choice for some application, but then later decide ArrayList might be a better choice for performance reason. 
+
+```java
+//Use:
+List list = new ArrayList(100); // program in terms of interface & set the initial capacity.
+//Instead of:
+ArrayList list = new ArrayList();
+```
+
+4. **Return zero length collections or arrays as opposed to returning null:** Returning null instead of zero length collection (use `Collections.EMPTY_SET`, `Collections.EMPTY_LIST`, `Collections.EMPTY_MAP`) is more error prone, since the programmer writing the calling method might forget to handle a return value of null.
+
+5. **Immutable objects should be used as keys for the HashMap:** Generally you use a `java.lang.Integer` or a `java.lang.String` class as the key, which are immutable Java objects. If you define your own key class then it is a best practice to make the key class an immutable object (i.e. do not provide any setXXX() methods etc). If a programmer wants to insert a new key then he/she will always have to instantiate a new object (i.e. cannot mutate the existing key because immutable key object class has no setter methods).
+
+6. **Encapsulate collections:** In general collections are not immutable objects. So care should be taken not to unintentionally expose the collection fields to the caller.
+
+7. Avoid storing unrelated or different types of objects into same collection
+
+
 
 
 
