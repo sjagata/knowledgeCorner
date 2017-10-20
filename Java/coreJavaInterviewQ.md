@@ -437,11 +437,129 @@ Other languages use pass-by-reference or pass-by-pointer. But in **Java no matte
 
 In Java, if a calling method passes a reference of an object as an argument to the called method then the **passedin reference gets copied first** and then passed to the called method. **Both the original reference that was passed-in and the copied reference will be pointing to the same object. So no matter which reference you use, you will be always modifying the same original object, which is how the pass-by-reference works as well.**
 
+### Q12. What is the difference between an instance variable and a static variable? How does a local variable compare to an instance or a static variable? Give an example where you might use a static variable?
+
+* The lifetime of a **local variable** is determined by execution path and local variables are also known as stack variables because they live on the **stack.**
+* For a local variable, it is illegal for code to fail to assign it a value. It is the best practice to declare local variables only where required as opposed to declaring them upfront and cluttering up your code with some local variables that never get used.
+
+* **Instance and static variables** are associated with objects and therefore live in the **heap.**
+* Both the static and instance variables always have a value. If your code does not assign them a value then the run-time system will implicitly assign a default value (e.g.null/0/0.0/false).
+
+Static Variables and Methods
+* They are not tied to any particular instance of a class.
+* No classes instances are needed in order to use static members of the class.
+* There is only one copy of a static variable / class and all instances share it.
+* static methods do not have direct access to non-static members.
+
+Local Variables 
+* Local (method, automatic, or stack) variable declarations cannot have access modifiers.
+* final is the only modifier available to local variables.
+* Local variables don't get default values, so they must be initialized before use.
+
+Variable Declarations 
+* Instance variables can
+    * Have any access control
+    * Be marked final or transient
+* Instance variables can't be abstract, synchronized, native, or strictfp.
+* It is legal to declare a local variable with the same name as an instance variable; this is called "shadowing."
+* **final variables** have the following properties:
+    * final variables cannot be reinitialized once assigned a value.
+    * final reference variables cannot refer to a different object once the object has been assigned to the final variable.
+    * final reference variables must be initialized before the constructor completes.
+* There is no such thing as a `final` object. An object reference marked final does not mean the object itself is immutable.
+* The `transient` modifier applies only to instance variables.
+* The `volatile` modifier applies only to instance variables.
+
+### Q13. Give an example where you might use a static method?
+Static methods prove useful for creating utility classes, singleton classes and factory methods
+
+### Q14. What are access modifiers?
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/access.png "class object")
+
+Default and protected members differ only when subclasses are involved:
+  * `Default members` can be accessed only by classes in the same package.
+  * `protected members` can be accessed by other classes in the same package, plus subclasses regardless of package.
+  * `protected` = **package plus kids (kids meaning subclasses).**
+  * For subclasses outside the package, the protected member can be accessed only through inheritance; a subclass outside the package cannot access a protected member by using a reference to a superclass instance (in other words, inheritance is the only mechanism for a subclass outside the package to access a protected member of its superclass).
+  * A protected member inherited by a subclass from another package is not accessible to any other class in the subclass package, except for the subclass' own subclasses.
+
+### Q15.What is a final modifier? Explain other Java modifiers?
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/modifiers.png "class object")
+
+The **volatile modifier** is used on instance variables that may be modified simultaneously by other threads. The modifier volatile only synchronizes the variable marked as volatile whereas `synchronized` modifier synchronizes all variables. Since other threads cannot see local variables, there is no need to mark local variables as volatile.
+
+### Q16. What is the difference between final, finally and finalize() in Java?
+* **final -** constant declaration. 
+* **finally -** handles exception. The finally block is optional and provides a mechanism to clean up regardless of what happens within the try block (except System.exit(0) call). Use the finally block to close files or to release other system resources like database connections, statements etc.
+* **finalize() -** method helps in garbage collection. A method that is invoked before an object is discarded by the garbage collector, allowing it to clean up its state. Should not be used to release non-memory resources like file handles, sockets, database connections etc because Java has only a finite number of these resources and you do not know when the garbage collection is going to kick in to release these non-memory resources through the finalize() method. 
+
+### Q17. What is type casting? Explain up casting vs. down casting? When do you get ClassCastException?
+Type casting means treating a variable of one type as though it is another type.
+
+When up casting primitives as shown below from left to right, automatic conversion occurs. But if you go from right to left, down casting or explicit casting is required. Casting in Java is safer than in C or other languages that allow arbitrary casting. Java only lets casts occur when they make sense, such as a cast between a float and an int. However you can't cast between an int and a String (is an object in Java).
+
+byte -> short -> int -> long -> float -> double
+* int i = 5;
+* long j = i; //Right. Up casting or implicit casting
+* byte b1 = i; //Wrong. Compile time error “Type Mismatch”.
+* byte b2 = (byte) i ; //Right. Down casting or explicit casting is required.
+
+When it comes to object references **you can always cast from a subclass to a superclass because a subclass object is also a superclass object.** You can cast an object implicitly to a super class type (i.e. upcasting). If this were not the case polymorphism wouldn’t be possible.
+
+```java
+Vehicle v1 = new Car(); //Right.upcasting or implicit casting
+Vehicle v2 = new Vehicle();
+Car c0 = v1; //Wrong. compile time error "Type Mismatch".
+//Explicit or down casting is required
+Car c1 = (Car)v1; // Right. down casting or explicit casting.
+// v1 has knowledge of Car due to line1
+Car c2 = (Car)v2; //Wrong. Runtime exception ClassCastException
+//v2 has no knowledge of Car.
+Bus b1 = new BMW(); //Wrong. compile time error "Type Mismatch"
+Car c3 = new BMW(); //Right.upcasting or implicit casting
+Car c4 = (BMW)v1; //Wrong. Runtime exception ClassCastException
+Object o = v1; //v1 can only be upcast to its parent or
+Car c5 = (Car)v1; //v1 can be down cast to Car due to line 1.
+```
+
+You can cast down the hierarchy as well but you must explicitly write the cast and the object must be a legitimate instance of the class you are casting to. The `ClassCastException` is thrown to indicate that code has attempted to cast an object to a subclass of which it is not an instance. If you are using J2SE 5.0 then `generics` will eliminate the need for casting and otherwise you can deal with the problem of incorrect casting in two ways:
+* Use the exception handling mechanism to catch ClassCastException.
+
+```java
+try{
+  Object o = new Integer(1);
+  System.out.println((String) o);
+}
+catch(ClassCastException cce) {
+  logger.log(“Invalid casting, String is expected…Not an Integer”);
+  System.out.println(((Integer) o).toString());
+}
+```
+
+* Use the instanceof statement to guard against incorrect casting.
+
+```java
+if(v2 instanceof Car) {
+  Car c2 = (Car) v2;
+}
+```
+
+### Q18. What do you know about the Java garbage collector? When does the garbage collection occur? Explain different types of references in Java?
+Each time an object is created in Java, it goes into the area of memory known as heap. The Java heap is called the garbage collectable heap. The garbage collection cannot be forced. **The garbage collector runs in low memory situations.** When it runs, it releases the memory allocated by an unreachable object. **The garbage collector runs on a low priority daemon** (i.e. background) thread. 
+You can nicely ask the garbage collector to collect garbage by calling **System.gc()** but you can’t force it.
+
+Explain types of references in Java? java.lang.ref package can be used to declare soft, weak and phantom references.
+* Garbage Collector won’t remove a strong reference.
+* A **soft reference** will only get removed if memory is low. So it is useful for implementing caches while avoiding memory leaks.
+* A **weak reference** will get removed on the next garbage collection cycle. Can be used for implementing canonical maps. The `java.util.WeakHashMap` implements a `HashMap` with keys held by weak references.
+* A **phantom reference** will be finalized but the memory will not be reclaimed. Can be useful when you want to be notified that an object is about to be collected.
+
 
 
 
 <br>
 <br>
+
 ## Serialization
 
 * The classes you need to understand are all in the `java.io` package; they include: `ObjectOutputStream` and `ObjectInputStream` primarily, and `FileOutputStream` and `FileInputStream` because you will use them to create the low-level streams that the ObjectXxxStream classes will use.
@@ -484,6 +602,92 @@ public class Car {
   static final long serialVersionUID = 1L; //assign a long value
 }
 ```
+
+### Q2 Explain the Java I/O streaming concept and the use of the decorator design pattern in Java I/O?
+Java input and output is defined in terms of an abstract concept called a `stream`, which is a sequence of data.
+There are 2 kinds of streams.
+* **Byte streams (8 bit bytes)** - Abstract classes are: InputStream and OutputStream
+* **Character streams (16 bit UNICODE)** - Abstract classes are: Reader and Writer
+
+**Design pattern:** `java.io.*` classes use the decorator design pattern. **The decorator design pattern attaches responsibilities to objects at runtime.** Decorators are more flexible than inheritance because the inheritance attaches responsibility to classes at compile time. The `java.io.*` classes use the decorator pattern to construct different combinations of behavior at runtime based on some basic classes.
+
+#### Attaching responsibilities to classes at compile time using subclassing.
+`Inheritance` (aka subclassing) attaches responsibilities to classes at compile time. When you extend a class, each individual changes you make to child class will affect all instances of the child classes. Defining many classes using inheritance to have all possible combinations is problematic and inflexible.
+
+#### Attaching responsibilities to objects at runtime using a decorator design pattern.
+By attaching responsibilities to objects at runtime, you can apply changes to each individual object you want to change.
+
+```java
+File file = new File(“c:/temp”);
+FileInputStream fis = new FileInputStream(file);
+BufferedInputStream bis = new BufferedInputStream(fis);
+```
+
+Decorators decorate an object by enhancing or restricting functionality of an object it decorates. The decorators add or restrict functionality to decorated objects either before or after forwarding the request. At runtime the `BufferedInputStream (bis)`, which is a decorator (aka a wrapper around decorated object), forwards the method call to its decorated object `FileInputStream (fis)`. The `bis` will apply the additional functionality of buffering around the lower level file (i.e. fis) I/O.
+
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/javaIO.png "class object")
+
+### Q3. How does the new I/O (NIO) offer better scalability and better performance?
+Java has long been not suited for developing programs that perform a lot of I/O operations. Furthermore, **commonly needed tasks such as file locking, non-blocking and asynchronous I/O operations and ability to map file to memory were not available.** 
+**Non-blocking I/O operations were achieved through work around such as multithreading or using JNI.** The New I/O API (aka NIO) in J2SE 1.4 has changed this situation. 
+
+A server’s ability to handle several client requests effectively depends on how it uses I/O streams. When a server has to handle hundreds of clients simultaneously, it must be able to use I/O services concurrently. One way to cater for this scenario in Java is to use threads but having almost one-to-one ratio of threads (100 clients will have 100 threads) is prone to enormous thread overhead and can result in performance and scalability problems due to consumption of memory stacks (i.e. each thread has its own stack.) and CPU context switching (i.e. switching between threads as opposed to doing real computation.). 
+
+To overcome this problem, a new set of non-blocking I/O classes have been introduced to the Java platform in `java.nio package`. **The non-blocking I/O mechanism is built around Selectors and Channels.** 
+**Channels, Buffers and Selectors are the core of the NIO.**
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/nio.png "class object")
+
+A **Channel** class represents a bi-directional communication channel (similar to InputStream and OutputStream) between datasources such as a socket, a file, or an application component, which is capable of performing one or more I/O operations such as reading or writing. Channels can be non-blocking, which means, no I/O operation will wait for data to be read or written to the network. The good thing about NIO channels is that they can be asynchronously interrupted and closed. So if a thread is blocked in an I/O operation on a channel, another thread can interrupt that blocked thread.
+
+A **Selector** class enables multiplexing (combining multiple streams into a single stream) and demultiplexing (separating a single stream into multiple streams) I/O events and makes it possible for a single thread to efficiently manage many I/O channels. A Selector monitors selectable channels, which are registered with it for I/O events like connect, accept, read and write. The keys (i.e. Key1, Key2 etc represented by the SelectionKey class) encapsulate the relationship between a specific selectable channel and a specific selector.
+
+**Buffers** hold data. Channels can fill and drain Buffers. Buffers replace the need for you to do your own buffer management using byte arrays. There are different types of Buffers like ByteBuffer, CharBuffer, DoubleBuffer, etc.
+
+`Design pattern`: NIO uses a **reactor design pattern**, which demultiplexes events (separating single stream into multiple streams) and dispatches them to registered object handlers. The **reactor pattern is similar to** an **observer pattern (aka publisher and subscriber design pattern),** but an **observer pattern handles only a single source of events** (i.e. a single publisher with multiple subscribers) where a reactor pattern handles multiple event sources (i.e. multiple publishers with multiple subscribers). The intent of an observer pattern is to define a one-to-many dependency so that when one object (i.e. the publisher) changes its state, all its dependents (i.e. all its subscribers) are notified and updated correspondingly.
+
+Another feature of NIO is its ability to lock and unlock files. Locks can be exclusive or shared and can be held on a contiguous portion of a file. But file locks are subject to the control of the underlying operating system.
+
+### Q4. How can you improve Java I/O performance?
+Java applications that utilize Input/Output are excellent candidates for performance tuning. Profiling of Java applications that handle significant volumes of data will show significant time spent in I/O operations. This means substantial gains can be had from I/O performance tuning. Therefore, I/O efficiency should be a high priority for developers looking to optimally increase performance.
+
+The basic rules for speeding up I/O performance are
+* Minimize accessing the hard disk.
+* Minimize accessing the underlying operating system.
+* Minimize processing bytes and characters individually.
+
+1. Use **buffering** to minimize disk access and underlying operating system. As shown below, with buffering large chunks of a file are read from a disk and then accessed a byte or character at a time.
+
+```java
+// With Buffering: yields better performance
+try{
+  File f = new File("myFile.txt");
+  FileInputStream fis = new FileInputStream(f);
+  BufferedInputStream bis = new BufferedInputStream(fis);
+  int count = 0;
+  int b = 0 ;
+  while((b = bis.read()) != -1){
+    if(b== '\n') {
+      count++;
+    }
+  }
+  //bis should be closed in a finally block.
+  bis.close() ;
+}
+catch(IOException io){}
+
+// Note: bis.read() takes the next byte from the input buffer and only rarely access the underlying operating system.
+```
+2. Use the **NIO package**, if you are using JDK 1.4 or later, which uses performance-enhancing features like buffers to hold data, memory mapping of files, non-blocking I/O operations etc.
+3.  I/O performance can be improved by minimizing the calls to the underlying operating systems. The Java runtime itself cannot know the length of a file, querying the file system for isDirectory(), isFile(), exists() etc must query the underlying operating system.
+4.  Where applicable caching can be used to improve performance by reading in all the lines of a file into a Java Collection class like an ArrayList or a HashMap and subsequently access the data from an in-memory collection instead of the disk.
+
+
+
+
+
+
 
 
 
