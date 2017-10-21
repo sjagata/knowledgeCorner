@@ -83,6 +83,9 @@ Instrumentation module provides class instrumentation support and class loader i
 
 ## spring IoC container types
 
+* Create and manage objects (Inversion of Control)
+* Inject object’s dependencies (Dependency Injection)
+
 Spring IoC container is responsible for create, wire, configure and manage objects during their complete life cycle. It uses configuration metadata for create, configure and manage objects. Configuration metadata can be represented by spring configuration xml file or annotations.
 
 #### Types of Spring IoC container:
