@@ -363,11 +363,11 @@ The join() method of a Thread instance can be used to “join” the start of a 
 * wait(): for multi-thread-synchronization.
 
 ### Java Executor Framework Tutorial and Best Practices
-`Executors framework` (java.util.concurrent.Executor), released with the JDK 5 in package `java.util.concurrent` is used to run the Runnable objects without creating new threads every time and mostly re-using the already created threads.
+`Executors framework` (java.util.concurrent.Executor), released with the JDK 5 in package `java.util.concurrent` is **used to run the Runnable objects without creating new threads every time and mostly re-using the already created threads.**
 
 **Basic usage demo application**
 
-In our demo application, we have two tasks running. Neither is expected to terminate, and both should run for the duration of the application’s life. I will try to write a main wrapper class such that:
+In our demo application, **we have two tasks running. Neither is expected to terminate,** and both should run for the duration of the application’s life. I will try to write a main wrapper class such that:
 
 If any task throws an exception, the application will catch it and restart the task.
 If any task runs to completion, the application will notice and restart the task.
@@ -382,17 +382,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
  
 public class DemoExecutorUsage {
- 
     private static ExecutorService executor = null;
     private static volatile Future taskOneResults = null;
     private static volatile Future taskTwoResults = null;
  
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(2);
-        while (true)
-        {
-            try
-            {
+        while (true){
+            try {
                 checkTasks();
                 Thread.sleep(1000);
             } catch (Exception e) {
@@ -402,17 +399,11 @@ public class DemoExecutorUsage {
     }
  
     private static void checkTasks() throws Exception {
-        if (taskOneResults == null
-                || taskOneResults.isDone()
-                || taskOneResults.isCancelled())
-        {
+        if (taskOneResults == null || taskOneResults.isDone() || taskOneResults.isCancelled()) {
             taskOneResults = executor.submit(new TestOne());
         }
  
-        if (taskTwoResults == null
-                || taskTwoResults.isDone()
-                || taskTwoResults.isCancelled())
-        {
+        if (taskTwoResults == null || taskTwoResults.isDone() || taskTwoResults.isCancelled()) {
             taskTwoResults = executor.submit(new TestTwo());
         }
     }
@@ -420,11 +411,9 @@ public class DemoExecutorUsage {
  
 class TestOne implements Runnable {
     public void run() {
-        while (true)
-        {
+        while (true) {
             System.out.println("Executing task one");
-            try
-            {
+            try {
                 Thread.sleep(1000);
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -436,11 +425,9 @@ class TestOne implements Runnable {
  
 class TestTwo implements Runnable {
     public void run() {
-        while (true)
-        {
+        while (true) {
             System.out.println("Executing task two");
-            try
-            {
+            try {
                 Thread.sleep(1000);
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -451,7 +438,7 @@ class TestTwo implements Runnable {
 ```
 
 ### Executing multiple tasks in a single thread
-It’s not necessary that each Runnable should be executed in a separate thread. Sometimes, we need to do multiple jobs in a single thread and each job is instance of Runnable. To design this type of solution, a multi runnable should be used. This multi runnable is nothing but a collection of runnables which needs to be executed. Only addition is that this multi runnable is also a Runnable itself.
+It’s not necessary that each Runnable should be executed in a separate thread. Sometimes, **we need to do multiple jobs in a single thread and each job is instance of Runnable.** To design this type of solution, a **multi runnable **should be used. This multi runnable is nothing but a **collection of runnables which needs to be executed.** Only addition is that this multi runnable is also a Runnable itself.
 
 Below is the list of tasks which needs to be executed in a single thread.
 
@@ -554,9 +541,7 @@ public class MultiTaskExecutor {
 class RejectedExecutionHandelerImpl implements RejectedExecutionHandler
 {
     @Override
-    public void rejectedExecution(Runnable runnable,
-            ThreadPoolExecutor executor)
-    {
+    public void rejectedExecution(Runnable runnable, ThreadPoolExecutor executor) {
         System.out.println(runnable.toString() + " : I've been rejected ! ");
     }
 }
@@ -571,7 +556,7 @@ class RejectedExecutionHandelerImpl implements RejectedExecutionHandler
 * Please note that the whole point of executors is to abstract away the specifics of execution, so ordering is not guaranteed unless explicitly stated.
 
 ### ScheduledThreadPoolExecutor – Task Scheduling with Executors
-The Java Executor Framework provides the `ThreadPoolExecutor` class to execute Callable and Runnable tasks with a pool of threads, which avoid you writing lots of boiler plate complex code. The way executors work is when you send a task to the executor, it’s executed as soon as possible. But there may be used cases when you are not interested in executing a task as soon as possible. Rather You may want to execute a task after a period of time or to execute a task periodically. For these purposes, the Executor framework provides the `ScheduledThreadPoolExecutor` class.
+The Java Executor Framework provides the `ThreadPoolExecutor` class to execute **Callable and Runnable** tasks with a **pool of threads**, which **avoid you writing lots of boiler plate complex code**. The way executors work is when you send a task to the executor, it’s executed as soon as possible. But there may be used cases when you are not interested in executing a task as soon as possible. Rather You may want to execute a task after a period of time or to execute a task periodically. For these purposes, the Executor framework provides the `ScheduledThreadPoolExecutor` class.
 
 **Task to be executed**
 Let’s write a very basic task which we can use for demo purpose.
@@ -642,13 +627,13 @@ Doing a task during : Demo Task 1 - Time - Wed Mar 25 16:14:12 IST 2015
 Doing a task during : Demo Task 2 - Time - Wed Mar 25 16:14:17 IST 2015
 ```
 
-As with class `ThreadPoolExecutor`, to create a scheduled executor, Java recommends the utilization of the `Executors` class. In this case, you have to use the `newScheduledThreadPool()` method. You have passed the number 1 as a parameter to this method. This parameter is the number of threads you want to have in the pool.
+As with class `ThreadPoolExecutor`, to create a scheduled executor, Java recommends the utilization of the `Executors` class. In this case, you have to use the `newScheduledThreadPool()` method. You have passed the number 1 as a parameter to this method. This parameter is the **number of threads you want to have in the pool.**
 
 To execute a task in this scheduled executor after a period of time, you have to use the `schedule()` method. This method receives the following three parameters:
 
-* The task you want to execute
-* The period of time you want the task to wait before its execution
-* The unit of the period of time, specified as a constant of the TimeUnit class
+* The **task you want to execute**
+* The **period of time** you want the task to wait before its execution
+* The **unit of the period of time**, specified as a constant of the TimeUnit class
 
 Also note that You can also use the `Runnable` interface to implement the tasks, because the `schedule()` method of the `ScheduledThreadPoolExecutor` class accepts both types of tasks.
 
@@ -694,10 +679,10 @@ Doing a task during : Demo Task 1 - Time - Wed Mar 25 16:20:29 IST 2015
 
 In this example, we have created `ScheduledExecutorService` instance just like above example using `newScheduledThreadPool()` method. Then we have used the `scheduledAtFixedRate()` method. This method accepts four parameters:
 
-* the task you want to execute periodically,
-* the delay of time until the first execution of the task,
-* the period between two executions,
-* and the time unit of the second and third parameters.
+* the **task you want to execute periodically**,
+* the **delay of time until the first execution of the task**,
+* the **period between two executions**,
+* and the **time unit of the second and third parameters**.
 
 An important point to consider is that the period between two executions is the period of time between these two executions that begins. If you have a periodic task that takes 5 seconds to execute and you put a period of 3 seconds, you will have two instances of the task executing at a time.
 
@@ -708,12 +693,10 @@ An important point to consider is that the period between two executions is the 
 Obviously, first step is to have a task which you would like to execute using executors.
 
 ```java
-class Task implements Runnable
-{
+class Task implements Runnable {
     private String name;
  
-    public Task(String name)
-    {
+    public Task(String name) {
         this.name = name;
     }
      
@@ -722,16 +705,13 @@ class Task implements Runnable
     }
  
     @Override
-    public void run()
-    {
-        try
-        {
+    public void run() {
+        try {
             Long duration = (long) (Math.random() * 10);
             System.out.println("Doing a task during : " + name);
             TimeUnit.SECONDS.sleep(duration);
         }
-        catch (InterruptedException e)
-        {
+        catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -749,13 +729,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
  
-public class FixedThreadPoolExecutorExample
-{
-    public static void main(String[] args)
-    {
+public class FixedThreadPoolExecutorExample {
+    public static void main(String[] args) {
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             Task task = new Task("Task " + i);
             System.out.println("A new task has been added : " + task.getName());
             executor.execute(task);
@@ -792,9 +769,9 @@ Doing a task during : Task 8
 Doing a task during : Task 9
 ```
 
-1) newFixedThreadPool() method creates an executor with a maximum number of threads at any time. If you send more tasks than the number of threads, the remaining tasks will be blocked until there is a free thread to process them This method receives the maximum number of threads as a parameter you want to have in your executor. In your case, you have created an executor with four threads.
+1) **newFixedThreadPool()** method creates an executor with a maximum number of threads at any time. If you send more tasks than the number of threads, the remaining tasks will be blocked until there is a free thread to process them This method receives the maximum number of threads as a parameter you want to have in your executor. In your case, you have created an executor with four threads.
 
-2) The Executors class also provides the newSingleThreadExecutor() method. This is an extreme case of a fixed-size thread executor. It creates an executor with only one thread, so it can only execute one task at a time.
+2) The Executors class also provides the **newSingleThreadExecutor()** method. This is an extreme case of a fixed-size thread executor. It creates an executor with only one thread, so it can only execute one task at a time.
 
 ### 
 
