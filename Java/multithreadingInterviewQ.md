@@ -1,3 +1,66 @@
+
+### What is the difference between processes and threads?
+A **process** is an execution of a program but a thread is a single execution sequence within the process. A process can contain multiple threads. A **thread** is sometimes called a lightweight process.
+
+A JVM runs in a single process and threads in a JVM share the heap belonging to that process. That is why several threads may access the same object. Threads **share the heap and have their own stack space.** This is how one thread’s invocation of a method and its local variables are kept thread safe from other threads. But the heap is not thread-safe and must be synchronized for thread safety.
+
+
+### Explain different ways of creating a thread?
+Threads can be used by either :
+* Extending the Thread class
+* Implementing the Runnable interface.
+
+```java
+class Counter extends Thread {
+    //method where the thread execution will start
+    public void run(){
+        //logic to execute in a thread
+    }
+    //let’s see how to start the threads
+    public static void main(String[] args){
+        Thread t1 = new Counter();
+        Thread t2 = new Counter();
+        t1.start(); //start the first thread. This calls the run() method.
+        t2.start(); //this starts the 2nd thread. This calls the run() method.
+    }
+}
+
+class Counter extends Base implements Runnable {
+    //method where the thread execution will start
+    public void run(){
+        //logic to execute in a thread
+    }
+    //let us see how to start the threads
+    public static void main(String[] args){
+        Thread t1 = new Thread(new Counter());
+        Thread t2 = new Thread(new Counter());
+        t1.start(); //start the first thread. This calls the run() method.
+        t2.start(); //this starts the 2nd thread. This calls the run() method.
+    }
+}
+```
+
+#### Q. Which one would you prefer and why? 
+The **Runnable** interface is preferred, as it does not require your object to inherit a thread because when you need multiple inheritance, only interfaces can help you. In the above example we had to extend the Base class so implementing Runnable interface is an obvious choice. Also note how the threads are started in each of the different cases as shown in the code sample. In an OO approach you should only extend a class when you want to make it different from it’s superclass, and change it’s behavior. **By implementing a Runnable interface instead of extending the Thread class, you are telling to the user that the class Counter that an object of type Counter will run as a thread.**
+
+### Briefly explain high-level thread states?
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/thread.png "Logo Title Text 1")
+
+* **Runnable —** waiting for its turn to be picked for execution by the thread scheduler based on thread priorities.
+* **Running:** The processor is actively executing the thread code. It runs until it becomes blocked, or voluntarily gives up its turn with this static method Thread.yield(). Because of context switching overhead, yield() should not be used very frequently.
+* **Waiting:** A thread is in a **blocked state** while it waits for some external processing such as file I/O to finish.
+* **Sleeping:** Java threads are forcibly put to sleep (suspended) with this overloaded method:
+    Thread.sleep(milliseconds), Thread.sleep(milliseconds, nanoseconds);
+* **Blocked on I/O:** Will move to runnable after I/O condition like reading bytes of data etc changes.
+* **Blocked on synchronization:** Will move to Runnable when a **lock is acquired.**
+* **Dead:** The thread is finished working.
+
+### What is the difference between yield and sleeping? What is the difference between the methods sleep() and wait()?
+When a task invokes **yield()**, it changes from running state to runnable state. When a task invokes **sleep()**, it changes from running state to waiting/sleeping state.
+
+The method **wait(1000)**, causes the current thread to sleep up to one second. A thread could sleep less than 1 second if it receives the notify() or notifyAll() method call. The call to **sleep(1000)** causes the current thread to sleep for exactly 1 second.
+
 ### What makes java application concurrent?
 The very first class, you will need to make a java class concurrent, is `java.lang.Thread` class. This class is the basis of all concurrency concepts in java. Then you have `java.lang.Runnable` interface to abstract the thread behavior out of thread class.
 
