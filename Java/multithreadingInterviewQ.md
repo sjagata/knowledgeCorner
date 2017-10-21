@@ -97,8 +97,30 @@ The method **wait(1000)**, causes the current thread to sleep up to one second. 
 * The closest thing to a guarantee is that at any given time, when a thread is running it will usually not have a lower priority than any thread in the runnable state. If a low-priority thread is running when a high-priority thread enters runnable, the JVM will usually preempt the running low-priority thread and put the high-priority thread in.
 * When one thread calls the **join()** method of another thread, **the currently running thread will wait until the thread it joins with has completed.** Think of the join() method as saying, "Hey thread, I want to join on to the end of you. Let me know when you're done, so I can enter the runnable state."
 
+
+### What is a daemon thread? 
+**Daemon threads** are sometimes called `service` or `background` threads. These are threads that normally run at a low priority and provide a basic service to a program when activity on a machine is reduced. An **example of a daemon thread** that is continuously running is the **garbage collector thread**. The JVM exits whenever all nondaemon threads have completed, which means that all daemon threads are automatically stopped. To make a thread as a daemon thread in Java 
+
+```java
+myThread.setDaemon(true);
+```
+
+### How can threads communicate with each other? How would you implement a producer (one thread) and a consumer (another thread) passing data (via stack)?
+
+#### Communicating with Objects by Waiting and Notifying
+
+* The **wait()** method lets a thread say, "there's nothing for me to do now, so put me in your waiting pool and notify me when something happens that I care about." Basically, a **wait()** call means "wait me in your pool," or "add me to your waiting list."
+* The **notify()** method is used to send a signal to one and only one of the threads that are waiting in that same object's waiting pool.
+* The **notify()** method can NOT specify which waiting thread to notify.
+* The method **notifyAll()** works in the same way as notify(), only it sends the signal to all of the threads waiting on the object.
+* All three methods—**wait(), notify(), and notifyAll()**—must be called from within a synchronized context! A thread invokes wait() or notify() on a particular object, and the thread must currently hold the lock on that object.
+
+The **wait(), notify(), and notifyAll()** methods are used to provide an efficient way for threads to communicate with each other. This communication solves the `consumer-producer problem`. This problem occurs when the producer thread is completing work that the other thread (consumer thread) will use.
+
 ### What makes java application concurrent?
 The very first class, you will need to make a java class concurrent, is `java.lang.Thread` class. This class is the basis of all concurrency concepts in java. Then you have `java.lang.Runnable` interface to abstract the thread behavior out of thread class.
+
+`Example:` If you imagine an application in which one thread (the producer) writes data to a file while a second thread (the consumer) reads data from the same file. In this example the concurrent threads share the same resource file. Because these threads share the common resource file they should be synchronized. Also these two threads should communicate with each other because the consumer thread, which reads the file, should wait until the producer thread, which writes data to the file and notifies the consumer thread that it has completed its writing operation.
 
 Other classes you will need to build advance applications can be found at `java.util.concurrent` package added in Java 1.5.
 
