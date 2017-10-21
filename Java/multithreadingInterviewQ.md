@@ -6,6 +6,15 @@ A JVM runs in a single process and threads in a JVM share the heap belonging to 
 
 
 ### Explain different ways of creating a thread?
+
+#### Defining, Instantiating, and Starting Threads 
+
+* Threads can be created by **extending Thread and overriding the public void run() method.**
+* Thread objects can also be created **by calling the Thread constructor that takes a Runnable argument. The Runnable object is said to be the target of the thread.**
+* You can call **start()** on a Thread object only once. If start() is called more than once on a Thread object, it will throw a **RuntimeException**.
+* It is legal to create many Thread objects using the same Runnable object as the target.
+* When a Thread object is created, it does not become a thread of executionuntil its start() method is invoked. When a Thread object exists but hasn't been started, it is in the new state and is not considered alive.
+
 Threads can be used by either :
 * Extending the Thread class
 * Implementing the Runnable interface.
@@ -58,10 +67,35 @@ The **Runnable** interface is preferred, as it does not require your object to i
 * **Blocked on synchronization:** Will move to Runnable when a **lock is acquired.**
 * **Dead:** The thread is finished working.
 
+#### Transitioning Between Thread States 
+
+* Once a new thread is started, it will always enter the **runnable state.**
+* The **thread scheduler** can move a thread back and forth between the runnable state and the running state.
+* For a typical single-processor machine, only one thread can be running at a time, although many threads may be in the runnable state.
+* There is **no guarantee that the order in which threads were started** determines the order in which they'll run.
+* There's no guarantee that threads will take turns in any fair way. It's up to the thread scheduler, as determined by the particular virtual machine implementation. If you want a guarantee that your threads will take turns regardless of the underlying JVM, you can use the sleep() method. This prevents one thread from hogging the running process while another thread starves. (In most cases, though, yield() works well enough to encourage your threads to play together nicely.)
+* A running thread may enter a **blocked/waiting** state by a **wait(), sleep(), or join()** call.
+* A running thread may enter a **blocked/waiting** state because it can't acquire the **lock for a synchronized block of code.**
+* When the sleep or wait is over, or an object's lock becomes available, the thread can only reenter the runnable state. It will go directly from waiting to running (well, for all practical purposes anyway).
+* **A dead thread cannot be started again.**
+
 ### What is the difference between yield and sleeping? What is the difference between the methods sleep() and wait()?
 When a task invokes **yield()**, it changes from running state to runnable state. When a task invokes **sleep()**, it changes from running state to waiting/sleeping state.
 
 The method **wait(1000)**, causes the current thread to sleep up to one second. A thread could sleep less than 1 second if it receives the notify() or notifyAll() method call. The call to **sleep(1000)** causes the current thread to sleep for exactly 1 second.
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/thread2.png "class object")
+
+#### Sleep, Yield, and Join
+
+* Sleeping is used to delay execution for a period of time, and **no locks are released when a thread goes to sleep.**
+* A sleeping thread is guaranteed to sleep for at least the time specified in the argument to the sleep() method (unless it's interrupted), but there is no guarantee as to when the newly awakened thread will actually return to running.
+* The **sleep()** method is a **static method** that sleeps the currently executing thread's state. One thread cannot tell another thread to sleep.
+* The **setPriority()** method is used on Thread objects to give threads a priority of between 1 (low) and 10 (high), although priorities are not guaranteed, and not all JVMs recognize 10 distinct priority levels—some levels may be treated as effectively equal.
+* If not explicitly set, a thread's priority will have the same priority as the priority of the thread that created it.
+* The **yield()** method may cause a **running thread to back out if there are runnable threads of the same priority.** There is no guarantee that this will happen, and there is no guarantee that when the thread backs out there will be a different thread selected to run. A thread might yield and then immediately reenter the running state.
+* The closest thing to a guarantee is that at any given time, when a thread is running it will usually not have a lower priority than any thread in the runnable state. If a low-priority thread is running when a high-priority thread enters runnable, the JVM will usually preempt the running low-priority thread and put the high-priority thread in.
+* When one thread calls the **join()** method of another thread, **the currently running thread will wait until the thread it joins with has completed.** Think of the join() method as saying, "Hey thread, I want to join on to the end of you. Let me know when you're done, so I can enter the runnable state."
 
 ### What makes java application concurrent?
 The very first class, you will need to make a java class concurrent, is `java.lang.Thread` class. This class is the basis of all concurrency concepts in java. Then you have `java.lang.Runnable` interface to abstract the thread behavior out of thread class.
