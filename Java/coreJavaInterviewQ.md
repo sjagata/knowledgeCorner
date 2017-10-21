@@ -1001,6 +1001,21 @@ public myMethod() throws MyException {…}
 ```
 
 
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/exception1.png "class object")
+
+#### Handling Exceptions 
+
+* Exceptions come in two flavors: **checked** and **unchecked**.
+* **Checked exceptions** include all **subtypes of Exception, excluding classes that extend RuntimeException.**
+* **Checked exceptions** are subject to the handle or declare rule; any method that might throw a checked exception (including methods that invoke methods that can throw a checked exception) must either declare the exception using throws, or handle the exception with an appropriate try/catch.
+* **Subtypes of Error or RuntimeException** are **unchecked**, so the compiler doesn't enforce the handle or declare rule. You're free to handle them, or to declare them, but the compiler doesn't care one way or the other.
+* If you use an optional finally block, it will always be invoked, regardless of whether an exception in the corresponding try is thrown or not, and regardless of whether a thrown exception is caught or not.
+* The only exception to the finally-will-always-be-called rule is that a finally will not be invoked if the JVM shuts down. That could happen if code from the try or catch blocks calls System.exit().
+* Just because finally is invoked does not mean it will complete. Code in the finally block could itself raise an exception or issue a **System.exit()**.
+* Uncaught exceptions propagate back through the call stack, starting from the method where the exception is thrown and ending with either the first method that has a corresponding catch for that exception type or a JVM shutdown (which happens if the exception gets to main(), and main() is `ducking` the exception by declaring it).
+* You can create your **own exceptions**, normally by extending Exception or one of its subtypes. Your exception will then be considered a **checked exception**, and the **compiler will enforce the handle or declare rule for that exception.**
+* All catch blocks must be ordered from most specific to most general. If you have a catch clause for both IOException and Exception, you must put the catch for IOException first in your code. Otherwise, the IOException would be caught by catch(Exception e), because a catch argument can catch the specified exception or any of its subtypes! The compiler will stop you from defining catch clauses that can never be reached.
+* Some exceptions are created by programmers, some by the JVM.
 
 
 
