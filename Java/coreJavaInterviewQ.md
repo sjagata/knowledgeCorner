@@ -720,6 +720,16 @@ Java provides an implementation of read-write lock in the form of `ReentrantRead
 
 Also, the current implementation of `java.util.ConcurrentHashMap` doesn't use the ReadWriteLock, instead, it divides the Map into several segments and locks them separately using different locks. This means any given time, **only a portion of the ConcurrentHashMap is locked, instead of the whole Map.** See [how ConcurrentHashMap internally works in Java](http://javarevisited.blogspot.com/2013/02/concurrenthashmap-in-java-example-tutorial-working.html) for more detail. 
 
+* Underlying Data structure is Hashtable.
+* ConcurrentHashmap allows Concurrent Read and Thread Safe Update Operations.
+* To Perform Read Operations thread won't require any lock. But to perform update operration thread requires lock but it is lock of only a particular part of Map (Bucket level lock)
+* Instead of whole map concurrent update achieved by internally dividing Mao into smaller portion which is defined by Concurrency level.
+* The default concurrency level is 16.
+* That is concurrenthashmap allows simultaneous read operations and simultaneously 16 write(update) operations.
+* Null is not allowed for both Keys and Values.
+* While one thread iterating the other thread can perform update operation and concurrentHashMap Never throw **ConcurrentModificationException**
+
+
 **Arrays**
 * Java arrays are even faster than using an `ArrayList/Vector` and perhaps therefore may be preferable if you know the size of your array upfront (because arrays cannot grow as Lists do).
 * In an array, any item can be accessed.
