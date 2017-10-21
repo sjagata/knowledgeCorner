@@ -119,6 +119,12 @@ The **wait(), notify(), and notifyAll()** methods are used to provide an efficie
 
 `Example:` If you imagine an application in which one thread (the producer) writes data to a file while a second thread (the consumer) reads data from the same file. In this example the concurrent threads share the same resource file. Because these threads share the common resource file they should be synchronized. Also these two threads should communicate with each other because the consumer thread, which reads the file, should wait until the producer thread, which writes data to the file and notifies the consumer thread that it has completed its writing operation.
 
+### Callable vs Runnable ?
+The Callable interface is similar to Runnable, in that both are designed for classes whose instances are potentially executed by another thread. A Runnable, however, does not return a result and cannot throw a checked exception.
+* A Callable needs to implement call() method while a Runnable needs to implement run() method.
+* A Callable can throw checked exception but a Runnable cannot.
+
+
 ### What makes java application concurrent?
 The very first class, you will need to make a java class concurrent, is `java.lang.Thread` class. This class is the basis of all concurrency concepts in java. Then you have `java.lang.Runnable` interface to abstract the thread behavior out of thread class.
 
