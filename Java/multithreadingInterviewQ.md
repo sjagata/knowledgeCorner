@@ -45,7 +45,9 @@ The **Runnable** interface is preferred, as it does not require your object to i
 
 ### Briefly explain high-level thread states?
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/thread.png "Logo Title Text 1")
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/thread.png "class object")
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/thread1.png "class object")
 
 * **Runnable —** waiting for its turn to be picked for execution by the thread scheduler based on thread priorities.
 * **Running:** The processor is actively executing the thread code. It runs until it becomes blocked, or voluntarily gives up its turn with this static method Thread.yield(). Because of context switching overhead, yield() should not be used very frequently.
