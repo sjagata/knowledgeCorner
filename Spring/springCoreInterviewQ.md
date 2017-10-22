@@ -275,6 +275,94 @@ There are loads of different design patterns used, but there are a few obvious o
 * **Dependency injection** – Center to the whole BeanFactory / ApplicationContext concepts.
 * **Factory pattern** – BeanFactory for creating instance of an object.
 
+### 13. What does a Spring Bean definition contain?
+A Spring Bean definition contains all configuration metadata which is needed for the container to know how to create a bean, its lifecycle details and its dependencies.
+
+### 14. How do you define the scope of a bean?
+When defining a `<bean>` in Spring, we can also declare a scope for the bean. It can be defined through the `scope` attribute in the bean definition. For example, when Spring has to produce a new bean instance each time one is needed, the bean’s `scope` attribute to be `prototype`. On the other hand, when the same instance of a bean must be returned by Spring every time it is needed, the the bean `scope` attribute must be set to singleton.
+
+### 15. Explain the bean scopes supported by Spring?
+There are five scoped provided by the Spring Framework supports following five scopes:
+* In **singleton scope**, Spring scopes the bean definition to a single instance per Spring IoC container.
+* In **prototype scope**, a single bean definition has any number of object instances.
+* In **request scope**, a bean is defined to an HTTP request. This scope is valid only in a web-aware Spring ApplicationContext.
+* In **session scope**, a bean definition is scoped to an HTTP session. This scope is also valid only in a web-aware Spring ApplicationContext.
+* In **global-session scope**, a bean definition is scoped to a global HTTP session. This is also a case used in a web-aware Spring ApplicationContext.
+
+The **default scope** of a Spring Bean is **Singleton**.
+
+### 16. Are Singleton beans thread safe in Spring Framework?
+No, singleton beans are not thread-safe in Spring framework.
+
+### 17. Explain Bean lifecycle in Spring framework
+1. The spring container finds the bean’s definition from the XML file and instantiates the bean.
+2. Spring populates all of the properties as specified in the bean definition (DI).
+3. If the bean implements `BeanNameAware` interface, spring passes the bean’s id to `setBeanName()` method.
+4. If Bean implements `BeanFactoryAware` interface, spring passes the beanfactory to `setBeanFactory()` method.
+5. If there are any bean `BeanPostProcessors` associated with the bean, Spring calls `postProcesserBeforeInitialization()` method.
+6. If the bean implements `IntializingBean`, its `afterPropertySet()` method is called. If the bean has init method declaration, the specified initialization method is called.
+7. If there are any `BeanPostProcessors` associated with the bean, their `postProcessAfterInitialization()` methods will be called.
+7. If the bean implements `DisposableBean`, it will call the destroy() method.
+
+
+### 18. Which are the important beans lifecycle methods? Can you override them?
+There are two important bean lifecycle methods. 
+
+* The first one is **setup** which is **called when the bean is loaded in to the container.** 
+* The second method is the **teardown** method which is **called when the bean is unloaded from the container.**
+
+The bean tag has two important attributes (**init-method** and **destroy-method**) with **which you can define your own custom initialization and destroy methods.** There are also the correspondive annotations(**@PostConstruct** and **@PreDestroy**).
+
+### 19. What are inner beans in Spring?
+When a bean is only used as a property of another bean it can be declared as an inner bean. Spring’s XML-based configuration metadata provides the use of `<bean/>` element inside the `<property/>` or `<constructor-arg/>` elements of a bean definition, in order to define the so-called inner bean. **Inner beans** are always anonymous and they are always **scoped as prototypes**.
+
+### 20. Explain the RowCallbackHandler in Spring?
+The RowCallbackHandler is called for each row in ResultSet and is used to read values from the ResultSet.
+
+<br>
+<br>
+
+## Spring Data Access
+
+### 1. How can JDBC be used more efficiently in the Spring framework?
+When using the Spring JDBC framework the burden of resource management and error handling is reduced. So **developers only need to write the statements and queries to get the data to and from the database.** JDBC can be used more efficiently with the help of a template class provided by Spring framework, which is the **JdbcTemplate**.
+
+### 2. JdbcTemplate
+`JdbcTemplate` class provides many convenience methods for doing things such as converting database data into primitives or objects, executing prepared and callable statements, and providing custom database error handling.
+
+### 3. What are the ways to access Hibernate by using Spring?
+There are two ways to access Hibernate with Spring:
+
+* Inversion of Control with a Hibernate Template and Callback.
+* Extending `HibernateDAOSupport` and Applying an AOP Interceptor node.
+
+### 4. ORM’s Spring support
+Spring supports the following ORM’s:
+1. Hibernate
+2. iBatis
+3. JPA (Java Persistence API)
+4. TopLink
+5. JDO (Java Data Objects)
+6. OJB
+
+### 5. How can we integrate Spring and Hibernate using HibernateDaoSupport?
+Use Spring’s `SessionFactory` called `LocalSessionFactory`. The integration process is of 3 steps:
+* Configure the Hibernate `SessionFactory`
+* Extend a DAO Implementation from `HibernateDaoSupport`
+* Wire in Transaction Support with AOP
+
+### 6. Types of the transaction management Spring support
+Spring supports two types of transaction management:
+
+* **Programmatic transaction management:** This means that you have managed the transaction with the help of programming. That gives you extreme flexibility, but it is difficult to maintain.
+* **Declarative transaction management:** This means you separate transaction management from the business code. You only use annotations or XML based configuration to manage the transactions.
+
+### 7. Which Transaction management type is more preferable?
+Most users of the Spring Framework choose declarative transaction management because it is the option with the least impact on application code, and hence is most consistent with the ideals of a non-invasive lightweight container. Declarative transaction management is preferable over programmatic transaction management though it is less flexible than programmatic transaction management, which allows you to control transactions through your code.
+
+
+
+
 
 
 
