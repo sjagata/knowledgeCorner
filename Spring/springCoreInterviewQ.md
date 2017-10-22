@@ -203,20 +203,18 @@ public class Customer
 ### 9. Difference between constructor injection and setter injection?
 Please find below the noticeable differences:
 
-* In Setter Injection, partial injection of dependencies can possible, means if we have 3 dependencies like int, string, long, then its not necessary to inject all values if we use setter injection. If you are not inject it will takes default values for those primitives. In constructor injection, partial injection of dependencies is not possible, because for calling constructor we must pass all the arguments right, if not so we may get error.
-* Setter Injection will overrides the constructor injection value, provided if we write setter and constructor injection for the same property. But, constructor injection cannot overrides the setter injected values. It’s obvious because constructors are called to first to create the instance.
-* Using setter injection you can not guarantee that certain dependency is injected or not, which means you may have an object with incomplete dependency. On other hand constructor Injection does not allow you to construct object, until your dependencies are ready.
-* In constructor injection, if Object A and B are dependent each other i.e A is depends on B and vice-versa, Spring throws ObjectCurrentlyInCreationException while creating objects of A and B because A object cannot be created until B is created and vice-versa. So spring can resolve circular dependencies through setter-injection because Objects are constructed before setter methods invoked.
+* In **Setter Injection**, **partial injection of dependencies can possible**, means if we have 3 dependencies like int, string, long, then its not necessary to inject all values if we use setter injection. If you are not inject it will takes default values for those primitives. In **constructor injection**, **partial injection of dependencies is not possible**, because for calling constructor we must pass all the arguments right, if not so we may get error.
+* **Setter Injection will overrides the constructor injection value**, provided if we write setter and constructor injection for the same property. But, **constructor injection cannot overrides the setter injected values.** It’s obvious because constructors are called to first to create the instance.
+* Using **setter injection you can not guarantee that certain dependency is injected or not**, which means you **may have an object with incomplete dependency**. On other hand **constructor Injection does not allow you to construct object, until your dependencies are ready.**
+* In **constructor injection**, if Object A and B are dependent each other i.e A is depends on B and vice-versa, Spring throws **ObjectCurrentlyInCreationException** while creating objects of A and B because A object cannot be created until B is created and vice-versa. So **spring can resolve circular dependencies through setter-injection** because Objects are constructed before setter methods invoked.
 
 ### 10. What are the different types of events in spring framework?
 Spring’s `ApplicationContext` provides the functionality to support events and listeners in code. We can create beans that listen for events which are published through our `ApplicationContext`. Event handling in the `ApplicationContext` is provided through the `ApplicationEvent` class and `ApplicationListener` interface. So if a bean implements the ApplicationListener, then every time an `ApplicationEvent` gets published to the `ApplicationContext`, that bean is notified.
 
 ```java
-public class AllApplicationEventListener implements ApplicationListener < ApplicationEvent >
-{
+public class AllApplicationEventListener implements ApplicationListener < ApplicationEvent >{
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent)
-    {
+    public void onApplicationEvent(ApplicationEvent applicationEvent){
         //process event
     }
 }
@@ -233,10 +231,8 @@ Spring provides the following **5 standard events**:
 Apart from above, you can create your own custom events by extending `ApplicationEvent` class. e.g.
 
 ```java
-public class CustomApplicationEvent extends ApplicationEvent
-{
-    public CustomApplicationEvent ( Object source, final String msg )
-    {
+public class CustomApplicationEvent extends ApplicationEvent {
+    public CustomApplicationEvent ( Object source, final String msg ) {
         super(source);
         System.out.println("Created a Custom event");
     }
@@ -246,8 +242,7 @@ public class CustomApplicationEvent extends ApplicationEvent
 To listen this event, create a listener like this:
 
 ```java
-public class CustomEventListener implements ApplicationListener < CustomApplicationEvent >
-{
+public class CustomEventListener implements ApplicationListener < CustomApplicationEvent > {
     @Override
     public void onApplicationEvent(CustomApplicationEvent applicationEvent) {
         //handle event
