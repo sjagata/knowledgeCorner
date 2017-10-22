@@ -754,25 +754,28 @@ List<Address> studentAddressList = student.getAddress()
 
 ## Spring AOP tutorial
 
-AOP refers to Aspect Oriented Programming which behaves like OOPs as both provides the concept of modularity. But the difference is it uses aspect rather than class for the unit of modularity.
-Aspect Oriented Programming breaks down program logic into distinct parts called concerns. A cross-cutting concerns are aspects of a program that affect other concerns like transaction management, authentication, logging etc.
+AOP refers to **Aspect Oriented Programming** which behaves like OOPs as both provides the concept of modularity. But the difference is it **uses aspect rather than class for the unit of modularity.**
 
-Spring AOP module provides the facility to add extra functionality before or after the method execution.
+Aspect Oriented Programming **breaks down program logic into distinct parts called concerns.** 
+
+**A cross-cutting concerns are aspects of a program that affect other concerns like transaction management, authentication, logging etc.**
+
+Spring AOP module provides the **facility to add extra functionality before or after the method execution.**
 Note: Aspect Oriented Programming AOP is like triggers in programming languages like java, Perl, .NET etc.
 
 **AOP Terminologies:**
 
 ### Aspect:
-An aspect represents a class that contains advices, join points etc like transaction management. An aspect can be configured through Spring XML configuration or spring AspectJ integration.
+An aspect represents a class that contains **advices**, **join points** etc like transaction management. An aspect can be configured through Spring XML configuration or spring AspectJ integration.
  
 ### Join point:
-Joint point represents a point in our application where we can plug-in AOP aspect. It can be method execution, exception handling, field access etc. Spring AOP only supports method execution joint type.
+Joint point represents a **point in our application where we can plug-in AOP aspect.** It can be **method execution**, **exception handling**, **field access** etc. Spring AOP only supports method execution joint type.
  
 ### Advice:
-It represents the actual action to be taken by an aspect at a particular join point. In programming point view it represents the methods to be executed at a particular join point.
+It represents the **actual action to be taken by an aspect at a particular join point.** In programming point view it represents the methods to be executed at a particular join point.
  
 ### Pointcut:
-It represents the expression which is matched with join points to determine whether advice to be executed or not.
+It represents the **expression which is matched with join points to determine whether advice to be executed or not.**
  
 ### Introduction:
 It provides the facility to add new methods or attributes to existing classes.
@@ -781,7 +784,7 @@ It provides the facility to add new methods or attributes to existing classes.
 It is an object on which advices are applied. It always be proxied object in spring because Spring AOP is implemented using runtime proxies.
  
 ### Weaving:
-Weaving is the process of linking aspects with other application types or objects to create the advised proxy objects. This can be done at compile time, load time or at runtime. Spring AOP performs weaving at the runtime.
+Weaving is the **process of linking aspects with other application types or objects to create the advised proxy objects.** This can be done at compile time, load time or at runtime. **Spring AOP performs weaving at the runtime.**
 
 **AOP Advice Types:**
 
@@ -853,9 +856,7 @@ BeforeAdviceTest.java
 
 ```java
 package springframework.aop;
-
 import java.lang.reflect.Method;
-
 import org.springframework.aop.MethodBeforeAdvice;
 
 public class BeforeAdviceTest implements MethodBeforeAdvice {
@@ -899,9 +900,7 @@ AfterReturningAdviceTest.java
 
 ```java
 package springframework.aop;
-
 import java.lang.reflect.Method;
-
 import org.springframework.aop.AfterReturningAdvice;
 
 public class AfterReturningAdviceTest implements AfterReturningAdvice {
@@ -938,9 +937,7 @@ AfterThrowingAdviceTest.java
 
 ```java
 package springframework.aop;
-
 import java.lang.reflect.Method;
-
 import org.springframework.aop.ThrowsAdvice;
 
 public class AfterThrowingAdviceTest implements ThrowsAdvice {
@@ -977,7 +974,6 @@ AroundAdviceTest.java
 
 ```java
 package springframework.aop;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -1100,16 +1096,16 @@ applicationContext.xml
 
 ```java
 <aop:config>
-		<aop:aspect id="log" ref="adviceTest">
-			<aop:pointcut id="selectAll" expression="execution(* springframework.aop.*.*(..))" />
-			<aop:before pointcut-ref="selectAll" method="beforeAdvice" />
-			<aop:after pointcut-ref="selectAll" method="afterAdvice" />
-			<aop:after-returning pointcut-ref="selectAll" returning="retVal" method="afterReturningAdvice" />
-			<aop:after-throwing pointcut-ref="selectAll" throwing="ex" method="afterThrowingAdvice" />
-		</aop:aspect>
-	</aop:config>
+	<aop:aspect id="log" ref="adviceTest">
+		<aop:pointcut id="selectAll" expression="execution(* springframework.aop.*.*(..))" />
+		<aop:before pointcut-ref="selectAll" method="beforeAdvice" />
+		<aop:after pointcut-ref="selectAll" method="afterAdvice" />
+		<aop:after-returning pointcut-ref="selectAll" returning="retVal" method="afterReturningAdvice" />
+		<aop:after-throwing pointcut-ref="selectAll" throwing="ex" method="afterThrowingAdvice" />
+	</aop:aspect>
+</aop:config>
 
-	<bean id="adviceTest" class="springframework.aop.AdviceAnnotationTest" />
+<bean id="adviceTest" class="springframework.aop.AdviceAnnotationTest" />
 ```
 
 
