@@ -847,9 +847,150 @@ public class App {
 }
 ```
 
+<br>
+<br>
+
 ### Volatile keyword
 
 **The volatile modifier guarantees that any thread that reads a field will see the most recently written value.**
+
+<br>
+<br>
+
+### ArrayBlockingQueue
+
+* Thread safe implementation of `java.util.Queue` data structure so you do not need to worry about synchronization. More specifically `java.util.concurrent.BlockingQueue` implementations are thread-safe. 
+* All queuing methods are atomic in nature and use internal locks or other forms of concurrency control. 
+* If `BlockingQueue` is not used queue is shared data structure either `synchronized` or `wait()` `notify()` should be used. * Java 1.5 introduced a new concurrency library `java.util.concurrent` which was designed to provide a higher level abstraction over the wait/notify mechanism.
+
+```java
+public class C7_ProducerConsumer {
+    private static BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(10);
+
+    public static void main(String[] args) throws InterruptedException {
+
+        Thread t1 = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    producer();
+                } catch (InterruptedException ignored) {}
+            }
+        });
+        Thread t2 = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    consumer();
+                } catch (InterruptedException ignored) {}
+            }
+        });
+        t1.start();
+        t2.start();
+//        t1.join();
+//        t2.join();
+
+        // Pause for 30 seconds and force quitting the app (because we're looping infinitely)
+        Thread.sleep(30000);
+        System.exit(0);
+    }
+
+    private static void producer() throws InterruptedException {
+        Random random = new Random();
+        while (true) {//loop indefinitely
+            queue.put(random.nextInt(100));//if queue is full (10) waits
+        }
+    }
+
+    private static void consumer() throws InterruptedException {
+        Random random = new Random();
+        while (true) {
+            Thread.sleep(100);
+            if (random.nextInt(10) == 0) {
+                Integer value = queue.take();//if queue is empty waits
+                System.out.println("Taken value: " + value + "; Queue size is: " + queue.size());
+            }
+        }
+    }
+}
+```
+
+```java
+// Using wait() and notify()
+
+public class Processor {	
+	public void produce() throws InterruptedException {
+		synchronized (this) {
+			System.out.println("Producer thread running ....");
+			wait();// this.wait() is fine.
+			System.out.println("Resumed.");
+		}
+	}
+
+	public void consume() throws InterruptedException {
+		Scanner scanner = new Scanner(System.in);
+		Thread.sleep(2000);
+		synchronized (this) {
+			System.out.println("Waiting for return key.");
+			scanner.nextLine();
+			System.out.println("Return key pressed.");
+			notify();
+			Thread.sleep(5000);
+			System.out.println("Consumption done.");
+		}
+	}
+}
+```
+
+<br>
+<br>
+
+### LowLevelProducerConsumer
+
+```java
+public class Processor {
+	private LinkedList<Integer> list = new LinkedList<>();
+	private final int LIMIT = 10;
+	private final Object lock = new Object();
+
+	public void produce() throws InterruptedException {
+		int value = 0;
+		while (true) {
+			synchronized (lock) {
+				// whenever the thread is notified starts again from the loop
+				while (list.size() == LIMIT) {
+					lock.wait();// wait() is also true
+				}
+				list.add(value);
+
+				System.out.println("Producer added: " + value + " queue size is " + list.size());
+				value++;
+				lock.notify();
+			}
+		}
+	}
+
+	public void consume() throws InterruptedException {
+		Random random = new Random();
+		while (true) {
+			synchronized (lock) {
+				while (list.size() == 0) {
+					lock.wait();
+				}
+
+				int value = list.removeFirst();
+				System.out.print("Removed value by consumer is: " + value);
+				System.out.println(" Now list size is: " + list.size());
+				lock.notify();
+			}
+			Thread.sleep(random.nextInt(1000)); // force producer fill the queue
+												// to LIMIT_SIZE
+		}
+	}
+}
+```
+
+<br>
+<br>
+
 
 ### Re-entrant locking
 A reentrant lock is one where a process can claim the lock multiple times without blocking on itself. It's useful in situations where it's not easy to keep track of whether you've already grabbed a lock. If a lock is non re-entrant you could grab the lock, then block when you go to grab it again, effectively deadlocking your own process.
@@ -963,27 +1104,132 @@ public class App {
 }
 ```
 
+<br>
+<br>
+
+### Semaphore
+A Semaphore is a **thread synchronization construct that can be used either to send signals between threads to avoid missed signals, or to guard a critical section like you would with a lock.** Java 5 comes with semaphore implementations in the `java.util.concurrent` package so you don't have to implement your own semaphores. Still, it can be useful to know the theory behind their implementation and use.
+
+```java
+public class Semaphore {
+  private boolean signal = false;
+
+  public synchronized void take() {
+    this.signal = true;
+    this.notify();
+  }
+
+  public synchronized void release() throws InterruptedException{
+    while(!this.signal) wait();
+    this.signal = false;
+  }
+
+}
+```
+
+The `take()` method sends a signal which is stored internally in the Semaphore. The `release()` method waits for a signal. When received the signal flag is cleared again, and the `release()` method exited.
+
+Using a semaphore like this you can **avoid missed signals.** You will call `take()` instead of **notify()** and `release()` instead of **wait()**. If the call to `take()` happens before the call to `release()` the thread calling `release()` will still know that `take()` was called, because the signal is stored internally in the signal variable. This is not the case with wait() and notify().
+
+The names `take()` and `release()` may seem a bit odd when using a semaphore for signaling. The names origin from the use of semaphores as locks.
 
 
+limit connections to **10**, **true** means whichever thread gets first in the waiting pool (queue) waiting to acquire a resource, is first to obtain the permit. Note that I called it a pool! The reason is when you say "Queue", you're saying that things are scheduled to be FIFO (First In First Out) .. which is not always the case here! When you initialize the semaphore with Fairness, by setting its second argument to true, it will treat the waiting threads like FIFO. But, it doesn't have to be that way if you don't set on the fairness. the JVM may schedule the waiting threads in some other manner that it sees best (See the Java specifications for that).
 
+```java
+public class Connectionn {
+	private static Connectionn instance = new Connectionn();
+	private Semaphore sem = new Semaphore(10, true);
 
+	private Connectionn() {
+	}
 
+	public static Connectionn getInstance() {
+		return instance;
+	}
 
+	public void connect() {
+		try {
 
+			// get permit decrease the sem value, if 0 wait for release
+			sem.acquire();
 
+			System.out.printf("%s:: Current connections (max 10 allowed): %d\n", Thread.currentThread().getName(),
+					sem.availablePermits());
 
+			// do your job
+			System.out.printf("%s:: WORKING...\n", Thread.currentThread().getName());
+			Thread.sleep(2000);
 
+			System.out.printf("%s:: Connection released. Permits Left = %d\n", Thread.currentThread().getName(),
+					sem.availablePermits());
 
+		} catch (InterruptedException ignored) {
+		} finally {
+			// release permit, increase the sem value and activate waiting thread
+			sem.release();
+		}
+	}
 
+}
+```
 
+<br>
+<br>
 
+### CallableAndFuture
 
+A **Future** represents the result of an asynchronous computation. 
+Methods are provided to check if the computation is complete, to wait for its completion, and to retrieve the result of the computation. The result can only be retrieved using method get when the computation has completed, blocking if necessary until it is ready. Cancellation is performed by the cancel method. Additional methods are provided to determine if the task completed normally or was cancelled. Once a computation has completed, the computation cannot be cancelled. If you would like to use a Future for the sake of cancellability but not provide a usable result, you can declare types of the form Future<?> and return null as a result of the underlying task.
 
+ **Callable** A task that returns a result and may throw an exception. Implementors define a single method with no arguments called call.
 
+The **Callable interface** is similar to `java.lang.Runnable`, in that both are designed for classes whose instances are potentially executed by another thread. A Runnable, however, does not return a result and cannot throw a checked exception.
 
+```java
 
+public class App {
 
+	public static void main(String[] args) throws InterruptedException {
+		ExecutorService executor = Executors.newCachedThreadPool();
 
+		// anonymous call of Callable
+		Future<Integer> future = executor.submit(new Callable<Integer>() {
+
+			@Override
+			// return value is Integer
+			public Integer call() throws TimeoutException {
+				Random random = new Random();
+				int duration = random.nextInt(4000);
+				if (duration > 2000) {
+					throw new TimeoutException("Sleeping for too long.");
+				}
+
+				System.out.println("Starting ...");
+				try {
+					Thread.sleep(duration);
+				} catch (InterruptedException ignored) {
+				}
+				System.out.println("Finished.");
+				return duration;
+			}
+		});
+
+		executor.shutdown();
+		// executor.awaitTermination(1, TimeUnit.DAYS);
+		try {
+			// get returned value from call()
+			System.out.println("Result is: " + future.get());
+
+		} catch (InterruptedException ignored) {
+		} catch (ExecutionException e) {
+			TimeoutException ex = (TimeoutException) e.getCause();
+			System.out.println(ex.getMessage());
+		}
+	}
+
+}
+```
 
 
 
