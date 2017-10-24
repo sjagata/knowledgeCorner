@@ -779,12 +779,189 @@ Doing a task during : Task 9
 
 2) The Executors class also provides the **newSingleThreadExecutor()** method. This is an extreme case of a fixed-size thread executor. It creates an executor with only one thread, so it can only execute one task at a time.
 
-### 
+### How is CountDownLatch used in Java Multithreading?
 
+`CountDownLatch` works in latch principle, main thread will wait until gate is open. One thread waits for n number of threads specified while creating CountDownLatch in Java.
 
+Any thread, usually main thread of application, which calls `CountDownLatch.await()` will wait until count reaches zero or its interrupted by another thread. All other thread are required to do count down by calling `CountDownLatch.countDown()` once they are completed or ready.
 
+As soon as count reaches zero, Thread awaiting starts running. One of the disadvantages/advantages of `CountDownLatch` is that it's not reusable once count reaches to zero you can not use `CountDownLatch` any more.
 
+Use `CountDownLatch` when one thread like main thread, requires to wait for one or more thread to complete, before it can start processing.
 
+Classical example of using `CountDownLatch` in Java is **any server side core Java application which uses services architecture, where multiple services are provided by multiple threads and application can not start processing until all services have started successfully.**
+
+Example : 
+All three threads start at once in below eample and each Thread will call CountDownLatch after 3000ms. So count down will decrement one by one. After latch becomes zero the program prints "Completed".
+
+```java
+//Processor
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+class Processor implements Runnable {
+    private CountDownLatch latch;
+
+    public Processor(CountDownLatch latch) {
+        this.latch = latch;
+    }
+
+    public void run() {
+        System.out.println("Started.");
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        latch.countDown();
+    }
+}
+```
+
+```java
+// App
+public class App {
+
+    public static void main(String[] args) {
+
+        CountDownLatch latch = new CountDownLatch(3); // coundown from 3 to 0
+
+        ExecutorService executor = Executors.newFixedThreadPool(3); // 3 Threads in pool
+
+        for(int i=0; i < 3; i++) {
+            executor.submit(new Processor(latch)); // ref to latch. each time call new Processes latch will count down by 1
+        }
+
+        try {
+            latch.await();  // wait until latch counted down to 0
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Completed.");
+    }
+
+}
+```
+
+### Volatile keyword
+
+**The volatile modifier guarantees that any thread that reads a field will see the most recently written value.**
+
+### Re-entrant locking
+A reentrant lock is one where a process can claim the lock multiple times without blocking on itself. It's useful in situations where it's not easy to keep track of whether you've already grabbed a lock. If a lock is non re-entrant you could grab the lock, then block when you go to grab it again, effectively deadlocking your own process.
+
+```java
+// Runner
+
+public class Runner {
+	private Account acc1 = new Account();
+	private Account acc2 = new Account();
+	private Lock lock1 = new ReentrantLock();
+	private Lock lock2 = new ReentrantLock();
+
+	// don't hold several locks at once. If you do, always acquire the locks in
+	// the same order try to get the both locks
+	private void acquireLocks(Lock firstLock, Lock secondLock) throws InterruptedException {
+		while (true) {
+			// Acquire locks
+			boolean gotFirstLock = false;
+			boolean gotSecondLock = false;
+			try {
+				/**
+				 * tryLock() which will only acquire a lock if it’s available
+				 * and not already acquired by another thread and tryLock(long
+				 * time,TimeUnit unit), which will try to acquire a lock and, if
+				 * it's unavailable wait for the specified timer to expire
+				 * before giving up
+				 */
+				gotFirstLock = firstLock.tryLock();
+				gotSecondLock = secondLock.tryLock();
+			} finally {
+				if (gotFirstLock && gotSecondLock)
+					return;
+				else if (gotFirstLock)
+					firstLock.unlock();
+				else if (gotSecondLock)
+					secondLock.unlock();
+			}
+			// Locks not acquired
+			Thread.sleep(1);
+		}
+	}
+
+	// firstThread runs
+	public void firstThread() throws InterruptedException {
+		Random random = new Random();
+		for (int i = 0; i < 10000; i++) {
+			acquireLocks(lock1, lock2);
+			try {
+				Account.transfer(acc1, acc2, random.nextInt(100));
+			} finally {
+				lock1.unlock();
+				lock2.unlock();
+			}
+		}
+	}
+
+	// SecondThread runs
+	public void secondThread() throws InterruptedException {
+		Random random = new Random();
+		for (int i = 0; i < 10000; i++) {
+			acquireLocks(lock2, lock1);
+			try {
+				Account.transfer(acc2, acc1, random.nextInt(100));
+			} finally {
+				lock1.unlock();
+				lock2.unlock();
+			}
+		}
+	}
+
+	// When both threads finish execution, finished runs
+	public void finished() {
+		System.out.println("Account 1 balance: " + acc1.getBalance());
+		System.out.println("Account 2 balance: " + acc2.getBalance());
+		System.out.println("Total balance: " + (acc1.getBalance() + acc2.getBalance()));
+	}
+
+}
+```
+
+```java
+// App
+public class App {
+	public static void main(String[] args) throws Exception {
+		final Runner runner = new Runner();
+		Thread t1 = new Thread(new Runnable() {
+			public void run() {
+				try {
+					runner.firstThread();
+				} catch (InterruptedException ignored) {
+				}
+			}
+		});
+
+		Thread t2 = new Thread(new Runnable() {
+			public void run() {
+				try {
+					runner.secondThread();
+				} catch (InterruptedException ignored) {
+				}
+			}
+		});
+
+		t1.start();
+		t2.start();
+		t1.join();
+		t2.join();
+		runner.finished();
+	}
+}
+```
 
 
 
