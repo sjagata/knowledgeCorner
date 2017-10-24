@@ -4,6 +4,8 @@ A **process** is an execution of a program but a thread is a single execution se
 
 A JVM runs in a single process and threads in a JVM share the heap belonging to that process. That is why several threads may access the same object. Threads **share the heap and have their own stack space.** This is how one thread’s invocation of a method and its local variables are kept thread safe from other threads. But the heap is not thread-safe and must be synchronized for thread safety.
 
+<br>
+<br>
 
 ### Explain different ways of creating a thread?
 
@@ -52,6 +54,10 @@ class Counter extends Base implements Runnable {
 #### Q. Which one would you prefer and why? 
 The **Runnable** interface is preferred, as it does not require your object to inherit a thread because when you need multiple inheritance, only interfaces can help you. In the above example we had to extend the Base class so implementing Runnable interface is an obvious choice. Also note how the threads are started in each of the different cases as shown in the code sample. In an OO approach you should only extend a class when you want to make it different from it’s superclass, and change it’s behavior. **By implementing a Runnable interface instead of extending the Thread class, you are telling to the user that the class Counter that an object of type Counter will run as a thread.**
 
+
+<br>
+<br>
+
 ### Briefly explain high-level thread states?
 
 ![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/thread.png "class object")
@@ -79,6 +85,10 @@ The **Runnable** interface is preferred, as it does not require your object to i
 * When the sleep or wait is over, or an object's lock becomes available, the thread can only reenter the runnable state. It will go directly from waiting to running (well, for all practical purposes anyway).
 * **A dead thread cannot be started again.**
 
+
+<br>
+<br>
+
 ### What is the difference between yield and sleeping? What is the difference between the methods sleep() and wait()?
 When a task invokes **yield()**, it changes from running state to runnable state. When a task invokes **sleep()**, it changes from running state to waiting/sleeping state.
 
@@ -98,12 +108,18 @@ The method **wait(1000)**, causes the current thread to sleep up to one second. 
 * When one thread calls the **join()** method of another thread, **the currently running thread will wait until the thread it joins with has completed.** Think of the join() method as saying, "Hey thread, I want to join on to the end of you. Let me know when you're done, so I can enter the runnable state."
 
 
+<br>
+<br>
+
 ### What is a daemon thread? 
 **Daemon threads** are sometimes called `service` or `background` threads. These are threads that normally run at a low priority and provide a basic service to a program when activity on a machine is reduced. An **example of a daemon thread** that is continuously running is the **garbage collector thread**. The JVM exits whenever all nondaemon threads have completed, which means that all daemon threads are automatically stopped. To make a thread as a daemon thread in Java 
 
 ```java
 myThread.setDaemon(true);
 ```
+
+<br>
+<br>
 
 ### How can threads communicate with each other? How would you implement a producer (one thread) and a consumer (another thread) passing data (via stack)?
 
@@ -119,16 +135,27 @@ The **wait(), notify(), and notifyAll()** methods are used to provide an efficie
 
 `Example:` If you imagine an application in which one thread (the producer) writes data to a file while a second thread (the consumer) reads data from the same file. In this example the concurrent threads share the same resource file. Because these threads share the common resource file they should be synchronized. Also these two threads should communicate with each other because the consumer thread, which reads the file, should wait until the producer thread, which writes data to the file and notifies the consumer thread that it has completed its writing operation.
 
+
+<br>
+<br>
+
 ### Callable vs Runnable ?
 The Callable interface is similar to Runnable, in that both are designed for classes whose instances are potentially executed by another thread. A Runnable, however, does not return a result and cannot throw a checked exception.
 * A Callable needs to implement call() method while a Runnable needs to implement run() method.
 * A Callable can throw checked exception but a Runnable cannot.
 
 
+<br>
+<br>
+
 ### What makes java application concurrent?
 The very first class, you will need to make a java class concurrent, is `java.lang.Thread` class. This class is the basis of all concurrency concepts in java. Then you have `java.lang.Runnable` interface to abstract the thread behavior out of thread class.
 
 Other classes you will need to build advance applications can be found at `java.util.concurrent` package added in Java 1.5.
+
+
+<br>
+<br>
 
 ### Java Multi-threading Evolution
 
@@ -169,6 +196,10 @@ The Collections Framework has undergone a major revision in Java 8 to add aggreg
 
 ### Thread Safety?
 A class is thread-safe when it continues to behave correctly when accessed from multiple threads.
+
+
+<br>
+<br>
 
 ### Object level Locking vs. Class level Locking in Java
 Java supports multiple threads to be executed. This may cause two or more threads to access the same fields or objects. Synchronization is a process which keeps all concurrent threads in execution to be in synch. Synchronization avoids memory consistence errors caused due to inconsistent view of shared memory.
@@ -257,6 +288,10 @@ Some points :
 * According to the Java language specification you can not use java synchronized keyword with constructor it’s illegal and result in compilation error.
 * Do not synchronize on non final field on synchronized block in Java. because reference of non final field may change any time and then different thread might synchronizing on different objects i.e. no synchronization at all. Best is to use String class, which is already immutable and declared final.
 
+
+<br>
+<br>
+
 ### How to Work With wait(), notify() and notifyAll() in Java?
 
 The `Object` class in Java has three final methods that allow threads to communicate about the locked status of a resource. These are :
@@ -305,10 +340,18 @@ synchronized(lockObject)
 }
 ```
 
+
+<br>
+<br>
+
 ### How to Use with wait(), notify() and notifyAll() Methods
 we will solve producer consumer problem using `wait()` and `notify()` methods. To keep program simple and to keep focus on usage of `wait()` and `notify()` methods, we will involve only one producer and one consumer thread.
 
 [@article](https://howtodoinjava.com/core-java/multi-threading/how-to-work-with-wait-notify-and-notifyall-in-java/)
+
+
+<br>
+<br>
 
 ### Difference between Runnable vs Thread in Java
 
@@ -336,6 +379,10 @@ public class DemoThread extends Thread {
 * Instantiating an interface gives a cleaner separation between your code and the implementation of threads.
 * Implementing Runnable makes your class more flexible. If you extend thread then the action you’re doing is always going to be in a thread. However, if you extend Runnable it doesn’t have to be. You can run it in a thread, or pass it to some kind of executor service, or just pass it around as a task within a single threaded application.
 * By extending Thread, each of your threads has a unique object associated with it, whereas implementing Runnable, many threads can share the same runnable instance.
+
+
+<br>
+<br>
 
 ### Difference between yield() and join()
 
@@ -367,6 +414,9 @@ The join() method of a Thread instance can be used to “join” the start of a 
 **Usage:**
 * sleep(): for time-synchronization and;
 * wait(): for multi-thread-synchronization.
+
+<br>
+<br>
 
 ### Java Executor Framework Tutorial and Best Practices
 `Executors framework` (java.util.concurrent.Executor), released with the JDK 5 in package `java.util.concurrent` is **used to run the Runnable objects without creating new threads every time and mostly re-using the already created threads.**
