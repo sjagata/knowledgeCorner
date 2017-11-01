@@ -8,6 +8,11 @@ HOC is a react component that adds some additional functionality or behaviour to
 
 Example: `connect` function from `react-redux` is a HOC.
 
+* `Provider` wraps the reducx store which is you know redux the actual library, Its the object that holds our global application state that is formed by all of our different reducers.
+* The provider holds the redux store and it watches the redux store very directly says hey redux store whenever you changes i want you to tell me just tell me whenever you change thats the job of the provider.
+* Then Whenever the redux store changes the provider takes notice of it and it says OK new state something new just happened I need to ga and update any child components that I have.
+* So provider broadcast down to any connected component - hey there is just some change to the redux state - take it read render yourself do whatever you want with it, here's the new state.
+
 ![Alt text](./images/reactjs4.png?raw=true "Optional Title")
 
 <br>
