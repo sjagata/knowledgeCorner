@@ -170,7 +170,7 @@ Local storage does not have a life time it will stay until either the user clear
 ### What is the difference between local storage and cookies?
 #### 	Cookies
 * Client side / Server side: Data accessible both at client side and server side. Cookie data is sent to the server side with every request.
-* Size: 4095 bytes per cookie.	5 MB per domain.
+* Size: 4095 bytes per cookie.
 * Expiration:	Cookies have expiration attached to it. So after that expiration the cookie and the cookie data get’s deleted.
 
 #### 	Local storage
@@ -233,9 +233,25 @@ Application cache gives an application three advantages:
 </html>
 ```
 
+<br>
+<br>
 
+### What is the Geolocation API in HTML5?
+HTML5’s Geolocation API lets users share their physical location with chosen web sites. JavaScript can capture a user’s latitude and longitude and can send it to the back-end web server to enable location-aware features like finding local businesses or showing their location on a map.
 
+Today, most browsers and mobile devices support the Geolocation API. The Geolocation API works with a new property of the global `navigator` object.
 
+A Geolocation object can be created as follows:
+```js
+var geolocation = navigator.geolocation;
+```
+
+The `geolocation` object is a service object that allows widgets to retrieve information about the geographic location of the user’s device.
+
+<br>
+<br>
+
+### 
 
 
 
