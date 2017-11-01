@@ -131,6 +131,13 @@ So if we can move this heavy for loop in a JavaScript file and run it asynchrono
 
 **Web worker** helps to execute JavaScript file asynchronously.
 
+### Which JavaScript objects are not accessible to web worker?
+Following JavaScript objects are not accessible to web worker:
+
+1. The window object
+2. The document object
+3. The parent object
+
 <br>
 <br>
 
@@ -210,6 +217,11 @@ db.transaction(function (tx) {
 
 ### What is application cache in HTML5?
 HTML5 introduces application cache, which means that a web application is cached, and accessible without an internet connection.
+
+There are three sections of a Manifest file:
+1. **CACHE MANIFEST** - Files listed here are cached after they are downloaded for the first time.
+2. **NETWORK** - Files listed here require a connection to the server, and are never cached.
+3. **FALLBACK** - Files listed here specify fallback pages if a page is inaccessible.
 
 Application cache gives an application three advantages:
 
