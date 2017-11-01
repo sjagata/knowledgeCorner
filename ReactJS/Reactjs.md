@@ -6,6 +6,8 @@ HOC is a react component that adds some additional functionality or behaviour to
 
 `Component`  +  `HOC` = `Component + Additional functionality or Data` (**Enhanced** or **Composed** Component)
 
+Example: `connect` function from `react-redux` is a HOC.
+
 <br>
 <br>
 
