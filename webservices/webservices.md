@@ -42,7 +42,7 @@ We can replace clinical service from a different company and use it as long as t
 
 This contract in case of 
 
-SOAP ---> WSDL file
+SOAP ---> WSDL file <br>
 REST ---> WADL file
 
 XML is the data format used to exchange messages.
