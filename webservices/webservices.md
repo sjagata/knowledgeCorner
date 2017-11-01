@@ -273,20 +273,20 @@ It tells - **_what this web service proides_**, **_how it provides it_** and **_
   <wsdl:types>
     <xsd:schema targetNamespace="http://wsdltest.com/userProfile" elementFormDefault="qualified">
 	  <xsd:import  namespace="http://wsdltest.com/userProfile/schema/UserProfile.xsd" schemaLocation="UserProfile.xsd"/>
-		<xsd:element name="GetUserProfile">
+	    <xsd:element name="GetUserProfile">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="userName" type="xsd:string"/>
 			</xsd:sequence>
 		</xsd:complexType>
-		</xsd:element>
+	    </xsd:element>
 	    <xsd:element name="GetUserProfileResponse">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="UserProfile" type="upSchema:UserProfile"/>
 			</xsd:sequence>
 		</xsd:complexType>
-		</xsd:element>
+	    </xsd:element>
     </xsd:schema>
   </wsdl:types> 
   
@@ -319,7 +319,7 @@ It tells - **_what this web service proides_**, **_how it provides it_** and **_
   
   <wsdl:service name="UserProfileService">
     <wsdl:port binding="tns:UserProfileBinding" name="UserProfilePort">
-		<soap:address location="http://localhost/services/UserProfileService"/>
+	<soap:address location="http://localhost/services/UserProfileService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
