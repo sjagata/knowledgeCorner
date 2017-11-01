@@ -8,6 +8,8 @@ HOC is a react component that adds some additional functionality or behaviour to
 
 Example: `connect` function from `react-redux` is a HOC.
 
+![Alt text](./images/reactjs4.png?raw=true "Optional Title")
+
 <br>
 <br>
 
