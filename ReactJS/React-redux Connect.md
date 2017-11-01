@@ -2,4 +2,4 @@ There is an entire library, called react-redux whose sole purpose is to seamless
 
 Redux and React are actually two separate libraries which can and have been used completely independent of each other. Lets take a look at redux’s state management flow :
 
-![Alt text](./../images/reactjs1.png?raw=true "Optional Title")
+![Alt text](./images/reactjs1.png?raw=true "Optional Title")
