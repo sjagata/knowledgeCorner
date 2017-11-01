@@ -18,7 +18,8 @@ FROM (
       ) RESULT
 ORDER BY SALARY
 
-//To find nth highest salary using CTE
+//To find nth highest salary using CTE - Common table expression
+//DENSE_RANK() gives rank based on salary. Ex: 80000 - 1, 70000 - 2, 30000 - 3
 WITH RESULT AS
 (
     SELECT SALARY,
@@ -33,3 +34,53 @@ WHERE DENSERANK = N
 
 //Similarly, to find 3rd highest salary, simple replace N with 3. 
 ```
+
+we can use ROW_NUMBER instead of DENSE_RANK if we have no duplicates
+
+<br>
+<br>
+
+### 2. SQL query to get the complete organization hierarchy based on an Employee ID
+* Joining a table with itself - Self Join
+* Self Join can be classified as 
+   * Inner Self Join - matched items in both tables
+   * Outer Self Join (Left, Right and Full)
+   * Cross Self Join - It wont have an ON clause 
+   
+```sql
+Declare @ID int ;
+Set @ID = 7;
+
+WITH EmployeeCTE AS
+(
+ Select EmployeeId, EmployeeName, ManagerID
+ From Employees
+ Where EmployeeId = @ID
+ 
+ UNION ALL
+ 
+ Select Employees.EmployeeId , Employees.EmployeeName, Employees.ManagerID
+ From Employees
+ JOIN EmployeeCTE
+ ON Employees.EmployeeId = EmployeeCTE.ManagerID
+)
+
+Select E1.EmployeeName, ISNULL(E2.EmployeeName, 'No Boss') as ManagerName
+From EmployeeCTE E1
+LEFT Join EmployeeCTE E2
+ON E1.ManagerID = E2.EmployeeId
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
