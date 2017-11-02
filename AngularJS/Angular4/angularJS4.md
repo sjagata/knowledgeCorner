@@ -44,17 +44,17 @@ Angular 2 component/directive has lifecycle events, managed by @angular/core. It
 
 **Some of the events are applicable for both component/directives while few are specific to components:**
 
-**ngOnChanges** - called after a bound input property changes
-**ngOnInit** - called once the component is initialized
-**ngDoCheck** - called during every change detection run
-**ngOnDestroy** - Called once the componenet is about to be destory // used for clean up
+* **ngOnChanges** - called after a bound input property changes
+* **ngOnInit** - called once the component is initialized
+* **ngDoCheck** - called during every change detection run
+* **ngOnDestroy** - Called once the componenet is about to be destory // used for clean up
 
 **Component-specific hooks:**
 
-**ngAfterContentInit** - called after content (ng-content)has been projected into view
-**ngAfterContentChecked** - called every time the projected content has been checked
-**ngAfterViewInit** - called after the componenet's view(and child views) has been initialized
-**ngAfterViewChecked** - Called everytime the view (and child views) has beed checked
+* **ngAfterContentInit** - called after content (ng-content)has been projected into view
+* **ngAfterContentChecked** - called every time the projected content has been checked
+* **ngAfterViewInit** - called after the componenet's view(and child views) has been initialized
+* **ngAfterViewChecked** - Called everytime the view (and child views) has beed checked
 
 <br>
 <br>
