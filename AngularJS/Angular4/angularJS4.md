@@ -229,23 +229,23 @@ To access this in the component, angular 2 provides @ViewChild decorator which a
 ```js
 // <code>app.component.ts</code>
 <my-component>
-    <p #contentRef>{{test}}</p>
-</ my-component >
+   <p #contentRef>{{test}}</p>
+</my-component>
  
 // MyComponent.component.ts
 @Component({
-    selector: ‘my-component',
-    template: `
+   selector: ‘my-component',
+   template: `
     <ng-content></ng-content>
-    <div> ContentChild Example </div>
+    <div>ContentChild Example </div>`
 })
 export class LifecycleComponent implements ngAfterContentInit{
-                @ContentChild(‘contentRef’)   childContent: HTMLElement;
- 
-ngAfterContentInit() {
-              this.log('ngAfterContentInit');
-console.log(this.childContent);
-    }
+  @ContentChild(‘contentRef’)   childContent: HTMLElement;
+  
+  ngAfterContentInit() {
+    this.log('ngAfterContentInit');
+    console.log(this.childContent);
+  }
 }
 ```
 
