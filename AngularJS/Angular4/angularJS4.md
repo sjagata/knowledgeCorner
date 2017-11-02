@@ -101,7 +101,7 @@ Angular 2 doesn’t have bi-directional digest cycle, unlike angular 1. In angul
 
 In short, EventEmitter is class defined in @angular/core module which can be used by components and directives to emit custom events.
 
-```angularjs
+```js
 @output() somethingChanged = new EventEmitter();
 ```
 
