@@ -288,12 +288,38 @@ In Angular, a Component is a special kind of directive that uses a simpler confi
 
 ### What Is @inputs In Angular 2?
 **@Input** allows you to pass data into your controller and templates through html and defining custom properties. This allows you to easily reuse components and have them display different values for each instance of the renderer.
+* **@Input** is used to define an input for a component, we use the @Input decorator.
 
 <br>
 <br>
 
 ### What Is @outputs In Angular?
 Components push out events using a combination of an **@Output** and an EventEmitter. This allows a clean separation between reusable Components and application logic.
+**@Output** decorator is used to binds a property of a component to send the data from child component to parent component and this is a one-way communication.
+
+<br>
+<br>
+
+### What is hidden property in Angular2?
+Angular 2 [hidden] is a special case binding to hidden property.
+It is closest cousin of `ng-show` and `ng-hide`.
+It is more powerful to bind any property of elements. Both the ng-show and ng-hide are used to manage the visibility of elements using ng-hide css class. It is also set the display property “display:none”.
+```js
+import { Component } from 'angular2/core';
+
+@Component({
+  selector: 'demo',
+  templateUrl: 'app/component.html'
+})
+export class MainComponent {
+  Ishide: true;
+}
+```
+```html
+<div [hidden]="Ishide">
+     Hey, I’m using hidden attribute.
+</div>
+```
 
 <br>
 <br>
@@ -366,8 +392,205 @@ export class UserService {
 //END BEGIN – USERSERVICE
 ```
 
-* 
+<br>
+<br>
 
+### Angular 2 components vs directives
+* A @Component requires a view whereas a @Directive does not.
+
+#### Directives
+* Directives add behaviour to an existing DOM element or an existing component instance. One example use case for a directive would be to log a click on an element.
+```js
+import {Directive} from '@angular/core';
+
+@Directive({
+    selector: "[logOnClick]",
+    hostListeners: {
+        'click': 'onClick()',
+    },
+})
+class LogOnClick {
+    constructor() {}
+    onClick() { console.log('Element clicked!'); }
+}
+```
+```html
+<button logOnClick>I log when clicked!</button>
+```
+
+#### Components
+* A component, rather than adding/modifying behaviour, actually creates its own view (hierarchy of DOM elements) with attached behaviour. An example use case for this might be a contact card component:
+```js
+import {Component, View} from '@angular/core';
+
+@Component({
+  selector: 'contact-card',
+  template: `
+    <div>
+      <h1>{{name}}</h1>
+      <p>{{city}}</p>
+    </div>
+  `
+})
+class ContactCard {
+  @Input() name: string
+  @Input() city: string
+  constructor() {}
+}
+```
+```html
+<contact-card [name]="'foo'" [city]="'bar'"></contact-card>
+```
+`ContactCard` is a reusable UI component that we could use anywhere in our application, even within other components. These basically make up the UI building blocks of our applications.
+
+
+* Write a **component** when you want to create a reusable set of DOM elements of UI with custom behaviour. 
+* Write a **directive** when you want to write reusable behaviour to supplement existing DOM elements.
+
+<br>
+<br>
+
+### How do we display errors in a component view with Angular 2?
+the ngModel provides error objects for each of the built-in input validators. You can access these errors from a reference to the ngModel itself then build useful messaging around them to display to your users.
+
+<br>
+<br>
+
+### ElementRef vs Renderer - Angular 2
+ElementRef vs. Renderer -
+In Angular Renderer and ElementRef are used for DOM Manipulation and Renderer and ElementRef are used together to get full platform abstraction.
+
+#### Renderer –
+Renderer is a class that is a partial abstraction done the DOM manipulations and the DOM manipulating is not breaking server side rendering or web workers.
+
+#### ElementRef –
+ElementRef is a class that is a partial abstraction done the DOM Manipulations without breakable environments and it also can hold a reference to a DOM elements.
+
+If “ElementRef” is injected to a component, the injected instance is a reference to the host element of the current component.
+
+The ways to get an ElementRef instance looks like,
+1. @ViewChild()
+2. @ViewChildren()
+3. @ContentChild()
+4. @ContentChildren()
+
+In this case the ElementRef is a reference to the matching elements in the templates.
+
+Do notice that you should refrain from using ElementHref as it flagged with a security risk?
+If you allow direct access to the DOM, it can make your application more vulnerable to XSS attacks. So make sure, when you are using to ElementRef in your app code.
+
+What is the point of calling renderer.invokeElementMethod(rendererEl, methodName)?
+
+
+<br>
+<br>
+
+### What is Pipes? Why use Pipes?
+### What is a pure and impure pipe?
+### What is Async Pipe?
+### How to create and use a custom Pipes?
+### Pipes Example
+
+### What is router-outlet directive in AngularJS2?
+`<router-outlet> </router-outlet>` is used to instantiation the required components into it
+* To load the coponent of the currently selected route.
+
+
+<br>
+<br>
+
+### What is a structural directive?
+#### Attribute Directives :
+Because they set on elements just like attribute 
+Never destroy an element from the DOM it only change the properties of that element, example: back-ground color
+1. Looks like a normal HTML attribute(possibly with databinding or event binding)
+2. Only affect/change the element they are added to.
+Example : `ngClass`, `ngStyle`
+
+#### Structural Directives :
+Basically do the same but they also changes the structure of the DOM around this element
+Ex: `*ngIf` removing and showing the DOM elements, `*ngFor`
+1. Look like a normal HTML attribute but have a leading `*`(for desugaring)
+2. Affect a whole area in the DOM(elements get added/removed)
+
+* we cannot have two structural directive on single element
+
+`@HostBinding`
+`@HostListner`
+
+```js
+import {
+  Directive,
+  Renderer2,
+  OnInit,
+  ElementRef,
+  HostListener,
+  HostBinding,
+  Input
+} from '@angular/core';
+
+@Directive({
+  selector: '[appBetterHighlight]'
+})
+export class BetterHighlightDirective implements OnInit {
+  @Input() defaultColor: string = 'transparent';
+  @Input('appBetterHighlight') highlightColor: string = 'blue';
+  @HostBinding('style.backgroundColor') backgroundColor: string;
+
+  constructor(private elRef: ElementRef, private renderer: Renderer2) { }
+
+  ngOnInit() {
+    this.backgroundColor = this.defaultColor;
+    // this.renderer.setStyle(this.elRef.nativeElement, 'background-color', 'blue');
+  }
+
+  @HostListener('mouseenter') mouseover(eventData: Event) {
+    // this.renderer.setStyle(this.elRef.nativeElement, 'background-color', 'blue');
+    this.backgroundColor = this.highlightColor;
+  }
+
+  @HostListener('mouseleave') mouseleave(eventData: Event) {
+    // this.renderer.setStyle(this.elRef.nativeElement, 'background-color', 'transparent');
+    this.backgroundColor = this.defaultColor;
+  }
+
+}
+```
+
+### routerLink
+Router link is able to parse the string that which we pass and loads component.
+* It handles the click differently 
+* It helps to maintain the state
+* It catches to click on the element precents the default which would be to send the request and instead analyzes what we passed to the router link directive and checks the fitting route in configuration
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <li role="presentation"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="/">Home</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a routerLink="servers">Servers</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a [routerLink]="['users']">Users</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+```
 
 
 
