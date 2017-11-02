@@ -71,14 +71,23 @@ import { Users } from "./users";
 import { CreateUser } from "./createUser";
 
 let routes: Routes = [
+    { path: "", redirectTo: "/users", pathMatch: 'full' },
     { path: 'users', component: Users },
-    { path: 'createUser', component: CreateUser }
+    { path: 'createUser', component: CreateUser },
+    { path: 'editUser/:id', component: CreateUser }
 ];
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
 export class UserRoutes { }
+```
+```js
+export class EditUser{
+    constructor(route: ActivatedRoute){
+        console.log("User selected:", route.params.value.id);
+    }
+}
 ```
 
 [Article](https://www.codeproject.com/Articles/1164813/Angular-Routing)
