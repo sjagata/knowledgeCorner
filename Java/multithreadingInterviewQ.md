@@ -144,6 +144,10 @@ The Callable interface is similar to Runnable, in that both are designed for cla
 * A Callable needs to implement call() method while a Runnable needs to implement run() method.
 * A Callable can throw checked exception but a Runnable cannot.
 
+* Callable : A task that returns a result and may throw an exception. Implementors define a single method with no arguments called call.
+ 
+* The Callable interface is similar to java.lang.Runnable, in that both are designed for classes whose instances are potentially executed by another thread. A Runnable, however, does not return a result and cannot throw a checked exception.
+
 
 <br>
 <br>
