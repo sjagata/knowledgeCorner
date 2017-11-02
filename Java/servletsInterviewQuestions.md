@@ -293,4 +293,18 @@ Syntax: public Object getAttribute(String name);
 String value = (String) session.getAttribute(“attName”);
 ```
 
+<br>
+<br>
+
+### cookie vs HttpSession
+Both are mechanisms of establishing a client "state" in a stateless HTTP environment.
+With cookie you can store a limited amount of data on the client's machine. It's not secured, and you can only store text in cookies.
+HttpSession, on the other hand, allows you to store state information on the server. 
+it's much more secured (session data is on the app server, not client's box), you can store an "unlimited" amount of data (depends on your server's capacity), plus you can store complex data types (e.g. objects) in a session. very handy.
+
+The HttpSession is a server side object managed by the container (web server) your code is running in. It allows you to set/get Attributes in the Session and know they are for the user making the current Request.
+A cookie is something sent to the client, usually one piece of information. Keep in mind the client can turn this off.
+Usually, the web server will use cookies to manage it's HttpSessions. You do not really have to worry about this. Basically, the server most likely sends a 'key' to the client. For each Request, it gets that key and uses it to determine which client made the Request. It them makes that user's HttpSession available.
+
+
 See more at: HttpSession in servlet.
