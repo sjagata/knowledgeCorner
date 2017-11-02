@@ -249,7 +249,17 @@ export class LifecycleComponent implements ngAfterContentInit{
 }
 ```
 
+<br>
+<br>
 
+### Angular 2 is written entirely in Typescript and meets the ECMAScript 6 specification :
+* **Component-Based** - Angular 2 is entirely component based. Controllers and $scope are no longer used. They have been replaced by components and directives.
+* **Directives** - The specification for directives is considerably simplified, although they are still subject to change. With the @Directive annotation, a directive can be declared.
+* **Dependency Injection** - Because of the improved dependency injection model in Angular2 there are more opportunities for component / object-based work.
+* **Use of TypeScript** - TypeScript is a typed super set of JavaScript which has been built and maintained by Microsoft and chosen by the AngularJS team for development. The presence of types makes the code written in TypeScript less prone to run-time errors. In recent times, the support for ES6 has been greatly improved and a few features from ES7 have been added as well.
+* **Generics** - TypeScript has generics which can be used in the frontend.
+* **Lambdas with TypeScript** - In TypeScript, lambdas are available.
+* **Forms and Validations** - Forms and validations are an important aspect of frontend development. Within Angular 2 the Form Builder and Control Group are defined.
 
 
 
