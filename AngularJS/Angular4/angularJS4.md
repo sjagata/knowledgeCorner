@@ -33,3 +33,73 @@ recommend using TypeScript
 Notes ::
 
 * --save to mention production dependency
+
+
+
+<br>
+<br>
+
+### Explain the life cycle hooks of Angular 2 application
+Angular 2 component/directive has lifecycle events, managed by @angular/core. It creates the component, renders it, creates and renders its children, processes changes when its data-bound properties change, and then destroys it before removing its template from the DOM. Angular provides a set of lifecycle hooks(special events) which can be tapped into this lifecycle and perform operations when required. The constructor executes prior to all lifecycle events. Each interface has a single hook method prefixed with ng. For example, ngOnint interface has Oninit method that must be implemented in the component. 
+
+**Some of the events are applicable for both component/directives while few are specific to components:**
+
+**ngOnChanges** - called after a bound input property changes
+**ngOnInit** - called once the component is initialized
+**ngDoCheck** - called during every change detection run
+**ngOnDestroy** - Called once the componenet is about to be destory // used for clean up
+
+**Component-specific hooks:**
+
+**ngAfterContentInit** - called after content (ng-content)has been projected into view
+**ngAfterContentChecked** - called every time the projected content has been checked
+**ngAfterViewInit** - called after the componenet's view(and child views) has been initialized
+**ngAfterViewChecked** - Called everytime the view (and child views) has beed checked
+
+<br>
+<br>
+
+### How routing works in Angular 2.
+Routing is a mechanism which enables user to navigate between views/components. Angular 2 simplifies the routing and provide flexibility to configure and define at module level (Lazy loading). 
+
+The angular application has single instance of the Router service and whenever URL changes, corresponding Route is matched from the routing configuration array. On successful match, it applies redirects and the router builds a tree of ActivatedRoute objects and contains the current state of the router. Before redirection, the router will check whether new state is permitted by running guards (CanActivate). Route Guards is simply an interface method that router runs to check the route authorization. After guard runs, it will resolve the route data and activate the router state by instantiation the required components into <router-outlet> </router-outlet>.
+
+```js
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { Users } from "./users";
+import { CreateUser } from "./createUser";
+
+let routes: Routes = [
+    { path: 'users', component: Users },
+    { path: 'createUser', component: CreateUser }
+];
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class UserRoutes { }
+```
+
+[Article](https://www.codeproject.com/Articles/1164813/Angular-Routing)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
