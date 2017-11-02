@@ -469,6 +469,7 @@ Variable Declarations
 * There is no such thing as a `final` object. An object reference marked final does not mean the object itself is immutable.
 * The `transient` modifier applies only to instance variables.
 * The `volatile` modifier applies only to instance variables.
+* `volatile` means : The value of this variable will never be cached thread-locally: all reads and writes will go straight to "main memory"; Access to the variable acts as though it is enclosed in a synchronized block, synchronized on itself.
 
 ### Q13. Give an example where you might use a static method?
 Static methods prove useful for creating utility classes, singleton classes and factory methods
