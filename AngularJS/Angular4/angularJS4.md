@@ -104,6 +104,79 @@ In short, EventEmitter is class defined in @angular/core module which can be use
 ```js
 @output() somethingChanged = new EventEmitter();
 ```
+We use somethingChanged.emit(value) method to emit the event. This is usually done in setter when the value is being changed in the class.
+This event emit can be subscribed by any component of the module by using subscribe method.
+```js
+myObj.somethingChanged.subscribe(val) => this.myLocalMethod(val));
+```
+
+[Article](https://stackoverflow.com/questions/36076700/what-is-the-proper-use-of-an-eventemitter)
+[API](https://angular.io/api/core/EventEmitter)
+
+<br>
+<br>
+
+### What is the use of codelyzer in angular 2 application.
+All enterprise applications follows a set of coding conventions and guidelines to maintain code in better way. Codelyzer is an open source tool to run and check whether the pre-defined coding guidelines has been followed or not. Codelyzer does only static code analysis for angular and typescript project.
+
+Codelyzer runs on top of tslint and its coding conventions are usually defined in tslint.json file. Codelyzer can be run via angular cli or npm directly. Editors like Visual Studio Code and Atom also supports codelyzer just by doing a basic settings.
+
+To set up the codelyzer in Visual Studio code, we can go to File -> Preferences -> User Settings and add the path for tslint rules.
+
+<br>
+<br>
+
+### What is lazy loading and How to enable lazy loading in angular 2?
+Most of the enterprise application contains various modules for specific business cases. Bundling whole application code and loading will be huge performance impact at initial call. Lazy lading enables us to load only the module user is interacting and keep the rest to be loaded at runtime on demand.
+
+Lazy loading speeds up the application initial load time by splitting the code into multiple bundles and loading them on demand.
+
+Every Angular application must have one main module say AppModule. The code should be splitted into various child modules (NgModule) based on the application business case.
+
+1. We don't require to import or declare lazily loading module in root module.
+2. Add the route to top level routing (app.routing.ts) and set loadChildren. loadChildren takes absolute path from root folder followed by #{ModuleName}. RouterModule.forRoot() takes routes array and configures the router.
+3. Import module specific routing in the child module.
+4. In the child module routing, specify path as empty string ' ', the empty path. RouterModule.forChild again takes routes array for the child module components to load and configure router for child.
+5. Then, export const routing: ModuleWithProviders = RouterModule.forChild(routes);
+
+[plnkr](https://plnkr.co/edit/PNwh0Mn2ZJighpSoOTtw?p=info)
+
+
+<br>
+<br>
+
+### What are the security threats should we be aware of in angular 2 application?
+Just like any other client side or web application, angular 2 application should also follow some of the basic guidelines to mitigate the security risks. Some of them are:
+
+1. Avoid using/injecting dynamic Html content to your component.
+2. If using external Html, that is coming from database or somewhere outside the application, sanitize it.
+3. Try not to put external urls in the application unless it is trusted. Avoid url re-direction unless it is trusted.
+4. Consider using AOT compilation or offline compilation.
+5. Try to prevent XSRF attack by restricting the api and use of the app for known or secure environment/browsers.
+
+
+<br>
+<br>
+
+### What is AOT compilation?
+AOT compilation stands for Ahead Of Time compilation, in which the angular compiler compiles the angular components and templates to native JavaScript and HTML during the build time. The compiled Html and JavaScript is deployed to the web server so that the compilation and render time can be saved by the browser.
+
+#### Advantages
+
+* **Faster download:** Since the app is already compiled, many of the angular compiler related libraries are not required to be bundled, the app bundle size get reduced. So, the app can be downloaded faster.
+* **Lesser No. of Http Requests:** If the app is not bundled to support lazy loading (or whatever reasons), for each associated html and css, there is a separate request goes to the server. The pre-compiled application in-lines all templates and styles with components, so the number of Http requests to the server would be lesser.
+* **Faster Rendering:** If the app is not AOT compiled, the compilation process happens in the browser once the application is fully loaded. This has a wait time for all necessary component to be downloaded, and then the time taken by the compiler to compile the app. With AOT compilation, this is optimized.
+* **Detect error at build time:** Since compilation happens beforehand, many compile time error can be detected, providing a better degree of stability of application.
+
+#### Disadvantages
+
+* Works only with HTML and CSS, other file types need a previous build step
+* No watch mode yet, must be done manually (bin/ngc-watch.js) and compiles all the files
+* Need to maintain AOT version of bootstrap file (might not be required while using tools like cli)
+* Needs cleanup step before compiling
+
+
+
 
 
 
