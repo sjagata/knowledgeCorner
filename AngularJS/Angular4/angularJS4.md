@@ -175,15 +175,79 @@ AOT compilation stands for Ahead Of Time compilation, in which the angular compi
 * Need to maintain AOT version of bootstrap file (might not be required while using tools like cli)
 * Needs cleanup step before compiling
 
+<br>
+<br>
 
+### What are the core differences between Observables and Promises?
+A **Promise** handles a **single event** when an async operation completes or fails.
 
+Note: There are Promise libraries out there that support cancellation, but ES6 Promise doesn't so far.
 
+An **Observable** is like a **Stream** (in many languages) and allows to pass zero or more events where the callback is called for each event. Often Observable is preferred over Promise because it provides the features of Promise and more. With Observable it doesn't matter if you want to handle 0, 1, or multiple events. You can utilize the same API in each case. Observable also has the advantage over Promise to be **cancelable**. If the result of an HTTP request to a server or some other expensive async operation isn't needed anymore, the Subscription of an Observable allows to cancel the subscription, while a Promise will eventually call the success or failed callback even when you don't need the notification or the result it provides anymore. Observable provides **operators** like map, forEach, reduce, ... similar to an array. There are also powerful operators like retry(), or replay(), ... that are often quite handy.
 
+#### Promises vs Observables
 
+#### Promises:
+* returns a single value
+* not cancellable
 
+#### Observables:
+* works with multiple values over time
+* cancellable
+* supports map, filter, reduce and similar operators
+* proposed feature for ES 2016
+* use Reactive Extensions (RxJS)
+* an array whose items arrive asynchronously over time
 
+<br>
+<br>
 
+### Explain local reference variables, ViewChild, and ContentChild.
+Local template variables in angular2 is used to refer HTML elements and use their properties to access siblings or children.
 
+Let’s consider you have an input field named username.
+```html
+<input type="text" required ... />
+```
+
+This HTMLInputField can be made available to the template using # symbol with a variable name say username.
+```html
+ <input type="text" #username required ... />
+```
+
+Now, this HTMLInputElement can be accessed from anywhere in the current template for example, checking validation and showing appropriate message based on the validation rule. But, username HTML reference is not accessible in the component/directive.
+
+To access this in the component, angular 2 provides @ViewChild decorator which accepts the local reference variable.
+```js
+@ViewChild('username') username: HTMLInputElement;
+```
+
+**ViewChild** element can be read after the view is initialized (`ngAfterViewInit`).
+
+**ContentChild** is used to query the reference of the DOM within ng-content. Content Child are set before the `ngAfterContentInit` lifecycle hook.
+
+```js
+// <code>app.component.ts</code>
+<my-component>
+    <p #contentRef>{{test}}</p>
+</ my-component >
+ 
+// MyComponent.component.ts
+@Component({
+    selector: ‘my-component',
+    template: `
+    <ng-content></ng-content>
+    <div> ContentChild Example </div>
+})
+export class LifecycleComponent implements ngAfterContentInit{
+                @ContentChild(‘contentRef’)   childContent: HTMLElement;
+ 
+ngAfterContentInit() {
+              this.log('ngAfterContentInit');
+console.log(this.childContent);
+    }
+}
+```
 
 
 
