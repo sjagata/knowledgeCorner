@@ -470,6 +470,7 @@ Variable Declarations
 * The `transient` modifier applies only to instance variables.
 * The `volatile` modifier applies only to instance variables.
 * `volatile` means : The value of this variable will never be cached thread-locally: all reads and writes will go straight to "main memory"; Access to the variable acts as though it is enclosed in a synchronized block, synchronized on itself.
+* the volatile modifier guarantees that any thread that reads a field will see the most recently written value.
 
 ### Q13. Give an example where you might use a static method?
 Static methods prove useful for creating utility classes, singleton classes and factory methods
