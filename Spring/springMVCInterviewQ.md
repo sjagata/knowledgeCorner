@@ -14,7 +14,10 @@
 Spring’s web MVC framework is, like many other web MVC frameworks, request-driven, designed around a central Servlet that handles all the HTTP requests and responses. Spring’s DispatcherServlet however, does more than just that. It is completely integrated with the Spring IoC container so it allows you to use every feature that Spring has.
 
 
-After receiving an HTTP request, DispatcherServlet consults the HandlerMapping (configuration files) to call the appropriate Controller. The Controller takes the request and calls the appropriate service methods and set model data and then returns view name to the DispatcherServlet. The DispatcherServlet will take help from ViewResolver to pickup the defined view for the request. Once view is finalized, The DispatcherServlet passes the model data to the view which is finally rendered on the browser.
+1. **After receiving an HTTP request**, **DispatcherServlet** consults the **HandlerMapping** (configuration files) to **call the appropriate Controller.**
+2. The **Controller** takes the request and **calls the appropriate service methods** and **set model data** and then **returns view name to the DispatcherServlet.** 
+3. The **DispatcherServlet** will take help from **ViewResolver** to **pickup the defined view for the request.** 
+4. Once view is finalized, The **DispatcherServlet passes the model data** to the **view** which is finally rendered on the browser.
 
 ```java
 <web-app>
