@@ -261,6 +261,117 @@ export class LifecycleComponent implements ngAfterContentInit{
 * **Lambdas with TypeScript** - In TypeScript, lambdas are available.
 * **Forms and Validations** - Forms and validations are an important aspect of frontend development. Within Angular 2 the Form Builder and Control Group are defined.
 
+<br>
+<br>
+
+### What Is The Need Of Angular2?
+Angular 2 is not just a typical upgrade but a totally new development. The whole framework is rewritten from the ground. Angular 2 got rid of many things like $scope, controllers, DDO, jqLite, angular.module etc.
+
+It uses components for almost everything. Imagine that even the whole app is now a component. Also it takes advantage of ES6 / TypeScript syntax. Developing Angular 2 apps in TypeScript has made it even more powerful.
+
+Apart from that, many things have evolved and re-designed like the template engine and many more.
+
+<br>
+<br>
+
+### What Is @ngmodule?
+**@NgModule** is a decorator function. A decorator function allows users to mark something as Angular 2 thing (could be a module or component or something else) and it enables you to provide additional data that determines how this Angular 2 thing will be processed, instantiated and used at the runtime. So, whenever user writes @NgModule, it tells the Angular 2 module, what’s going to be included and used in and using this module.
+
+<br>
+<br>
+
+### What Is Component In Angularjs 2 ?
+In Angular, a Component is a special kind of directive that uses a simpler configuration which is suitable for a component-based application structure.
+
+<br>
+<br>
+
+### What Is @inputs In Angular 2?
+**@Input** allows you to pass data into your controller and templates through html and defining custom properties. This allows you to easily reuse components and have them display different values for each instance of the renderer.
+
+<br>
+<br>
+
+### What Is @outputs In Angular?
+Components push out events using a combination of an **@Output** and an EventEmitter. This allows a clean separation between reusable Components and application logic.
+
+<br>
+<br>
+
+### What is the Best way to Declare and Access a Global Variable in Angular 2?
+* Create Global Variables :- “app.global.ts”
+```js
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class AppGlobals {
+    readonly baseAppUrl: string = 'http://localhost:57431/';
+    readonly baseAPIUrl: string = 'https://api.github.com/';
+}
+
+```
+
+* Import and Use the Global Variables in the Component.
+```js
+
+import { Component, Injectable} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpModule, Http } from '@angular/http';
+import { UserService } from '../service/user.service';
+import { AppGlobals } from '../shared/app.globals';
+
+
+@Component({
+    selector: 'user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.css'],
+    providers: [UserService, AppGlobals]
+})
+
+export class UserComponent {
+    //USERS DECLARATIONS.
+    users = [];
+
+    //HOME COMPONENT CONSTRUCTOR
+    constructor(private userService: UserService, private _global: AppGlobals) { }
+
+    //GET USERS SERVICE ON PAGE LOAD.
+    ngOnInit() {
+        this.userService.getAPIUsers(this._global.baseAPIUrl + 'users/hadley/orgs').subscribe(data => this.users = data);
+        this.userService.getAppUsers(this._global.baseAppUrl + 'api/User/GetUsers').subscribe(data => console.log(data));  
+    }
+}
+//END BEGIN – USERCOMPONENT
+
+“user.server.ts” :-
+
+import { Injectable, InjectionToken } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import 'rxjs/add/operator/map';
+
+//BEGIN-REGION - USERSERVICE
+@Injectable()
+export class UserService {
+    constructor(private _http: Http) {
+    }
+
+    getAPIUsers(apiUrl) {
+        return this._http.get(apiUrl).map((data: Response) => data.json());
+    }
+
+    getAppUsers(apiUrl) {
+        return this._http.get(apiUrl).map((data: Response) => data);
+    }
+}
+//END BEGIN – USERSERVICE
+```
+
+* 
+
+
+
+
+
 
 
 
