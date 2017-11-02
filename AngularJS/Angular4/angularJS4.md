@@ -91,9 +91,19 @@ export class EditUser{
 ```
 
 [Article](https://www.codeproject.com/Articles/1164813/Angular-Routing)
+[Article2](https://vsavkin.com/angular-2-router-d9e30599f9ea)
 
+<br>
+<br>
 
+### What are Event Emitters and how it works in Angular 2?
+Angular 2 doesn’t have bi-directional digest cycle, unlike angular 1. In angular 2, any change occurred in the component always gets propagated from the current component to all its children in hierarchy. If the change from one component needs to be reflected to any of its parent component in hierarchy, we can emit the event by using Event Emitter api.
 
+In short, EventEmitter is class defined in @angular/core module which can be used by components and directives to emit custom events.
+
+```angularjs
+@output() somethingChanged = new EventEmitter();
+```
 
 
 
