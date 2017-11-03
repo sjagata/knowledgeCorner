@@ -31,6 +31,10 @@ Angular 2 using plain JavaScript is extremely hard. And to be honest: TypeScript
 standard ‘language’ to be used when developing Angular 2 applications. So I definitely
 recommend using TypeScript
 
+### What is Traceur compiler?
+Traceur compiler compiles ECMAScript Edition 6 (ES6) (including classes, generators and so on) code on the fly to regular Javascript (ECMAScript Edition 5 [ES5]) to make it compatible for the browser.
+
+**angular-cli:** This is a command line tool for Angularjs 2.0 application development which support live coding and deployment instantly. This is much easier and much straight forward.
 
 
 Notes ::
