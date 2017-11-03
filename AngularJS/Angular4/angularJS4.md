@@ -348,56 +348,6 @@ Ex: params is a observable
 <br>
 <br>
 
-### Explain local reference variables, ViewChild, and ContentChild.
-Local template variables in angular2 is used to refer HTML elements and use their properties to access siblings or children.
-
-Let’s consider you have an input field named username.
-```html
-<input type="text" required ... />
-```
-
-This HTMLInputField can be made available to the template using # symbol with a variable name say username.
-```html
- <input type="text" #username required ... />
-```
-
-Now, this HTMLInputElement can be accessed from anywhere in the current template for example, checking validation and showing appropriate message based on the validation rule. But, username HTML reference is not accessible in the component/directive.
-
-To access this in the component, angular 2 provides @ViewChild decorator which accepts the local reference variable.
-```js
-@ViewChild('username') username: HTMLInputElement;
-```
-
-**ViewChild** element can be read after the view is initialized (`ngAfterViewInit`).
-
-**ContentChild** is used to query the reference of the DOM within ng-content. Content Child are set before the `ngAfterContentInit` lifecycle hook.
-
-```js
-// <code>app.component.ts</code>
-<my-component>
-   <p #contentRef>{{test}}</p>
-</my-component>
- 
-// MyComponent.component.ts
-@Component({
-   selector: ‘my-component',
-   template: `
-    <ng-content></ng-content>
-    <div>ContentChild Example </div>`
-})
-export class LifecycleComponent implements ngAfterContentInit{
-  @ContentChild(‘contentRef’)   childContent: HTMLElement;
-  
-  ngAfterContentInit() {
-    this.log('ngAfterContentInit');
-    console.log(this.childContent);
-  }
-}
-```
-
-<br>
-<br>
-
 ### Angular 2 is written entirely in Typescript and meets the ECMAScript 6 specification :
 * **Component-Based** - Angular 2 is entirely component based. Controllers and $scope are no longer used. They have been replaced by components and directives.
 * **Directives** - The specification for directives is considerably simplified, although they are still subject to change. With the @Directive annotation, a directive can be declared.
@@ -626,6 +576,64 @@ Do notice that you should refrain from using ElementHref as it flagged with a se
 If you allow direct access to the DOM, it can make your application more vulnerable to XSS attacks. So make sure, when you are using to ElementRef in your app code.
 
 What is the point of calling renderer.invokeElementMethod(rendererEl, methodName)?
+
+<br>
+<br>
+
+
+
+### Explain local reference variables, ViewChild, and ContentChild.
+Local template variables in angular2 is used to refer HTML elements and use their properties to access siblings or children.
+
+Let’s consider you have an input field named username.
+```html
+<input type="text" required ... />
+```
+
+This HTMLInputField can be made available to the template using # symbol with a variable name say username.
+```html
+ <input type="text" #username required ... />
+```
+
+Now, this HTMLInputElement can be accessed from anywhere in the current template for example, checking validation and showing appropriate message based on the validation rule. But, username HTML reference is not accessible in the component/directive.
+
+To access this in the component, angular 2 provides @ViewChild decorator which accepts the local reference variable.
+```js
+@ViewChild('username') username: HTMLInputElement;
+```
+
+**ViewChild** element can be read after the view is initialized (`ngAfterViewInit`).
+
+**ContentChild** is used to query the reference of the DOM within ng-content. Content Child are set before the `ngAfterContentInit` lifecycle hook.
+
+```js
+// <code>app.component.ts</code>
+<my-component>
+   <p #contentRef>{{test}}</p>
+</my-component>
+ 
+// MyComponent.component.ts
+@Component({
+   selector: ‘my-component',
+   template: `
+    <ng-content></ng-content>
+    <div>ContentChild Example </div>`
+})
+export class LifecycleComponent implements ngAfterContentInit{
+  @ContentChild(‘contentRef’)   childContent: HTMLElement;
+  
+  ngAfterContentInit() {
+    this.log('ngAfterContentInit');
+    console.log(this.childContent);
+  }
+}
+```
+
+<br>
+<br>
+
+### What's the difference between @ViewChild and @ContentChild?
+`@ContentChild` and `@ContentChildren` queries will return directives existing inside the <ng-content></ng-content> element of your view, whereas `@ViewChild` and  `@ViewChildren` only look at elements that are on your view template directly.
 
 
 <br>
