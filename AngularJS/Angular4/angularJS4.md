@@ -37,6 +37,19 @@ Notes ::
 
 * --save to mention production dependency
 
+<b>
+<br>
+
+### Key Differences - Constructor Vs. ngOnInit
+#### Constructor:
+1. The **constructor** is a default method runs when component is being constructed.
+2. The constructor is a **typescript feature** and it is used only for a class instantiations and nothing to do with Angular2.
+3. The constructor called **first time before the ngOnInit()**.
+
+#### ngOnInit()
+1. The **ngOnInit** event is an Angular 2 life-cycle event method that is **called after the first ngOnChanges** and the ngOnInit method is use to parameters defined with @Input otherwise the constructor is OK.
+2. The ngOnInit is **called after** the **constructor** and ngOnInit is **called after** the **first ngOnChanges.**
+3. The **ngOnChanges** is called **when an input or output binding value changes.**
 
 
 <br>
@@ -58,6 +71,23 @@ Angular 2 component/directive has lifecycle events, managed by @angular/core. It
 * **ngAfterContentChecked** - called every time the projected content has been checked
 * **ngAfterViewInit** - called after the componenet's view(and child views) has been initialized
 * **ngAfterViewChecked** - Called everytime the view (and child views) has beed checked
+
+Angular2 Lifecycle Events Log:-
+1. onChanges
+2. onInit
+3. doCheck
+4. afterContentInit
+5. afterContentChecked
+6. afterViewInit
+7. afterViewChecked
+8. doCheck
+9. afterContentChecked
+10. afterViewChecked
+11. onChanges
+12. doCheck
+13. afterContentChecked
+14. afterViewChecked
+15. onDestroy
 
 <br>
 <br>
