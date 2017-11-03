@@ -187,11 +187,11 @@ Therefore, you can annotate your component classes with @Component, but by annot
 Thus, if you are choosing between using @Component or @Service for your service layer, @Service is clearly the better choice. Similarly, as stated above, @Repository is already supported as a marker for automatic exception translation in your persistence layer.
 
 | Annotation | Meaning                                             |
-+------------+-----------------------------------------------------+
+------------ | --------------------------------------------------- |
 | @Component | generic stereotype for any Spring-managed component |
 | @Repository| stereotype for persistence layer                    |
 | @Service   | stereotype for service layer                        |
-| @Controller| stereotype for presentation layer (spring-mvc)
+| @Controller| stereotype for presentation layer (spring-mvc)      |
 
 
 
