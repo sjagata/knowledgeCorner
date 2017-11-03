@@ -1,3 +1,6 @@
+![alt text](https://angular.io/generated/images/guide/architecture/overview2.png)
+
+
 ### What is TypeScript?
 TypeScript is a superset to JavaScript, which means, that it compiles into pure JavaScript in
 the end. Why do we use it then?
