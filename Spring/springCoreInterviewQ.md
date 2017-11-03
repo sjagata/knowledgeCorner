@@ -304,6 +304,21 @@ No, singleton beans are not thread-safe in Spring framework.
 7. If there are any `BeanPostProcessors` associated with the bean, their `postProcessAfterInitialization()` methods will be called.
 7. If the bean implements `DisposableBean`, it will call the destroy() method.
 
+(or)
+
+1. Instantiation
+2. Properties population
+3. Call of `setBeanName()` method of `BeanNameAware`
+4. Call of `setBeanFactory()` method of `BeanFactoryAware`
+5. Call of `setApplicationContext()` of `ApplicationContextAware`
+6. Pre-initialization with `BeanPostProcessor`
+7. Call of `afterPropertiesSet()` method of InitializingBean
+8. Custom `init` method
+9. `Post-initialization` with `BeanPostProcessor`
+10. Bean is ready to use
+11. Call of `destroy()` method of `DisposableBean`
+12. Custom destroy method
+
 
 ### 18. Which are the important beans lifecycle methods? Can you override them?
 There are two important bean lifecycle methods. 
