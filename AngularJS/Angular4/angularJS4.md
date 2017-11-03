@@ -192,12 +192,52 @@ An **Observable** is like a **Stream** (in many languages) and allows to pass ze
 * not cancellable
 
 #### Observables:
+Observable:
+Various Data sources (User Input) events, Http Requests, Triggered in code,..
+
+Observable might emit a couple normal data packages, it might have been an error or eventually it might get completed and the respective code is then executed in observer
+
+Observer:
+You write the code which gets executed!
+Handle Data, Handle Error, Handle Completion
+
+Both **Promises and Observables** provide us with abstractions that help us deal with the **asynchronous nature of our applications.** 
+
+However, there are important differences between the two:
+* As seen in the example above, **Observables** can define both the setup and teardown aspects of asynchronous behavior.
+* Observables are cancellable.
+* Moreover, **Observables** can be retried using one of the retry operators provided by the API, such as **retry** and **retryWhen**. On the other hand, **Promises** require the caller to have access to the original function that returned the promise in order to have a retry capability.
+
+
 * works with multiple values over time
 * cancellable
 * supports map, filter, reduce and similar operators
 * proposed feature for ES 2016
 * use Reactive Extensions (RxJS)
 * an array whose items arrive asynchronously over time
+
+Ex: params is a observable
+
+```js
+  ngOnInit() {
+    this.user = {
+      id: this.route.snapshot.params['id'],
+      name: this.route.snapshot.params['name']
+    };
+    this.paramsSubscription = this.route.params
+      .subscribe(
+        (params: Params) => {
+          this.user.id = params['id'];
+          this.user.name = params['name'];
+        }
+      );
+  }
+
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
+  }
+```
+    
 
 <br>
 <br>
@@ -485,16 +525,9 @@ What is the point of calling renderer.invokeElementMethod(rendererEl, methodName
 <br>
 <br>
 
-### What is Pipes? Why use Pipes?
-### What is a pure and impure pipe?
-### What is Async Pipe?
-### How to create and use a custom Pipes?
-### Pipes Example
-
 ### What is router-outlet directive in AngularJS2?
 `<router-outlet> </router-outlet>` is used to instantiation the required components into it
 * To load the coponent of the currently selected route.
-
 
 <br>
 <br>
@@ -591,6 +624,340 @@ Router link is able to parse the string that which we pass and loads component.
   </div>
 </div>
 ```
+
+### routerLinkActive
+routerLinkActive - sets the class if that url is opted. <br>
+
+routerLinkActiveOptions - tells angular that if the url is full exact means, slash the set true
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <li role="presentation"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="/">Home</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a routerLink="servers">Servers</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a [routerLink]="['users']">Users</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+```
+
+### Navigate Programically and pass queryparams and fragment
+
+* use `router.navigate` to navigate programatically.
+```js
+export class HomeComponent implements OnInit {
+
+  constructor(private router: Router, private authService: AuthService) { }
+
+  ngOnInit() {
+  }
+
+  onLoadServer(id: number) {
+    // complex calculation
+    this.router.navigate(['/servers', id, 'edit'], {queryParams: {allowEdit: '1'}, fragment: 'loading'});
+  }
+}
+```
+* `ActivatedRoute` is to pass the current route
+```js
+  constructor(private serversService: ServersService,
+      private router: Router,
+      private route: ActivatedRoute) {
+  }
+this.router.navigate(['servers'], {relativeTo: this.route});
+```
+
+### queryParams & fragment
+on click url be :
+
+localhost:4200/servers/5/edit?allowEdit=1#loading
+
+```html
+    <div class="list-group">
+      <a
+        [routerLink]="['/servers', server.id]"
+        [queryParams]="{allowEdit: server.id === 3 ? '1' : '0'}"
+        fragment="loading"
+        href="#"
+        class="list-group-item"
+        *ngFor="let server of servers">
+        {{ server.name }}
+      </a>
+    </div>
+  </div>
+```
+
+* Retreving/Accessing queryParams & fragment using ActivatedRoute
+```js
+  constructor(private serversService: ServersService,
+      private route: ActivatedRoute,
+      private router: Router) {
+  }
+  
+  console.log(this.route.snapshot.queryParams);
+  console.log(this.route.snapshot.fragment);
+  this.route.queryParams
+      .subscribe(
+        (queryParams: Params) => {
+          this.allowEdit = queryParams['allowEdit'] === '1' ? true : false;
+        }
+      );
+  this.route.fragment.subscribe();
+```
+
+### Child(Nested) Routes:
+```js
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'users', component: UsersComponent, children: [
+    { path: ':id/:name', component: UserComponent }
+  ] },
+  {
+    path: 'servers',
+    // canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: ServersComponent,
+    children: [
+    { path: ':id', component: ServerComponent, resolve: {server: ServerResolver} },
+    { path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard] }
+  ] },
+  // { path: 'not-found', component: PageNotFoundComponent },
+  { path: 'not-found', component: ErrorPageComponent, data: {message: 'Page not found!'} },
+  { path: '**', redirectTo: '/not-found' }
+];
+
+@NgModule({
+  imports: [
+    // RouterModule.forRoot(appRoutes, {useHash: true})
+    RouterModule.forRoot(appRoutes)
+  ],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {
+
+}
+```
+
+<br>
+<br>
+
+### FORMS
+
+Two Approaches:
+
+1. Template-Driven : Angular infers the Form Object from the DOM
+2. Reactive : Form is created programamatically and synchronized with the DOM
+
+
+<br>
+<br>
+
+### Pipes
+
+### What is Pipes? Why use Pipes?
+Pipes are feature built into angular to which bascially allows you to transform output in your template
+Something like filters in angular 1
+
+
+### What is a pure and impure pipe?
+Filter pipe wont trigger while updating Arrays or Objects 
+We can enforce the pipe to be updated whenever the data changes by adding a second property to the pipe **(pure: false)**
+```js
+@Pipe({
+  name: 'filter',
+  pure: false
+})
+```
+This is a performance hit
+
+### What is Async Pipe?
+Without **async** it will display [object object](since promise is a object) because angular doesn't know
+But we know after 2 seconds it gonna be a string
+So here we can use buil-in pipe called **async**
+
+* It recognizes that this is a promise and a side note it would also work ith observables there it would subscribe automatically and after 2 seconds it would simply reconize that something changed that the promise resolved or inthe case of an observable that data was sent from the subscription 
+
+```js
+  appStatus = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('stable');
+    }, 2000);
+  });
+```
+```html
+ <h2>App Status: {{ appStatus | async}}</h2>
+ ```
+
+
+### How to create and use a custom Pipes?
+By implementing PipeTransform
+
+```js
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'shorten'
+})
+export class ShortenPipe implements PipeTransform {
+  transform(value: any, limit: number) {
+    if (value.length > limit) {
+      return value.substr(0, limit) + ' ...';
+    }
+    return value;
+  }
+}
+```
+### Pipes Example
+```js
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'filter',
+  pure: false
+})
+export class FilterPipe implements PipeTransform {
+
+  transform(value: any, filterString: string, propName: string): any {
+    if (value.length === 0 || filterString === '') {
+      return value;
+    }
+    const resultArray = [];
+    for (const item of value) {
+      if (item[propName] === filterString) {
+        resultArray.push(item);
+      }
+    }
+    return resultArray;
+  }
+
+}
+```
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <input type="text" [(ngModel)]="filteredStatus">
+      <br>
+      <button class="btn btn-primary" (click)="onAddServer()">Add Server</button>
+      <br><br>
+      <h2>App Status: {{ appStatus | async}}</h2>
+      <hr>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let server of servers | filter:filteredStatus:'status'"
+          [ngClass]="getStatusClasses(server)">
+          <span
+            class="badge">
+            {{ server.status }}
+          </span>
+          <strong>{{ server.name | shorten:15 }}</strong> |
+          {{ server.instanceType | uppercase }} |
+          {{ server.started | date:'fullDate' | uppercase }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+```
+
+<br>
+<br>
+
+### How HTTP Client interact with AngularJs2 servers?
+check below example
+
+### What is the best way to inject once service into another service?
+**@Injectable** decorator is used to inject a service into another a service. 
+so instead dispose method of the built in HTTP service here will only an observable so we have simple return 
+```js
+return this.http.post('https://udemy-ng-http.firebaseio.com/data.json',
+```
+and subscribe it in component
+```js
+this.serverService.storeServers(this.servers)
+  .subscribe(
+    (response) => console.log(response),
+    (error) => console.log(error)
+  );
+```
+
+Angular is using observables behind the scene
+```js
+import { Injectable } from '@angular/core';
+import { Headers, Http, Response } from '@angular/http';
+import 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+
+@Injectable()
+export class ServerService {
+
+  constructor(private http: Http) {}
+  
+  storeServers(servers: any[]) {
+    const headers = new Headers({'Content-Type': 'application/json'});
+    // return this.http.post('https://udemy-ng-http.firebaseio.com/data.json',
+    //   servers,
+    //   {headers: headers});
+    return this.http.put('https://udemy-ng-http.firebaseio.com/data.json',
+      servers,
+      {headers: headers});
+  }
+  getServers() {
+    return this.http.get('https://udemy-ng-http.firebaseio.com/data')
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          for (const server of data) {
+            server.name = 'FETCHED_' + server.name;
+          }
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+  getAppName() {
+    return this.http.get('https://udemy-ng-http.firebaseio.com/appName.json')
+      .map(
+        (response: Response) => {
+          return response.json();
+        }
+      );
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
