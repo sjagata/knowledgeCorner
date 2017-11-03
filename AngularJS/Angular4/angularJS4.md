@@ -665,6 +665,8 @@ Ex: `*ngIf` removing and showing the DOM elements, `*ngFor`
 `@HostBinding`
 `@HostListner`
 
+`@HostBinding` and `@HostListener` are two decorators in Angular that can be really useful in custom directives. `@HostBinding` lets you **set properties on the element or component** that hosts the directive, and `@HostListener` lets you **listen for events on the host element or component.**
+
 ```js
 import {
   Directive,
