@@ -75,6 +75,26 @@ There are 10 important new form elements introduced in HTML 5:-
 <br>
 <br>
 
+### What is the use of Drag and Drop in HTML5?
+Drag and drop is a very common feature and convenient to users. Simply, you need to grab an object and put it at the place you want. This feature is commonly used by many of the online examination websites wherein you have the options to pick up the correct answer, drag it to the answers place holder and drop it.
+
+The Drag and Drop API comes with seven new events to track a drag and drop. The events are dragstart, drag, dragend, dragenter, dragleave, dragover and drop that are triggered during the various stages of the drag and drop operation. These events are listed below: 
+
+* dragstart : triggered when dragging a draggable element.
+* drag : triggered when draggable element is moved.
+* dragend: triggered when drag and drop ends.
+* dragenter: triggered when the dragglable element is dragged over the target element
+* dragleave: triggered when the user's cursor leaves the target element while dragging
+* dragover: triggered when a draggable object is moved inside an element
+* drop: triggered when a draggle object is dropped
+
+
+* Elements that are dragged during Drag and Drop can trigger three events. These events are dragstart, drag, dragend. 
+* Elements in which we drop the draggable elements can trigger four events. These events are dragenter, dragleave, dragover and drop.
+
+<br>
+<br>
+
 ### What is SVG?
 SVG stands for scalable vector graphics. It’s a text based graphic language which draws images using text, lines, dots etc. This makes it lightweight and renders faster.
 ```html
@@ -170,6 +190,54 @@ localStorage.setItem("I001",JSON.stringify(country));
 
 ### What is the lifetime of local storage?
 Local storage does not have a life time it will stay until either the user clear it from the browser or you remove it using JavaScript code.
+
+HTML5 Web Storage, also known as DOM Storage is a way to preserve state on either the client or server which makes it much easier to work against the stateless nature of HTTP.
+
+#### Advantages of HTML5 Web Storage:
+1. It can store 5 to 10 MB data. That is far more than what cookies have.
+2. Web storage data is never transferred with HTTP request, so it increases the performance of the application.
+Web Storage Strengths and Weaknesses
+
+#### Strengths
+* Apps can work both online and offline.
+* API is easy to learn and use.
+* Has the ability to hook in to the browser events such as offline, online and storage change.
+* Has less overhead than cookies; no extra header data is sent with the browser requests.
+* Provides more space than what cookies offer so increasingly complex information can be kept.
+
+#### Weaknesses
+* Data is stored as a simple string; manipulation is needed to store objects of different types such as Booleans, Objects, Ints and Floats.
+* It has a default 5MB limit; more storage can be allowed by the user, if required.
+* It can be disabled by the user or systems administrator.
+* Storage can be slow with the complex sets of data.
+
+#### HTML5 Web Storage Methods
+* **setItem(key,value):** Adds a key/value pair to the sessionStorage object.
+* **getItem(key):** Retrieves the value for a given key.
+* **clear():** Removes all key/value pairs for the sessionStorage object.
+* **removeItem(key):** Removes a key/value pair from the sessionStorage object.
+* **key(n):** Retrieves the value for a key.
+
+<br>
+<br>
+
+### What are the types of Web Storage in HTML5?
+There are two types of Web Storage,
+
+1. Session Storage
+As its name implies, it stores data of current session only which means the data stored in session storage clears when the browser is closed.
+
+2. Local Storage
+Local Storage is a second type of HTML Web Storage. Like Session Storage, it also stores data in KEY / VALUE pair of strings. The following points helps to compare Session Storage and Local Storage.
+
+* Session Storage stores the data for only current session of the browser, when the browser closes data in, Session Storage clears. On the other hand, the data stored in Local Storage is not deleted automatically when the current browser window is closed. Data in Local Storage clears only when it is manually deleted.
+
+* The data in Session Storage is accessible only in current window of the browser but the data in the Local Storage can be shared between multiple windows of the browser.
+
+* We can only store strings in Local Storage. To save objects in Local Storage, first convert the object into JSON string and then store this string in Local Storage as shown below:
+```js
+localStorage.setItem (‘object’, JSON.stringify(object));
+```
 
 <br>
 <br>
