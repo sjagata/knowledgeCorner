@@ -134,10 +134,39 @@ Lazy loading speeds up the application initial load time by splitting the code i
 Every Angular application must have one main module say AppModule. The code should be splitted into various child modules (NgModule) based on the application business case.
 
 1. We don't require to import or declare lazily loading module in root module.
-2. Add the route to top level routing (app.routing.ts) and set loadChildren. loadChildren takes absolute path from root folder followed by #{ModuleName}. RouterModule.forRoot() takes routes array and configures the router.
+2. Add the route to top level routing (app.routing.ts) and set **loadChildren**. loadChildren takes **absolute path from root folder followed by #{ModuleName}.** **RouterModule.forRoot()** takes routes array and configures the router.
 3. Import module specific routing in the child module.
-4. In the child module routing, specify path as empty string ' ', the empty path. RouterModule.forChild again takes routes array for the child module components to load and configure router for child.
-5. Then, export const routing: ModuleWithProviders = RouterModule.forChild(routes);
+4. In the child module routing, specify path as empty string ' ', the empty path. **RouterModule.forChild** again takes routes array for the child module components to load and configure router for child.
+5. Then, export const routing: `ModuleWithProviders = RouterModule.forChild(routes);`
+
+```js
+const routes: Routes = [
+  { path: '', redirectTo: 'eager', pathMatch: 'full' },
+  { path: 'eager', component: EagerComponent },
+  { path: 'lazy', loadChildren: 'app/lazy/lazy.module#LazyModule' }
+];
+
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
+```
+```js
+import { NgModule } from '@angular/core';
+
+import { LazyComponent }   from './lazy.component';
+import { routing } from './lazy.routing';
+
+@NgModule({
+  imports: [routing],
+  declarations: [LazyComponent]
+})
+export class LazyModule {}
+```
+```js
+const routes: Routes = [
+  { path: '', component: LazyComponent }
+];
+
+export const routing: ModuleWithProviders = RouterModule.forChild(routes);
+```
 
 [plnkr](https://plnkr.co/edit/PNwh0Mn2ZJighpSoOTtw?p=info)
 
