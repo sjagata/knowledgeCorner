@@ -37,7 +37,7 @@ Notes ::
 
 * --save to mention production dependency
 
-<b>
+<br>
 <br>
 
 ### Key Differences - Constructor Vs. ngOnInit
