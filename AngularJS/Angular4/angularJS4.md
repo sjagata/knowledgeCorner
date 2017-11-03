@@ -789,6 +789,9 @@ We can enforce the pipe to be updated whenever the data changes by adding a seco
 This is a performance hit
 
 ### What is Async Pipe?
+* This is used to help us transform data we gat asynchronously and output in the template.
+
+
 Without **async** it will display [object object](since promise is a object) because angular doesn't know
 But we know after 2 seconds it gonna be a string
 So here we can use buil-in pipe called **async**
@@ -882,12 +885,44 @@ export class FilterPipe implements PipeTransform {
 <br>
 <br>
 
+### HTTP CLient
+
 ### How HTTP Client interact with AngularJs2 servers?
 check below example
+We have to import HttpModule otherwise Http service will not be possible.
+
+```js
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { AppComponent } from './app.component';
+import { ServerService } from './server.service';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule
+  ],
+  providers: [ServerService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
 
 ### What is the best way to inject once service into another service?
 **@Injectable** decorator is used to inject a service into another a service. 
-so instead dispose method of the built in HTTP service here will only an observable so we have simple return 
+* so instead dispose method of the built in HTTP service here will only an observable so we have simple return 
+* Transform responses easily with Observable Operators(map()).
+* catch operator is used catch errors and we have to return Observables.throw() method.
+* Pipes is used to help us transform data we gat asynchronously and output in the template.
+
 ```js
 return this.http.post('https://udemy-ng-http.firebaseio.com/data.json',
 ```
@@ -948,6 +983,77 @@ export class ServerService {
   }
 }
 ```
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <h1>{{ appName | async }}</h1>
+      <input type="text" #serverName>
+      <button class="btn btn-primary" (click)="onAddServer(serverName.value)">Add Server</button>
+      <br><br>
+      <button class="btn btn-primary" (click)="onSave()">Save Servers</button>
+      <button class="btn btn-primary" (click)="onGet()">Get Servers</button>
+      <hr>
+      <ul class="list-group" *ngFor="let server of servers">
+        <li class="list-group-item">{{ server.name }} (ID: {{ server.id }})</li>
+      </ul>
+    </div>
+  </div>
+</div>
+```
+```js
+import { Component } from '@angular/core';
+import { Response } from '@angular/http';
+
+import { ServerService } from './server.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  appName = this.serverService.getAppName();
+  servers = [
+    {
+      name: 'Testserver',
+      capacity: 10,
+      id: this.generateId()
+    },
+    {
+      name: 'Liveserver',
+      capacity: 100,
+      id: this.generateId()
+    }
+  ];
+  constructor(private serverService: ServerService) {}
+  onAddServer(name: string) {
+    this.servers.push({
+      name: name,
+      capacity: 50,
+      id: this.generateId()
+    });
+  }
+  onSave() {
+    this.serverService.storeServers(this.servers)
+      .subscribe(
+        (response) => console.log(response),
+        (error) => console.log(error)
+      );
+  }
+  onGet() {
+    this.serverService.getServers()
+      .subscribe(
+        (servers: any[]) => this.servers = servers,
+        (error) => console.log(error)
+      );
+  }
+  private generateId() {
+    return Math.round(Math.random() * 10000);
+  }
+}
+```
+
 
 
 
