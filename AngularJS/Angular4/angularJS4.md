@@ -41,6 +41,7 @@ Notes ::
 <br>
 
 ### Key Differences - Constructor Vs. ngOnInit
+
 #### Constructor:
 1. The **constructor** is a default method runs when component is being constructed.
 2. The constructor is a **typescript feature** and it is used only for a class instantiations and nothing to do with Angular2.
