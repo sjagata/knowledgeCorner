@@ -107,6 +107,7 @@ SVG stands for scalable vector graphics. It’s a text based graphic language wh
 3. This is slow as it needs to remember the co-ordinates for later manipulations.
 4. We can have event handler associated with the drawing object.
 5. Resolution independent.
+6. In SVG, each drawn shape is remembered as an object.
 
 ### What is canvas in HTML 5?
 Canvas is an HTML area on which you can draw graphics.
@@ -127,7 +128,57 @@ var ctx=c.getContext("2d");
 2. Canvas is good for draw and forget scenarios like animation and games.
 3. This is faster as there is no intention of remembering things later.
 4. Here we cannot associate event handlers with drawing objects as we do not have reference of them.
-5. 	Resolution dependent.
+5. Resolution dependent.
+6. Canvas is rendered pixel by pixel.
+
+<br>
+<br>
+
+### In HTML5 you can use many APIs. Some of them are: 
+* Web Workers API
+* Server-sent Events API
+* WebSocket API
+* Cross-document Messaging API
+* Drawing
+* Audio/Video
+* Drag and drop
+* Autofocus
+* Editable
+* Client-side storage
+* Geolocation
+
+<br>
+<br>
+
+### What is Vibration API in HTML5?
+Vibration is a simple, a nice way of alert when you get a new message or a phone call. It is especially useful when you are in a noisy environment or the place where you feel the ringing would be a distraction to others.
+
+<br>
+<br>
+
+### What is the use of Geolocation API of HTML5?
+The Geolocation API of HTML5 helps to identify the user’s location. It can be used to provide location-specific information. For privacy reasons, the user is asked for permission to report location information. The HTML 5 Geolocation API provides the geographical location of the user. There are many techniques used to identify the location of the user. A desktop browser generally uses WiFi or IP based positioning techniques whereas a mobile browser uses cell triangulation, GPS and A-GPS (Assistive GPS) to triangulate between mobile phone towers and public masts to determine the location and WiFi based positioning techniques and so on. 
+
+The Geolocation API will use any of these techniques to identify the user’s location. The Geolocation API protects the user’s privacy by mandating that the user permission should be sought and obtained before sending the location information of the user to any website. Hence, the user will be prompted with a popover or dialog requesting for the user’s permission to share the location information. The user can accept or deny the request.
+
+#### Geolocation Object
+The Geolocation API is published through the navigator.geolocation object. If this object is present then the geolocation service works. 
+```js
+var geolocation=navigator.geolocation;
+```
+The geolocation object is a service object that allows widgets to retrieve information about the geographic location of the device.
+
+<br>
+<br>
+
+### What is a meter tag? What is the difference between progress tag and a meter tag?
+The meter tag is used to represent a scalar measurement within a known range. The value can be fractional. 
+
+Examples: 
+Disk uses, the relevance of a query result, the fraction of a voting population to have selected a specific candidate.
+
+#### Difference between progress tag and meter tag
+A progress tag represents the completion progress of a task whereas the meter tag is used to represent gauges. We can think that a progress tag represents a dynamic data whereas a meter tag represents a static data. 
 
 <br>
 <br>
@@ -331,7 +382,10 @@ The `geolocation` object is a service object that allows widgets to retrieve inf
 <br>
 <br>
 
-### 
+### What is the use of WebSocket API?
+WebSockets provide a rich protocol to perform **bi-directional communication** and we can create a full-duplex communication channel that can be operated through a single socket over the Web and for that reason its more attractive for the things like games, messaging apps and for real-time updates in both directions.
+
+WebSocket is basically used to reduce the overhead of HTTP, since it has its own protocol defined by IETF and an API for the server communication. By using them, the client notifies the WebSocket server with the recipients ID of an event and the server immediately notifies all the active clients and the last clients processes the event when the given recipient ID matches the client ID.
 
 
 
