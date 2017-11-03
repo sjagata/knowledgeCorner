@@ -921,7 +921,7 @@ export class AppModule { }
 * so instead dispose method of the built in HTTP service here will only an observable so we have simple return 
 * Transform responses easily with Observable Operators(map()).
 * catch operator is used catch errors and we have to return Observables.throw() method.
-* Pipes is used to help us transform data we gat asynchronously and output in the template.
+* Pipes is used to help us transform data we gat asynchronously and output in the template. - if you see we are not returning Observable - it automatically transform the data
 
 ```js
 return this.http.post('https://udemy-ng-http.firebaseio.com/data.json',
@@ -1053,6 +1053,35 @@ export class AppComponent {
   }
 }
 ```
+
+<br>
+<br>
+
+### Whats new in Angular4
+* Improved `*ngIf` and `*ngFor`
+    * You can now use an if/else style syntax, and assign local variables such as when unrolling an observable.
+```html
+<div *ngIf="userList | async as users; else loading">
+  <user-profile *ngFor="let user of users; count as count; index as i" [user]="user">
+    User {{i}} of {{count}}
+  </user-profile>
+</div>
+<ng-template #loading>Loading...</ng-template>
+```
+* renderer2
+deprecated but still works but will remove in furture
+```js
+this.renderer.setElementStyle(element, 'background-color', 'red');
+```
+to 
+```js
+this.renderer.setStyle(element, 'background-color', 'red');
+```
+
+* email validator - we can remove pattern and simple use 'email' in input field
+* typescript 2 support
+* animation packages
+earlier we used to get trigger, state, transition from angular/core now angular/animations import changed and also we have to add BrowserAnimationModule 
 
 
 
