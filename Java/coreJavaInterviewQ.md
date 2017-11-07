@@ -698,9 +698,9 @@ catch(IOException io){}
 
 ## Collections 
 
-![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/Collection-Classes.png "class object")
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/Collection-Classes.jpg "class object")
 
-![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/Collection-Classes_Map.png "class object")
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/Collection-Classes_Map.jpg "class object")
 
 ### Q1. What is the main difference between an ArrayList and a Vector? What is the main difference between HashMap and Hashtable? What is the difference between a stack and a queue?
 * Original classes before the introduction of Collections API. `Vector & Hashtable` are synchronized. Any method that touches their contents is thread-safe.
