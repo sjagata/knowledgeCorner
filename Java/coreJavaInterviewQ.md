@@ -698,6 +698,10 @@ catch(IOException io){}
 
 ## Collections 
 
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/Collection-Classes.png "class object")
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/Collection-Classes_Map.png "class object")
+
 ### Q1. What is the main difference between an ArrayList and a Vector? What is the main difference between HashMap and Hashtable? What is the difference between a stack and a queue?
 * Original classes before the introduction of Collections API. `Vector & Hashtable` are synchronized. Any method that touches their contents is thread-safe.
 * So if you don’t need a thread safe collection, use the `ArrayList or HashMap`. Why pay the price of synchronization unnecessarily at the expense of performance degradation.
@@ -922,6 +926,15 @@ ArrayList list = new ArrayList();
 6. **Encapsulate collections:** In general collections are not immutable objects. So care should be taken not to unintentionally expose the collection fields to the caller.
 
 7. Avoid storing unrelated or different types of objects into same collection
+
+<br>
+<br>
+
+### 4. How HashSet and LinkedHashSet works?
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/HowHashSetWorks.png "class object")
+
+![alt text](https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Java/images/HowLinkedHashSetWorks.png "class object")
 
 
 
