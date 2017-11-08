@@ -166,8 +166,17 @@ class App extends React.Component {
 <br>
 <br>
 
-### 
+### How is React different from Angular?
+React vs Angular
 
+|TOPIC |	REACT |	ANGULAR|
+|-------|-----------|-------|
+|1. ARCHITECHTURE|	Only the View of MVC|	Complete MVC|
+|2. RENDERING|	Server side rendering|	Client side rendering|
+|3. DOM|	Uses virtual DOM|	Uses real DOM|
+|4. DATA BINDING|	One-way data binding	|Two-way data binding|
+|5. DEBUGGING|	Compile time debugging|	Run time debugging|
+|6. AUTHOR|	Facebook	|Google|
 <br>
 <br>
 
