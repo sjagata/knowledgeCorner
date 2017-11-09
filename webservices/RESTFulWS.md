@@ -39,7 +39,7 @@ Some considerations:
 * With POST you can have 2 requests coming in at the same time making modifications to a URL, and they may update different parts of the object.
 
 
-> POST:
+**POST:**
 Used to modify and update a resource
 ```html
 POST /questions/<existing_question> HTTP/1.1
@@ -59,7 +59,7 @@ Host: www.example.com/
 ```
 Note that in this case the resource name is not specified, the new objects URL path would be returned to you.
 
-> PUT:
+**PUT:**
 Used to create a resource, or overwrite it. While you specify the resources new URL.
 
 For a new resource:
