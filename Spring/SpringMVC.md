@@ -1,5 +1,64 @@
 # Spring MVC
 
+## What is Spring MVC?
+* Framework for building web applications in Java
+* Based on Model-View-Controller design pattern
+* Leverages features of the Core Spring Framework (IoC, DI)
+
+## Model-View-Controller (MVC)
+[logo]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Spring/images/mvc.png "Spring MVC"
+
+## Spring MVC Benefits
+* The Spring way of building web app UIs in Java
+* Leverage a set of reusable UI components
+* Help manage application state for web requests
+* Process form data: validation, conversion etc
+* Flexible configuration for the view layer
+
+## Components of a Spring MVC Application
+* A set of web pages to layout UI components **[Web Pages]**
+* A collection of Spring beans (controllers, services, etc…) **[Beans]**
+* Spring configuration (XML, Annotations or Java) **[Spring Configuration]**
+
+## Spring MVC Front Controller
+* Front controller known as DispatcherServlet
+	* Part of the Spring Framework
+	* Already developed by Spring Dev Team
+* You will create
+	* Model objects (orange)
+	* View templates (dark green)
+	* Controller classes (yellow)
+[logo]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Spring/images/mvc.png "Spring MVC"
+
+## Controller
+* Code created by developer
+* Contains your business logic
+	* Handle the request
+	* Store/retrieve data (db, web service…)
+	* Place data in model
+* Send to appropriate view template
+
+## Model
+* Model: contains your data
+* Store/retrieve data via backend systems
+	* database, web service, etc…
+	* Use a Spring bean if you like
+* Place your data in the model
+	* Data can be any Java object/collection
+
+## View Template
+* Spring MVC is flexible
+	* Supports many view templates
+* Most common is JSP + JSTL
+* Developer creates a page
+	* Displays data
+
+<hr>
+
+<br>
+<br>
+<br>
+
 [reference](http://tutorialspointexamples.com)
 
 Spring mvc framework provides the facility to build flexible and loosely coupled web applications. MVC stands for Model-View-Controller design pattern which separates the business logic, presentation logic and navigation logic.
