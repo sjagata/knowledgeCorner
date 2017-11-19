@@ -6,7 +6,8 @@
 * Leverages features of the Core Spring Framework (IoC, DI)
 
 ## Model-View-Controller (MVC)
-[logo]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Spring/images/mvc.png "Spring MVC"
+![alt text][mvc]
+[mvc]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Spring/images/mvc.png "Spring MVC"
 
 ## Spring MVC Benefits
 * The Spring way of building web app UIs in Java
@@ -28,7 +29,9 @@
 	* Model objects (orange)
 	* View templates (dark green)
 	* Controller classes (yellow)
-[logo]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Spring/images/mvc.png "Spring MVC"
+	
+![alt text][mvc]
+[mvc]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/Spring/images/mvc.png "Spring MVC"
 
 ## Controller
 * Code created by developer
