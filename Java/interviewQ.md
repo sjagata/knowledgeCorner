@@ -1,12 +1,12 @@
 ### 1. What are immutable objects? What are the advantages of these objects?
-Immutability is often presented as a key concept of functional programming. Most functional programming languages like Haskell, OCaml and Scala follow a immutable-by-default approach for variables in their programs. In fact to write code which uses mutation programmers have to go out of the way and do something special - like using monads in Haskell and mutable references in OCaml and Scala. It is of course also possible to create and use immutable objects in other programming languages. In order to get the benefits of immutability in Java we can use the following guidelines while programming -
+Immutability is often presented as a key concept of functional programming. In order to get the benefits of immutability in Java we can use the following guidelines while programming -
 
-Mark the class final
-Mark all the fields private and final
-Force all the callers to construct an object of the class directly, i.e. do not use any setter methods
-Do not change the state of the objects in any methods of the class
+* Mark the class final
+* Mark all the fields private and final
+* Force all the callers to construct an object of the class directly, i.e. do not use any setter methods
+* Do not change the state of the objects in any methods of the class
 
-
+**Advantages:**
 * Immutable objects are thread-safe so you will not have any synchronization issues.
 * Immutable objects are good Map keys and Set elements, since these typically do not change once created.
 * Immutability makes it easier to write, use and reason about the code (class invariant is established once and then unchanged)
@@ -14,16 +14,134 @@ Do not change the state of the objects in any methods of the class
 * The internal state of your program will be consistent even if you have exceptions.
 * References to immutable objects can be cached as they are not going to change.
 
+As a good programming practice in Java one should try to use immutable objects as far as possible. Immutability can have a performance cost, since when an object cannot be mutated we need to copy it if we want to write to it. When you care a lot about performance (e.g. programming a game) it may be necessary to use a mutable object. Even then it is often better to try to limit the mutability of objects.
+
+<br>
+<br>
+
+### 2. How would you write a constructor for an immutable class person with fields name and DOB?
+```java
+public final class Contacts {
+
+    private final String name;
+    private final Date dob;
+
+    public Contacts(String name, Date dob) {
+        this.name = name;
+        this.dob = dob;
+    }
+  
+    public String getName(){
+        return name;
+    }
+  
+    public String getDob(){
+        return dob;
+    }
+}
+```
+
+<br>
+<br>
+
+### 3. What are daemon threads?
+Daemon thread in java can be useful to run some tasks in background. An example for a daemon thread is the garbage collection.
+
+When a thread is marked as daemon thread, JVM doesn’t wait it to finish to terminate the program. As soon as all the user threads are finished, JVM terminates the program as well as all the associated daemon threads.
+
+`Thread.setDaemon(true)` is used to create a daemon thread in java. This method should be invoked before the thread is started otherwise it will throw `IllegalThreadStateException`.
+
+We can check if a thread is daemon thread or not by calling `isDaemon()` method on it.
+
+Another point is that when a thread is started, it inherits the daemon status of it’s parent thread.
+```java
+package com.journaldev.threads;
+
+public class JavaDaemonThread {
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread dt = new Thread(new DaemonThread(), "dt");
+        dt.setDaemon(true);
+        dt.start();
+        //continue program
+        Thread.sleep(30000);
+        System.out.println("Finishing program");
+    }
+
+}
+
+class DaemonThread implements Runnable{
+
+    @Override
+    public void run() {
+        while(true){
+            processSomething();
+        }
+    }
+    
+    private void processSomething() {
+        try {
+            System.out.println("Processing daemon thread");
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+}
+```
+When we execute above daemon thread program, JVM creates first user thread with main() method and then a daemon thread.
+
+When main method is finished, the program terminates and daemon thread is also shut down by JVM.
+
+**Daemon Thread Usage**
+Usually we create a daemon thread for functionalities that are not critical to system. For example logging thread or monitoring thread to capture the system resource details and their state. If you are not okay will a thread being terminated, don’t create it as a daemon thread.
+
+<br>
+<br>
+
+### 4. Explain the use of executor framework in multithreading?
 
 
+<br>
+<br>
+
+### 5. What is the difference between callable and runnable interface?
+The Callable interface is similar to Runnable, in that both are designed for classes whose instances are potentially executed by another thread. A Runnable, however, does not return a result and cannot throw a checked exception.
 
 
-2. How would you write a constructor for an immutable class person with fields name and DOB?
-3. What are daemon threads?
-4. Explain the use of executor framework in multithreading?
-5. What is the difference between callable and runnable interface?
-6. What are the major differences between ArrayList and LinkedList?
-7. What is the difference between LinkedList and doublyLinkedList?
+<br>
+<br>
+
+### 6. What are the major differences between ArrayList and LinkedList?
+Main difference between ArrayList and LinkedList is that ArrayList is implemented using re sizable array while LinkedList is implemented using doubly LinkedList. ArrayList is more popular among Java programmer than LinkedList as there are few scenarios on which LinkedList is a suitable collection than ArrayList. In this article we will see some differences between LinkedList and ArrayList and try to find out when and where to use LinkedList over ArrayList.
+
+1) Since Array is an index based data-structure searching or getting element from Array with index is pretty fast. Array provides O(1) performance for get(index) method but remove is costly in ArrayList as you need to rearrange all elements. On the Other hand LinkedList doesn't provide Random or index based access and you need to iterate over linked list to retrieve any element which is of order O(n).
+
+2) Insertions  are easy and fast in LinkedList as compared to ArrayList because there is no risk of resizing array
+and copying content to new array if array gets full which makes adding into ArrayList of O(n) in worst case, while adding is O(1) operation in LinkedList in Java. ArrayList also needs to update its index if you insert something anywhere except at the end of array.
+
+3) Removal is like insertions better in LinkedList than ArrayList.
+
+4) LinkedList has more memory overhead than ArrayList because in ArrayList each index only holds actual object (data) but in case of LinkedList each node holds both data and address of next  and previous node.
+
+**When to use LinkedList and ArrayList in Java**
+
+As I said LinkedList is not as popular as ArrayList but still there are situation where a LinkedList is better choice than ArrayList in Java. Use LinkedList in Java if:
+
+1) Your application can live without Random access. Because if you need nth element in LinkedList you need to first traverse up to nth element O(n) and than you get data from that node.
+
+2) Your application is more insertion and deletion driver and you insert or remove more than retrieval. Since insertion or
+removal doesn't involve resizing its much faster than ArrayList.
+
+That’s all on difference between ArrayList and LinkedList in Java. Use ArrayList in Java for all there situation where you need a non-synchronized index based access. ArrayList is fast and easy to use, just try to minimize array resizing by constructing arraylist with proper initial size
+
+
+<br>
+<br>
+
+### 7. What is the difference between LinkedList and doublyLinkedList?
+
 8. How do the keys operate in a HashMap?
  
 9. How will you implement sorting logic in ArrayList? Array List contains custom type objects.
