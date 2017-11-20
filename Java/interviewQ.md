@@ -336,6 +336,8 @@ cat
 <br>
 
 ### 10. HashMap example, where he adds null key to the map. Question was if it will get compiled?
+HashMap supports both null keys and values
+
 <br>
 <br>
 
@@ -344,14 +346,57 @@ cat
 <br>
 
 ### 12. Will a singleton pattern work in a multi clustered environment?
+Distributed Singleton Caches
+
 <br>
 <br>
 
 ### 13. What are the concurrent in the collection classes?
+Java Concurrent Collection Classes
+
+* **BlockingQueue** – an interface that is at the base of all Queue based concurrent collections. While adding an element to a BlockingQueue, if there is no space it can wait till it becomes available and when retrieving, it will wait till an element is available if it is empty.
+* **ArrayBlockingQueue** – a blocking queue class based on bounded Java Array. Once instantiated, cannot be resized.
+* **SynchronousQueue** – a blocking queue class with capacity of zero always.
+* **PriorityBlockingQueue** – a priority queue based blocking queue. It is an unbounded concurrent collection.
+* **LinkedBlockingQueue** – an optionally bounded Java concurrent collection. Orders elements based on FIFO order.
+* **DelayQueue** – a queue where only delay expired elements can be taken out. Its an unbounded concurrent collection.
+* **BlockingDeque** – an interface that extends BlockingQueue and adds the operations of Deque.
+* **LinkedBlockingDeque** – an implementation class of BlockingDequeue.
+* **TransferQueue** – a Java concurrent collection interface that extends BlockingQueue and adds method where the producer will wait for the consumer to receive elements.
+* **LinkedTransferQueue** – an implementation class of TransferQueue.
+* **ConcurrentMap** – a Java concurrent collection interface and a type of Map which provides thread safety and atomicity guarantees.
+* **ConcurrentHashMap** – an implementation class of ConcurrentMap.
+* **ConcurrentNavigableMap** – a Java concurrent collection interface that extends ConcurrentMap and adds operations of NavigableMap.
+* **ConcurrentSkipListMap** – an implementation class of ConcurrentNavigableMap.
 <br>
 <br>
 
 ### 14. How will you handle unchecked exception in multi-threaded environment?
+ We are talking about unchecked exceptions thrown from Thread.run method. By default, you will get sth like this in system error:
+```java
+Exception in thread "Thread-0" java.lang.RuntimeException
+    at Main$1.run(Main.java:11)
+    at java.lang.Thread.run(Thread.java:619)
+```
+
+This is the result of printStackTrace for unhandled exceptions. To handle it, you can add your own UncaughtExceptionHandler:
+```java
+
+Thread t = new Thread(new Runnable(){
+        public void run() {
+            throw new RuntimeException();
+        }       
+    });
+   t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+        public void uncaughtException(Thread t, Throwable e) {
+            System.out.println("exception " + e + " from thread " + t);
+        }
+    });
+    t.start();
+```
+To set handler for all threads use a static method `Thread.setDefaultUncaughtExceptionHandler`.
+ 
  
 <br>
 <br>
@@ -362,10 +407,22 @@ cat
 <br>
 
 ### 16. Difference between collection and collections?
+[Collection](java.sun.com/javase/6/docs/api/java/util/Collection.html) is a base interface for most collection classes, whereas [Collections](java.sun.com/javase/6/docs/api/java/util/Collections.html) is a utility class. I recommend you read the documentation.
+
 <br>
 <br>
 
 ### 17. Different classes in collection?
+The entire collection framework is divided into four interfaces.
+
+1) List  —> It handles sequential list of objects. ArrayList, Vector and LinkedList classes implement this interface.
+
+2) Queue  —> It handles special list of objects in which elements are removed only from the head. LinkedList and PriorityQueue classes implement this interface.
+
+3) Set  —> It handles list of objects which must contain unique element. This interface is implemented by HashSet and LinkedHashSet classes and extended by SortedSet interface which in turn, is implemented by TreeSet.
+
+4) Map  —> This is the one interface in Collection Framework which is not inherited from Collection interface. It handles group of objects as Key/Value pairs. It is implemented by HashMap and HashTable classes and extended by SortedMap interface which in turn is implemented by TreeMap.
+
 <br>
 <br>
 
@@ -374,6 +431,21 @@ cat
 <br>
 
 ### 19. Spring different types of scope?
+1. singleton(default*)
+Scopes a single bean definition to a single object instance per Spring IoC container.
+
+2. prototype
+Scopes a single bean definition to any number of object instances.
+
+3. request
+Scopes a single bean definition to the lifecycle of a single HTTP request; that is each and every HTTP request will have its own instance of a bean created off the back of a single bean definition. Only valid in the context of a web-aware Spring ApplicationContext.
+
+4. session
+Scopes a single bean definition to the lifecycle of a HTTP Session. Only valid in the context of a web-aware Spring ApplicationContext.
+
+5. global session
+Scopes a single bean definition to the lifecycle of a global HTTP Session. Typically only valid when used in a portlet context. Only valid in the context of a web-aware Spring ApplicationContext.
+
 <br>
 <br>
 
