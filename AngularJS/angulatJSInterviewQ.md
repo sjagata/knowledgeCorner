@@ -31,7 +31,12 @@
 
 [digestprocess6]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess6.png "digestprocess6"
 
+![alt text][digestprocess7]
+
+[digestprocess7]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess7.png "digestprocess7"
+
 [article](https://www.youtube.com/watch?v=SYuc1oSjhgY)
+[article](https://www.youtube.com/watch?v=3m41zdbWboE)
 <br>
 <br>
 
