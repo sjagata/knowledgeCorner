@@ -17,6 +17,10 @@
 
 [digestprocess2]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess2.png "digestprocess2"
 
+
+![alt text][digestprocess3]
+
+[digestprocess3]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess3.png "digestprocess3"
 <br>
 <br>
 
