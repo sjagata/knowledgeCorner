@@ -27,9 +27,9 @@
 [digestprocess4]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess4.png "digestprocess4"
 
 
-![alt text][digestprocess5]
+![alt text][digestprocess6]
 
-[digestprocess5]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess5.png "digestprocess5"
+[digestprocess6]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess6.png "digestprocess6"
 
 [article](https://www.youtube.com/watch?v=SYuc1oSjhgY)
 <br>
