@@ -141,44 +141,318 @@ That’s all on difference between ArrayList and LinkedList in Java. Use ArrayLi
 <br>
 
 ### 7. What is the difference between LinkedList and doublyLinkedList?
+`java.util.LinkedList` is a doubly-linked list.
 
-8. How do the keys operate in a HashMap?
+All of the operations perform as could be expected for a doubly-linked list.
+You can create it by passing the array list as constructor argument:
+```java
+List linkedList = new LinkedList(arrayList);
+```
+Update: The `java.util.LinkedList` has `add(index, element)` which, combined with `indexOf(..)` should cover the `addBefore` and `addAfter` methods. You can extend LinkedList to add these convenient methods if you like.
+
+<br>
+<br>
+
+### 8. How do the keys operate in a HashMap?
  
-9. How will you implement sorting logic in ArrayList? Array List contains custom type objects.
-10. HashMap example, where he adds null key to the map. Question was if it will get compiled?
-11. How will you implement AbstractFactory Design Pattern?
-12. Will a singleton pattern work in a multi clustered environment?
-13. What are the concurrent in the collection classes?
-14. How will you handle unchecked exception in multi-threaded environment?
+<br>
+<br>
+
+### 9. How will you implement sorting logic in ArrayList? Array List contains custom type objects.
+```java
+package collections.framework;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class C7_SortingListsComparator {
+
+	public static void main(String[] args) {
+		////////////////////// Sorting Strings ////////////////////////////////
+		List<String> animals = new ArrayList<String>();
+
+		animals.add("tiger");
+		animals.add("lion");
+		animals.add("cat");
+		animals.add("snake");
+		animals.add("mongoose");
+		animals.add("elephant");
+
+		// Collections.sort(animals, new StringLengthComparator());
+		Collections.sort(animals, new ReverseAlphabeticalComparator());
+
+		for (String animal : animals) {
+			System.out.println(animal);
+		}
+
+		////////////////////// Sorting Numbers ////////////////////////////////
+		List<Integer> numbers = new ArrayList<Integer>();
+
+		numbers.add(3);
+		numbers.add(36);
+		numbers.add(73);
+		numbers.add(40);
+		numbers.add(1);
+
+		Collections.sort(numbers, new Comparator<Integer>() {
+			public int compare(Integer num1, Integer num2) {
+				return -num1.compareTo(num2);
+			}
+		});
+
+		for (Integer number : numbers) {
+			System.out.println(number);
+		}
+
+		////////////////////// Sorting arbitary objects  ////////////////////////////////
+
+		List<Human> human = new ArrayList<Human>();
+
+		human.add(new Human(1, "Joe"));
+		human.add(new Human(3, "Bob"));
+		human.add(new Human(4, "Clare"));
+		human.add(new Human(2, "Sue"));
+
+		// Sort in order of ID
+		Collections.sort(human, new Comparator<Human>() {
+			public int compare(Human p1, Human p2) {
+
+				if (p1.getId() > p2.getId()) {
+					return 1;
+				} else if (p1.getId() < p2.getId()) {
+					return -1;
+				}
+
+				return 0;
+			}
+		});
+
+		for (Human person : human) {
+			System.out.println(person);
+		}
+
+		System.out.println("/n");
+		// Sort in order of name
+		Collections.sort(human, new Comparator<Human>() {
+			public int compare(Human p1, Human p2) {
+				return p1.getName().compareTo(p2.getName());
+			}
+		});
+
+		for (Human person : human) {
+			System.out.println(person);
+		}
+
+	}
+
+}
+
+class Human {
+	private int id;
+	private String name;
+
+	public Human(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String toString() {
+		return id + ": " + name;
+	}
+}
+
+class StringLengthComparator implements Comparator<String> {
+
+	@Override
+	public int compare(String s1, String s2) {
+
+		int len1 = s1.length();
+		int len2 = s2.length();
+
+		if (len1 > len2) {
+			return 1;
+		} else if (len1 < len2) {
+			return -1;
+		}
+
+		return 0;
+	}
+}
+
+class ReverseAlphabeticalComparator implements Comparator<String> {
+
+	@Override
+	public int compare(String s1, String s2) {
+		return -s1.compareTo(s2);
+	}
+}
+
+
+
+/*
+tiger
+snake
+mongoose
+lion
+elephant
+cat
+73
+40
+36
+3
+1
+1: Joe
+2: Sue
+3: Bob
+4: Clare
+/n
+3: Bob
+4: Clare
+1: Joe
+2: Sue
+
+ */
+```
+
+<br>
+<br>
+
+### 10. HashMap example, where he adds null key to the map. Question was if it will get compiled?
+<br>
+<br>
+
+### 11. How will you implement AbstractFactory Design Pattern?
+<br>
+<br>
+
+### 12. Will a singleton pattern work in a multi clustered environment?
+<br>
+<br>
+
+### 13. What are the concurrent in the collection classes?
+<br>
+<br>
+
+### 14. How will you handle unchecked exception in multi-threaded environment?
  
-15. If the DBA's goofed up and forgot to mark the PK field as Primary Key and duplicate data gets loaded. How will you manage it?
+<br>
+<br>
+
+### 15. If the DBA's goofed up and forgot to mark the PK field as Primary Key and duplicate data gets loaded. How will you manage it?
  
-16. Difference between collection and collections?
-17. Different classes in collection?
-18. How to save a directory structure in java?
-19. Spring different types of scope?
-20. What is the lifecycle of a bean?
-21. How to count different salary in database?
+<br>
+<br>
+
+### 16. Difference between collection and collections?
+<br>
+<br>
+
+### 17. Different classes in collection?
+<br>
+<br>
+
+### 18. How to save a directory structure in java?
+<br>
+<br>
+
+### 19. Spring different types of scope?
+<br>
+<br>
+
+### 20. What is the lifecycle of a bean?
+<br>
+<br>
+
+### 21. How to count different salary in database?
  
-22. Advantages and disadvantages of using SOAP WebServices?
-23. About Restful WebServices?
-24. Spring bean scopes – repeated?
-25. Explain about executor framework and future object?
-26. Differences between Array List and Linked List –repeated?
-27. Creating Immutable class?
-28. Is it possible to add new member variables in immutable class once created?
-29. What is singleton class?
-30. Can you access static variable from non-static methods?
-31. Static vs singleton?
-32. When there are two elements having the same value 5 how will you remove from an ArrayList? Will it thrown an exception and what is it.?
-33. Pseudocode to remove element in Linked List?
+<br>
+<br>
+
+### 22. Advantages and disadvantages of using SOAP WebServices?
+<br>
+<br>
+
+### 23. About Restful WebServices?
+<br>
+<br>
+
+### 24. Spring bean scopes – repeated?
+<br>
+<br>
+
+### 25. Explain about executor framework and future object?
+<br>
+<br>
+
+### 26. Differences between Array List and Linked List –repeated?
+<br>
+<br>
+
+### 27. Creating Immutable class?
+<br>
+<br>
+
+### 28. Is it possible to add new member variables in immutable class once created?
+<br>
+<br>
+
+### 29. What is singleton class?
+<br>
+<br>
+
+### 30. Can you access static variable from non-static methods?
+<br>
+<br>
+
+### 31. Static vs singleton?
+<br>
+<br>
+
+### 32. When there are two elements having the same value 5 how will you remove from an ArrayList? Will it thrown an exception and what is it.?
+<br>
+<br>
+
+### 33. Pseudocode to remove element in Linked List?
  
-34. What is closure in JavaScript?
-35. What is prototype in JavaScript?
-36. What is the difference between == and === in JavaScript?
+<br>
+<br>
+
+### 34. What is closure in JavaScript?
+<br>
+<br>
+
+### 35. What is prototype in JavaScript?
+<br>
+<br>
+
+### 36. What is the difference between == and === in JavaScript?
  
-37. Thread?
-38. Cyclicbarrier vs Countdown latch (some deep question on them)?
+<br>
+<br>
+
+### 37. Thread?
+<br>
+<br>
+
+### 38. Cyclicbarrier vs Countdown latch (some deep question on them)?
  
 Features and some question on that
 1. Collection
