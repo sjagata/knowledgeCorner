@@ -450,6 +450,19 @@ Scopes a single bean definition to the lifecycle of a global HTTP Session. Typic
 <br>
 
 ### 20. What is the lifecycle of a bean?
+
+1. Instantiation
+2. Properties population
+3. Call of `setBeanName()` method of `BeanNameAware`
+4. Call of `setBeanFactory()` method of `BeanFactoryAware`
+5. Call of `setApplicationContext()` of `ApplicationContextAware`
+6. Pre-initialization with `BeanPostProcessor`
+7. Call of `afterPropertiesSet()` method of InitializingBean
+8. Custom `init` method
+9. `Post-initialization` with `BeanPostProcessor`
+10. Bean is ready to use
+11. Call of `destroy()` method of `DisposableBean`
+12. Custom destroy method
 <br>
 <br>
 
@@ -466,19 +479,20 @@ Scopes a single bean definition to the lifecycle of a global HTTP Session. Typic
 <br>
 <br>
 
-### 24. Spring bean scopes – repeated?
-<br>
-<br>
-
 ### 25. Explain about executor framework and future object?
 <br>
 <br>
 
-### 26. Differences between Array List and Linked List –repeated?
-<br>
-<br>
-
 ### 27. Creating Immutable class?
+To create immutable class in java, you have to do following steps.
+
+1. Declare the class as final so it can’t be extended.
+2. Make all fields private so that direct access is not allowed.
+3. Don’t provide setter methods for variables
+4. Make all mutable fields final so that it’s value can be assigned only once.
+5. Initialize all the fields via a constructor performing deep copy.
+6. Perform cloning of objects in the getter methods to return a copy rather than returning the actual object reference.
+
 <br>
 <br>
 
@@ -487,14 +501,31 @@ Scopes a single bean definition to the lifecycle of a global HTTP Session. Typic
 <br>
 
 ### 29. What is singleton class?
+In object-oriented programming, a singleton class is a class that can have only one object (an instance of the class) at a time.
+After first time, if we try to instantiate the Singleton class, the new variable also points to the first instance created. So whatever modifications we do to any variable inside the class through any instance, it affects the variable of the single instance created and is visible if we access that variable through any variable of that class type defined.
+To design a singleton class:
+
+* Make constructor as private.
+* Write a static method that has return type object of this singleton class. Here, the concept of Lazy initialization in used to write this static method.
+
 <br>
 <br>
 
 ### 30. Can you access static variable from non-static methods?
+* Instance methods can access instance variables and instance methods directly.
+* Instance methods can access class variables and class methods directly.
+* Class methods can access class variables and class methods directly.
+* Class methods cannot access instance variables or instance methods directly—they must use an object reference. Also, class methods cannot use the this keyword as there is no instance for this to refer to.
+
+So the answer is yes, non-static methods CAN modify static variables
 <br>
 <br>
 
 ### 31. Static vs singleton?
+A singleton allows access to a single created instance - that instance (or rather, a reference to that instance) can be passed as a parameter to other methods, and treated as a normal object.
+
+A static class allows only static methods.
+
 <br>
 <br>
 
@@ -508,15 +539,50 @@ Scopes a single bean definition to the lifecycle of a global HTTP Session. Typic
 <br>
 
 ### 34. What is closure in JavaScript?
+A closure is an inner function that has access to the outer (enclosing) function’s variables—scope chain. The closure has three scope chains: it has access to its own scope (variables defined between its curly brackets), it has access to the outer function’s variables, and it has access to the global variables.
+
+The inner function has access not only to the outer function’s variables, but also to the outer function’s parameters. Note that the inner function cannot call the outer function’s arguments object, however, even though it can call the outer function’s parameters directly.
+```js
+function showName (firstName, lastName) {
+var nameIntro = "Your name is ";
+    // this inner function has access to the outer function's variables, including the parameter​
+function makeFullName () {
+	return nameIntro + firstName + " " + lastName;
+}
+
+return makeFullName ();
+}
+showName ("Michael", "Jackson"); // Your name is Michael Jackson 
+```
+
 <br>
 <br>
 
 ### 35. What is prototype in JavaScript?
+Every JavaScript object has a prototype. The prototype is also an object.
+
+All JavaScript objects inherit their properties and methods from their prototype.
+
+Objects created using an object literal, or with new Object(), inherit from a prototype called Object.prototype.
+
+Objects created with new Date() inherit the Date.prototype.
+
+The Object.prototype is on the top of the prototype chain.
+
+All JavaScript objects (Date, Array, RegExp, Function, ....) inherit from the Object.prototype.
+
 <br>
 <br>
 
 ### 36. What is the difference between == and === in JavaScript?
- 
+ JavaScript has both strict and type-converting equality comparison. For strict equality the objects being compared must have the same type and:
+
+* Two strings are strictly equal when they have the same sequence of characters, same length, and same characters in corresponding positions.
+* Two numbers are strictly equal when they are numerically equal (have the same number value). NaN is not equal to anything, including NaN. Positive and negative zeros are equal to one another.
+* Two Boolean operands are strictly equal if both are true or both are false.
+* Two objects are strictly equal if they refer to the same Object.
+* Null and Undefined types are == (but not ===). [I.e. (Null==Undefined) is true but (Null===Undefined) is false]
+
 <br>
 <br>
 
