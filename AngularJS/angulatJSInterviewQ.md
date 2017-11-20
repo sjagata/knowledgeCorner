@@ -1,5 +1,9 @@
 
 [mvvm explained](https://msdn.microsoft.com/en-us/library/hh848246.aspx)
+	
+![alt text][mvc]
+
+[mvc]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess.png "digestprocess"
 
 <br>
 <br>
