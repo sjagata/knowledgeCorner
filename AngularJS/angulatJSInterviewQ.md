@@ -1,9 +1,17 @@
 
 [mvvm explained](https://msdn.microsoft.com/en-us/library/hh848246.aspx)
-	
-![alt text][mvc]
 
-[mvc]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess.png "digestprocess"
+![alt text][mvvm]
+
+[mvvm]: https://i-msdn.sec.s-msft.com/dynimg/IC564167.png "mvvm"
+
+<br>
+<br>
+
+	
+![alt text][digestprocess]
+
+[digestprocess]: https://github.com/SandeepJagatha/knowledgeCorner/blob/master/AngularJS/images/digestprocess.png "digestprocess"
 
 <br>
 <br>
