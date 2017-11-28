@@ -697,8 +697,20 @@ Very generic question like have you worked on “Rest WebService”, “JQuery�
 9. Spring bean scope
 10. Hibernate criteria
 11. Caching Mechanism
-12. When dealing with sensitive data, is it good to use string or array of char's. Why?
-13. Which is better String s ="hello" or String s= new String ("hello")
+<br>
+<br>
+
+### 12. When dealing with sensitive data, is it good to use string or array of char's. Why?
+The biggest difference between the two is the way Garbage Collector(GC) handles each of the object. Since Strings are handled by Java Garbage Collector in a different way than the other traditional objects, it makes String less usable to store sensitive information.
+
+So the main reasons to prefer char[] are:
+1. IMMUTABILITY OF STRINGS.
+2. ACCIDENTAL PRINTING TO LOGS
+3. RECOMMENDATION BY JAVA ITSELF 
+
+<br>
+<br>
+### 13. Which is better String s ="hello" or String s= new String ("hello")
 
 <br>
 <br>
