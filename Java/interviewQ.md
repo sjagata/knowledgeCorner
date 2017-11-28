@@ -530,11 +530,79 @@ A static class allows only static methods.
 <br>
 
 ### 32. When there are two elements having the same value 5 how will you remove from an ArrayList? Will it thrown an exception and what is it.?
+
+```java
+ArrayList<Integer> numbers = new ArrayList<Integer>();
+
+// Adding
+numbers.add(10);
+numbers.add(100);
+numbers.add(40);
+numbers.add(5);
+numbers.add(5);
+
+// Retrieving
+System.out.println(numbers.get(0)); // 10
+
+numbers.remove(numbers.size() - 1); // 5 will be removed
+
+// This is VERY slow
+numbers.remove(0);
+numbers.remove(new Integer(5)); // removes the first Integer object that is equal to the 5
+
+for (Integer value : numbers) {
+	System.out.println(value);
+}
+```		
+
+If you don't want duplicates in a Collection, you should consider why you're using a Collection that allows duplicates. The easiest way to remove repeated elements is to add the contents to a Set (which will not allow duplicates) and then add the Set back to the ArrayList:
+```java
+List<String> al = new ArrayList<>();
+// add elements to al, including duplicates
+Set<String> hs = new HashSet<>();
+hs.addAll(al);
+al.clear();
+al.addAll(hs);
+```
+
+Of course, this destroys the ordering of the elements in the ArrayList.
+
+LinkedHashSet, if you wish to retain the order.
+
 <br>
 <br>
 
 ### 33. Pseudocode to remove element in Linked List?
- 
+ ```java
+ public static void main(String[] args) {
+	/*
+	 * ArrayLists manage arrays internally. [0][1][2][3][4][5] ....
+	 */
+	List<Integer> arrayList = new ArrayList<Integer>();
+
+	/*
+	 * LinkedLists consists of elements where each element has a reference
+	 * to the previous and next element [0]->[1]->[2] .... <- <-
+	 */
+	List<Integer> linkedList = new LinkedList<Integer>();
+
+	//doTimings adds 200000 items
+	doTimings("ArrayList", arrayList); // Time taken: 2858 ms for ArrayList
+	doTimings("LinkedList", linkedList); // Time taken: 6 ms for LinkedList
+
+	System.out.println(linkedList.size()); //200000
+	System.out.println(arrayList.size()); //200000
+
+	for(Iterator<Integer> iter = linkedList.iterator(); iter.hasNext();) {
+	    int data = iter.next();
+	    if (data == 25815) {
+		    System.out.println(data);
+		iter.remove();
+		break;
+	    }
+	}
+}
+```
 <br>
 <br>
 
@@ -587,10 +655,22 @@ All JavaScript objects (Date, Array, RegExp, Function, ....) inherit from the Ob
 <br>
 
 ### 37. Thread?
+Thread class provide constructors and methods to create and perform operations on a thread.Thread class extends Object class and implements Runnable interface.
+
+
 <br>
 <br>
 
 ### 38. Cyclicbarrier vs Countdown latch (some deep question on them)?
+ CountDownLatch works in latch principle, main thread will wait until gate is open. One thread waits for n number of threads specified while creating CountDownLatch in Java.
+ 
+ Any thread, usually main thread of application, which calls CountDownLatch.await() will wait until count reaches zero or its interrupted by another thread. All other thread are required to do count down by calling CountDownLatch.countDown() once they are completed or ready.
+ 
+ As soon as count reaches zero, Thread awaiting starts running. One of the disadvantages/advantages of CountDownLatch is that it's not reusable once count reaches to zero you can not use CountDownLatch any more.
+ 
+ Use CountDownLatch when one thread like main thread, requires to wait for one or more thread to complete, before it can start processing.
+ 
+ Classical example of using CountDownLatch in Java is any server side core Java application which uses services architecture, where multiple services are provided by multiple threads and application can not start processing until all services have started successfully.
  
 Features and some question on that
 1. Collection
@@ -619,7 +699,28 @@ Very generic question like have you worked on “Rest WebService”, “JQuery�
 11. Caching Mechanism
 12. When dealing with sensitive data, is it good to use string or array of char's. Why?
 13. Which is better String s ="hello" or String s= new String ("hello")
-14. What are fast fail and fail safe iterators?
+
+<br>
+<br>
+
+### 14. What are fast fail and fail safe iterators?
+**Fail safe means**: it won't fail. Strictly speaking, there is no such thing in Java as a fail-safe iterator. The correct term is "weakly consistent".
+
+Typically, weak consistency means that if a collection is modified concurrently with an iteration, the guarantees of what the iteration sees are weaker. (The details will be specified in each conncurrent collection classes javadocs.)
+
+**Fail fast means**: it may fail ... and the failure condition is checked aggressively so that the failure condition is (where possible1) detected before damage can be done. In Java, a fail-fast iterator fails by throwing a ConcurrentModificationException.
+
+The alternative to **fail-fast** and **weakly consistent** is a semantic where the iteration fails unpredictably; e.g. to sometimes give the wrong answer or throw a totally unexpected exception. (This was the behavior of some standard implementations of the Enumeration API in early versions of Java.)
+
+The fail-fast iterators are typically implemented using a volatile counter on the collection object.
+
+* When the collection is updated, the counter is incremented.
+* When an Iterator is created, the current value of the counter is embedded in the Iterator object.
+* When an Iterator operation is performed, the method compares the two counter values and throws a CME if they are different.
+
+The implementation of fail-safe iterators is typically light-weight. They typically rely on properties of the specific list implementation's data structures. There is no general pattern. (Read the source code for the specific collection classes you are interested in.)
+
+
 15. Explain spring bean lifecycle?
 16. Autowired vs inject?
 17. Why do you override equals and hash code?
