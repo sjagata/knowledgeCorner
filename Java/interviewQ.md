@@ -1102,6 +1102,7 @@ public class DuplicatesInArray {
 // Duplicate elements from array using hash table 
 // Duplicate element from array : Java
 ```
+[article](http://javarevisited.blogspot.com/2015/06/3-ways-to-find-duplicate-elements-in-array-java.html)
 
 
 44. Puzzle: if there are 8 balls in which 7 of them are of same weight one is different.?
