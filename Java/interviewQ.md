@@ -705,12 +705,55 @@ The biggest difference between the two is the way Garbage Collector(GC) handles 
 
 So the main reasons to prefer char[] are:
 1. IMMUTABILITY OF STRINGS.
+Strings in Java are immutable(i.e. once created we can not change its value) and it also uses the String Pool concept for reusability  purpose, hence we are left with no option to clear it from the memory until GC clears it from the memory. Because of this there are great chances that the object created will remain in the memory for a long duration and we can’t even change its value. So anyone having access to the memory dump can easily retrieve the exact password from the memory. For this we can also use the encryption techniques so that if someone access then he will get the encrypted copy of the password.
+
+But with character array you can yourself wipe out the data from the array and there would be no traces of password into the memory.
+```java
+public class PasswordSecurityExample {
+ 
+    public static void main(String[] args) {
+ 
+        char[] password = { 'p', 'a', 's', 's', 'w', 'o', 'r', 'd' };
+ 
+        // Changing value of all characters in password
+        for (int i = 0; i < password.length; i++) {
+            password[i] = 'x';
+        }
+ 
+        System.out.print("New Password - ");
+        // Priniting new Password
+        for (int i = 0; i < password.length; i++) {
+            System.out.print(password[i]);
+        }
+    }
+// Output :
+// New Password - xxxxxxxx
+```
 2. ACCIDENTAL PRINTING TO LOGS
+```java
+public class PasswordSecurityExample {
+ 
+    public static void main(String[] args) {
+ 
+        String password = "password";
+        char[] password2;
+ 
+        System.out.println("Printing String -> " + password);
+ 
+        password2 = password.toCharArray();
+        System.out.println("Printing Char Array -> " + password2);
+    }
+}
+// Output:
+// Printing String -> password
+// Printing Char Array -> [C@21882d18
+```
 3. RECOMMENDATION BY JAVA ITSELF 
 
 <br>
 <br>
 ### 13. Which is better String s ="hello" or String s= new String ("hello")
+Explain Strin pool concept
 
 <br>
 <br>
@@ -732,9 +775,26 @@ The fail-fast iterators are typically implemented using a volatile counter on th
 
 The implementation of fail-safe iterators is typically light-weight. They typically rely on properties of the specific list implementation's data structures. There is no general pattern. (Read the source code for the specific collection classes you are interested in.)
 
+<br>
+<br>
 
-15. Explain spring bean lifecycle?
-16. Autowired vs inject?
+### 16. Autowired vs inject?
+`@Autowired` is Spring's own (legacy) annotation. `@Inject` is part of a new Java technology called CDI that defines a standard for dependency injection similar to Spring. In a Spring application, the two annotations works the same way as Spring has decided to support some JSR-299 annotations in addition to their own.
+
+`@Autowired` and `@Inject` annotation behave identically. Both of these annotations use the `AutowiredAnnotationBeanPostProcessor` to inject dependencies. `@Autowired` and `@Inject` can be used interchangeable to inject Spring beans. However the `@Resource` annotation uses the `CommonAnnotationBeanPostProcessor` to inject dependencies. Even though they use different post processor classes they all behave nearly identically. Below is a summary of their execution paths.
+
+**@Autowired and @Inject**
+* Matches by Type
+* Restricts by Qualifiers
+* Matches by Name
+
+**@Resource**
+* Matches by Name
+* Matches by Type
+* Restricts by Qualifiers (ignored if match is found by name)
+
+[@Article](https://blogs.sourceallies.com/2011/08/spring-injection-with-resource-and-autowired/#more-2350)
+
 17. Why do you override equals and hash code?
 18. Set vs tree set?
 19. Write a program that prints numbers 1 to 100. For every multiple of 3 print F, for every multiple of 5 print B for every multiple of 15 print FB.
@@ -743,13 +803,89 @@ The implementation of fail-safe iterators is typically light-weight. They typica
 22. Implement a simple rules processor with flexibility to add/delete rules
  
 23. What are synchronized methods and synchronized statements?
-24. How do you manage concurrent access to a variable (int)
-25. What are the states of a Thread?
+
+<br>
+<br>
+### 24. How do you manage concurrent access to a variable (int)
+If there is one and only one thread that writes to variable you can get away with making it `volatile`. Otherwise see the answer with [AtomicInteger](https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/atomic/AtomicInteger.html).
+
+AtomicInteger - An int value that may be updated atomically
+
+Only `volatile` will work in case of only one writing thread because there is only one writing thread so it always has the right value of variable
+
+```java
+package com.journaldev.concurrency;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class JavaAtomic {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        ProcessingThread pt = new ProcessingThread();
+        Thread t1 = new Thread(pt, "t1");
+        t1.start();
+        Thread t2 = new Thread(pt, "t2");
+        t2.start();
+        t1.join();
+        t2.join();
+        System.out.println("Processing count=" + pt.getCount());
+    }
+}
+
+class ProcessingThread implements Runnable {
+    private AtomicInteger count = new AtomicInteger();
+
+    @Override
+    public void run() {
+        for (int i = 1; i < 5; i++) {
+            processSomething(i);
+            count.incrementAndGet();
+        }
+    }
+
+    public int getCount() {
+        return this.count.get();
+    }
+
+    private void processSomething(int i) {
+        // processing some job
+        try {
+            Thread.sleep(i * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+```
+
+Benefits of using Concurrency classes for atomic operation is that we don't need to worry about synchronization. This improves code readability and chance of errors are reduced. Also atomic operation concurrency classes are assumed to be more efficient that synchronization which involves locking resources.
+
+<br>
+<br>
+
+### 25. What are the states of a Thread?
 26. How do you stop a Thread?
 27. When a thread blocks on I/O, what state does it enter?
-28. What is the difference between preemptive scheduling and time slicing?
-29. How do you stop a Java program?
-30. Difference b/w Collection and Map interfaces?
+
+<br>
+<br>
+### 28. What is the difference between preemptive scheduling and time slicing?
+* **Preemptive scheduling:** The highest priority task executes until it enters the waiting or dead states or a higher priority task comes into existence.
+
+* **Time slicing:** A task executes for a predefined slice of time and then reenters the pool of ready tasks. The scheduler then determines which task should execute next, based on priority and other factors.
+
+<br>
+<br>
+### 29. How do you stop a Java program?
+`return` to come out of the method execution, `break` to come out of a loop execution and `continue` to skip the rest of the current loop. 
+
+<br>
+<br>
+
+### 30. Difference b/w Collection and Map interfaces?
+
 31. What are all the Collection implementation techniques?
 32. What is the difference between set and list?
  
