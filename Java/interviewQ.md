@@ -101,6 +101,39 @@ Usually we create a daemon thread for functionalities that are not critical to s
 <br>
 
 ### 4. Explain the use of executor framework in multithreading?
+* Executors service is created using one of the factory methods.
+* Runnable argument is passed to the execute method of executor service.
+* Executor service will execute it in parallel.
+* Finally it will shutdown using 'shutdown()'.
+
+Two implementations:
+1. ThreadPoolExecutors
+2. ScheduledThreadPoolExecutors
+
+```java
+Executors.newSingleThreadExecutor()
+```
+All threads passed with this will execute with single thread. One task ata atime sequentially
+
+```java
+Executors.newFixedThreadPool(10)
+```
+Fixed number of threads. All thaks will be executed with one of these threads.
+
+```java
+Executors.newScheduledThreadPool(10);
+```
+Schedule the execution of the task passed to it.
+
+1. execute(Runnable)
+2. submit(Runnable)
+3. submit(Callable)
+4. invokeAny()
+5. invokeAll()
+
+* submit will return future object 
+* `future.get()` return null if the task has finished correctly.
+* callable will be capable of returning object.
 
 
 <br>
