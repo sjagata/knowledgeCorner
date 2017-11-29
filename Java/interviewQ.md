@@ -929,7 +929,81 @@ Benefits of using Concurrency classes for atomic operation is that we don't need
 31. What are all the Collection implementation techniques?
 32. What is the difference between set and list?
  
-33. To implement TreeSet, what interface must implement?
+<br>
+<br>
+### 33. To implement TreeSet, what interface must implement?
+```java
+import java.util.TreeSet;
+ 
+class Dog {
+    int size;
+    Dog(int s) {
+        size = s;
+    }
+}
+ 
+public class ImpComparableWrong {
+ 
+    public static void main(String[] args) {
+        TreeSet<Integer> i = new TreeSet<Integer>();
+        TreeSet<Dog> d = new TreeSet<Dog>();
+        d.add(new Dog(1));
+        d.add(new Dog(2));
+        d.add(new Dog(1));
+ 
+        i.add(1);
+        i.add(2);
+        i.add(3);
+ 
+        System.out.println(d.size() + &quot; &quot; + i.size());
+    }
+}
+```
+```java
+// Output : 
+Exception in thread "main" java.lang.ClassCastException: Dog cannot be cast to java.lang.Comparable
+        at java.util.TreeMap.put(TreeMap.java:542)
+        at java.util.TreeSet.add(TreeSet.java:238)
+        at ImpComparableWrong.main(ImpComparableWrong.java:17)
+Java Result: 1
+BUILD SUCCESSFUL (total time: 2 seconds)
+```
+The reason is that Class Dog needs to implement Comparable in order for a TreeSet (which keeps its elements sorted) to be able to contain Dog objects. The added object cannot be compared with the elements currently in the set, the add(Object) call throws a ClassCastException. To make an object comparable, user-defined class must implement the Comparable interface.
+```java
+import java.util.TreeSet;
+ 
+class Dog implements Comparable<Dog> {
+ 
+    int size;
+ 
+    Dog(int s) {
+        size = s;
+    }
+ 
+    public int compareTo(Dog o) {
+        return size - o.size;
+    }
+}
+ 
+public class ImpComparable {
+ 
+    public static void main(String[] args) {
+ 
+        TreeSet<Dog> d = new TreeSet<Dog>();
+        d.add(new Dog(1));
+        d.add(new Dog(2));
+        d.add(new Dog(1));
+ 
+        TreeSet<Integer> i = new TreeSet<Integer>();
+        i.add(1);
+        i.add(2);
+        i.add(3);
+ 
+        System.out.println(d.size() + &quot; &quot; + i.size());
+    }
+}
+```
+
 34. Difference b/w Stack and Heap?
 35. What is Marker Interface?
 36. What are Transient and Volatile Modifiers?
