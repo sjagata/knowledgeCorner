@@ -1025,7 +1025,18 @@ With text files, maybe the EOF is -1 when using BufferReader.read(), char by cha
 <br>
 
 ### 42. How to handle the transactions in the project?
-JDBC
+#### Types of the transaction management Spring support
+Spring supports two types of transaction management:
+
+* **Programmatic transaction management:** This means that you have managed the transaction with the help of programming. That gives you extreme flexibility, but it is difficult to maintain.
+* **Declarative transaction management:** This means you separate transaction management from the business code. You only use annotations or XML based configuration to manage the transactions.
+
+[article](https://www.journaldev.com/2603/spring-transaction-management-jdbc-example#spring-declarative-transaction-management-8211-service)
+
+#### Which Transaction management type is more preferable?
+Most users of the Spring Framework choose declarative transaction management because it is the option with the least impact on application code, and hence is most consistent with the ideals of a non-invasive lightweight container. Declarative transaction management is preferable over programmatic transaction management though it is less flexible than programmatic transaction management, which allows you to control transactions through your code.
+
+[article-youtube](https://www.youtube.com/watch?v=hBO44wKy2zQ)
 
 <br>
 <br>
