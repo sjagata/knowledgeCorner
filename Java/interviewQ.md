@@ -806,7 +806,9 @@ The implementation of fail-safe iterators is typically light-weight. They typica
 
 <br>
 <br>
-### 24. How do you manage concurrent access to a variable (int)
+
+### 24.How do you manage concurrent access to a variable (int)?
+
 If there is one and only one thread that writes to variable you can get away with making it `volatile`. Otherwise see the answer with [AtomicInteger](https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/atomic/AtomicInteger.html).
 
 AtomicInteger - An int value that may be updated atomically
@@ -866,19 +868,24 @@ Benefits of using Concurrency classes for atomic operation is that we don't need
 <br>
 
 ### 25. What are the states of a Thread?
+
 26. How do you stop a Thread?
 27. When a thread blocks on I/O, what state does it enter?
 
 <br>
 <br>
+
 ### 28. What is the difference between preemptive scheduling and time slicing?
+
 * **Preemptive scheduling:** The highest priority task executes until it enters the waiting or dead states or a higher priority task comes into existence.
 
 * **Time slicing:** A task executes for a predefined slice of time and then reenters the pool of ready tasks. The scheduler then determines which task should execute next, based on priority and other factors.
 
 <br>
 <br>
-### 29. How do you stop a Java program?
+
+### 29.How do you stop a Java program?
+
 `return` to come out of the method execution, `break` to come out of a loop execution and `continue` to skip the rest of the current loop. 
 
 <br>
