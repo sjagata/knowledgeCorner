@@ -1011,11 +1011,88 @@ public class ImpComparable {
 36. What are Transient and Volatile Modifiers?
 37. Difference between String s = "java" and String s = new String ("java");
 38. What is the difference between error and an exception?
-39. What value does readLine () return when it has reached the end of a file?
+
+<br>
+<br>
+
+### 39. What value does readLine () return when it has reached the end of a file?
+With text files, maybe the EOF is -1 when using BufferReader.read(), char by char. I made a test with BufferReader.readLine()!=null and it worked properly.
+
 40. Why to use EJB in the project?
 41. Why to use springs in the application?
-42. How to handle the transactions in the project?
-43. How to find the duplicate element in the array with less complexity?
+
+<br>
+<br>
+
+### 42. How to handle the transactions in the project?
+JDBC
+
+<br>
+<br>
+
+### 43. How to find the duplicate element in the array with less complexity?
+```java
+/*
+*
+* Java Program to find duplicate elements in an array. There are two straight 
+* forward solution of this problem first, brute force way and second by using 
+* HashSet data structure. A third solution, similar to second one is by using 
+* hash table data structure e.g. HashMap to store count of each element and 
+* print element with count 1. 
+*/
+public class DuplicatesInArray {
+	public static void main(String args[]) {
+		String[] names = { "Java", "JavaScript", "Python", "C", "Ruby", "Java" };
+		// First solution : finding duplicates using brute force method
+		System.out.println("Finding duplicate elements in array using brute force method");
+		for (int i = 0; i < names.length; i++) {
+			for (int j = i + 1; j < names.length; j++) {
+				if (names[i].equals(names[j])) {
+					// got the duplicate element
+				}
+			}
+		}
+
+		// Second solution : use HashSet data structure to find duplicates
+		System.out.println("Duplicate elements from array using HashSet data structure");
+		Set<String> store = new HashSet<>();
+		for (String name : names) {
+			if (store.add(name) == false) {
+				System.out.println("found a duplicate element in array : " + name);
+			}
+		}
+
+		// Third solution : using Hash table data structure to find duplicates
+		System.out.println("Duplicate elements from array using hash table");
+		Map<String, Integer> nameAndCount = new HashMap<>();
+
+		// build hash table with count
+		for (String name : names) {
+			Integer count = nameAndCount.get(name);
+			if (count == null) {
+				nameAndCount.put(name, 1);
+			} else {
+				nameAndCount.put(name, ++count);
+			}
+		}
+		// Print duplicate elements from array in Java
+		Set<Entry<String, Integer>> entrySet = nameAndCount.entrySet();
+		for (Entry<String, Integer> entry : entrySet) {
+			if (entry.getValue() > 1) {
+				System.out.println("Duplicate element from array : " + entry.getKey());
+			}
+		}
+	}
+}
+
+// Output : 
+// Finding duplicate elements in array using brute force method 
+// Duplicate elements from array using HashSet data structure found a duplicate element in array : Java 
+// Duplicate elements from array using hash table 
+// Duplicate element from array : Java
+```
+
+
 44. Puzzle: if there are 8 balls in which 7 of them are of same weight one is different.?
 45. How to find the odd one in 2 iteration?
 46. Some questions on struts flow?
