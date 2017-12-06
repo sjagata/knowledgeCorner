@@ -256,6 +256,31 @@ FROM DUAL CONNECT BY LEVEL <= LENGTH('CAPONE');
 * Exits comparison when match is found
 * Performance is comparatively FAST for larger resultset of subquery
 
+`EXISTS` will tell you whether a query returned any results. e.g.:
+```sql
+SELECT * 
+FROM Orders o 
+WHERE EXISTS (
+    SELECT * 
+    FROM Products p 
+    WHERE p.ProductNumber = o.ProductNumber)
+```
+`IN` is used to compare one value to several, and can use literal values, like this:
+
+```sql
+SELECT * 
+FROM Orders 
+WHERE ProductNumber IN (1, 10, 100)
+```
+You can also use query results with the IN clause, like this:
+```sql
+SELECT * 
+FROM Orders 
+WHERE ProductNumber IN (
+    SELECT ProductNumber 
+    FROM Products 
+    WHERE ProductInventoryQuantity > 0)
+```
 
 <br>
 <br>
