@@ -302,7 +302,23 @@ HAVING Count(ID) > 1
 Peter
 ```
 
+<br>
+<br>
 
+### Primary Key vs Unique Key
+
+**Primary Key:**
+
+* There can only be one primary key in a table
+* In some DBMS it cannot be NULL - e.g. MySQL adds NOT NULL
+* Primary Key is a unique key identifier of the record
+
+**Unique Key:**
+
+* Can be more than one unique key in one table
+* Unique key can have NULL values
+* It can be a candidate key
+* Unique key can be NULL and may not be unique
 
 
 
