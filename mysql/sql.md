@@ -257,8 +257,50 @@ FROM DUAL CONNECT BY LEVEL <= LENGTH('CAPONE');
 * Performance is comparatively FAST for larger resultset of subquery
 
 
+<br>
+<br>
 
+### ORDER BY vs GROUP BY 
 
+* **ORDER BY** alters the order in which items are returned.
+
+* **GROUP BY** will aggregate records by the specified columns which allows you to perform aggregation functions on non-grouped columns (such as SUM, COUNT, AVG, etc).
+
+```sql
+TABLE:
+ID NAME
+1  Peter
+2  John
+3  Greg
+4  Peter
+
+SELECT *
+FROM TABLE
+ORDER BY NAME
+
+= 
+3 Greg
+2 John
+1 Peter
+4 Peter
+
+SELECT Count(ID), NAME
+FROM TABLE
+GROUP BY NAME
+
+= 
+1 Greg
+1 John 
+2 Peter
+
+SELECT NAME
+FROM TABLE
+GROUP BY NAME
+HAVING Count(ID) > 1
+
+=
+Peter
+```
 
 
 
