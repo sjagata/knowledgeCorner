@@ -111,6 +111,29 @@ waffle.eat();
 
 ```
 
+```js
+function talk(){
+ console.log(this);
+ console.log(this.sound);
+}
+
+let animal = {
+ talk
+}
+
+
+let cat = {
+ sound : "Meow!"
+}
+
+cat.talk() // cat.talk is not a function
+
+Object.setPrototypeOf(cat, animal);
+
+cat.talk();
+
+```
+
 <br>
 
 [ref](https://javascriptweblog.wordpress.com/2010/06/07/understanding-javascript-prototypes/)
