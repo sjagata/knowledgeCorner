@@ -85,6 +85,32 @@ a.x; //null
 
 <br>
 <br>
+
+```js
+const food = {
+ init: function(type){
+  this.type = type;
+ },
+ eat: function(){
+  console.log(" I ate " + this.type)
+ }
+}
+
+const waffle = Object.create(food);
+waffle.init('waffle');
+waffle.eat();
+
+
+const carrot = Object.create(food);
+waffle.init('carrot');
+waffle.eat();
+
+// Output:
+// I ate waffle
+// I ate carrot
+
+```
+
 <br>
 
 [ref](https://javascriptweblog.wordpress.com/2010/06/07/understanding-javascript-prototypes/)
