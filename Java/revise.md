@@ -20,7 +20,7 @@ newArray.pushArray(dataArray2);
 ```
 
 3. ... or emulate the original push() method by allowing multiple parameters using the fact that concat(), like push(), allows multiple parameters:
-```
+```js
 Array.prototype.pushArray = function() {
     this.push.apply(this, this.concat.apply([], arguments));
 };
@@ -30,7 +30,7 @@ newArray.pushArray(dataArray1, dataArray2);
 ```
 
 4. Here's a loop-based version of the last example, suitable for large arrays and all major browsers, including IE <= 8:
-```
+```js
 Array.prototype.pushArray = function() {
     var toPush = this.concat.apply([], arguments);
     for (var i = 0, len = toPush.length; i < len; ++i) {
