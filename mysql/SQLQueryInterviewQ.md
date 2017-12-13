@@ -439,23 +439,40 @@ select EMPLOYEE_REF_ID from INCENTIVES
 
 #### 52. Select 20 % of salary from John , 10% of Salary for Roy and for other 15 % of salary from employee table
 ```sql
-SELECT FIRST_NAME, CASE FIRST_NAME WHEN 'John' THEN SALARY * .2 WHEN 'Roy' THEN SALARY * .10 ELSE SALARY * .15 END "Deduced_Amount" FROM EMPLOYEE
+SELECT FIRST_NAME, CASE FIRST_NAME 
+WHEN 'John' 
+THEN SALARY * .2 
+WHEN 'Roy' 
+THEN SALARY * .10 
+ELSE 
+SALARY * .15 
+END "Deduced_Amount" FROM EMPLOYEE
 ```
 **Explanation :** Here, we are using "SQL CASE" statement to achieve the desired results. After case statement, we had to specify the column on which filtering is applied. In our case it is "FIRST_NAME". And in then condition, specify the name of filter like John, Roy etc. To handle conditions outside our filter, use else block where every one other than John and Roy enters.
 
 #### 53. Select Banking as 'Bank Dept', Insurance as 'Insurance Dept' and Services as 'Services Dept' from employee table
 * SQL Queries in Oracle, 
 ```sql
-SELECT distinct DECODE (DEPARTMENT, 'Banking', 'Bank Dept', 'Insurance', 'Insurance Dept', 'Services', 'Services Dept') FROM EMPLOYEE
+SELECT distinct 
+DECODE (DEPARTMENT, 'Banking', 'Bank Dept', 'Insurance', 'Insurance Dept', 'Services', 'Services Dept') 
+FROM EMPLOYEE
 ```
 * SQL Queries in SQL Server and MySQL, 
 ```sql
-SELECT case DEPARTMENT when 'Banking' then 'Bank Dept' when 'Insurance' then 'Insurance Dept' when 'Services' then 'Services Dept' end FROM EMPLOYEE
+SELECT case DEPARTMENT 
+when 'Banking' 
+then 'Bank Dept' 
+when 'Insurance' 
+then 'Insurance Dept' 
+when 'Services' 
+then 'Services Dept' 
+end FROM EMPLOYEE
 ```
 **Explanation :** Here "DECODE" keyword is used to specify the alias name. In oracle we had specify, Column Name followed by Actual Name and Alias Name as arguments. In SQL Server and MySQL, we can use the earlier switch case statements for alias names.
 #### 54. Delete employee data from employee table who got incentives in incentive table
 ```sql
-delete from EMPLOYEE where EMPLOYEE_ID in (select EMPLOYEE_REF_ID from INCENTIVES)
+delete from EMPLOYEE 
+where EMPLOYEE_ID in (select EMPLOYEE_REF_ID from INCENTIVES)
 ```
 **Explanation :** Trick about this question is that we can't delete data from a table based on some condition in another table by joining them. Here to delete multiple entries from EMPLOYEE table, we need to use Subquery. Entries will get deleted based on the result of Subquery.
 #### 55. Insert into employee table Last Name with " ' " (Single Quote - Special Character)
@@ -470,12 +487,16 @@ Select * from EMPLOYEE where lower(LAST_NAME)=upper(LAST_NAME)
 **Explanation :** In order to achieve the desired result, we use "ASCII" property of the database. If we get results for a column using Lower and Upper commands, ASCII of both results will be same for numbers. If there is any alphabets in the column, results will differ.
 #### 57. Write a query to rank employees based on their incentives for a month
 ```sql
-select FIRST_NAME,INCENTIVE_AMOUNT,DENSE_RANK() OVER (PARTITION BY INCENTIVE_DATE ORDER BY INCENTIVE_AMOUNT DESC) AS Rank from EMPLOYEE a, INCENTIVES b where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID
+select FIRST_NAME, INCENTIVE_AMOUNT, 
+DENSE_RANK() OVER (PARTITION BY INCENTIVE_DATE ORDER BY INCENTIVE_AMOUNT DESC) AS Rank 
+from EMPLOYEE a, INCENTIVES b 
+where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID
 ```
 **Explanation :** In order to rank employees based on their rank for a month, "DENSE_RANK" keyword is used. Here partition by keyword helps us to sort the column with which filtering is done. Rank is provided to the column specified in the order by statement. The above query ranks employees with respect to their incentives for a given month.
 #### 58. Update incentive table where employee name is 'John'
 ```sql
-update INCENTIVES set INCENTIVE_AMOUNT='9000' where EMPLOYEE_REF_ID=(select EMPLOYEE_ID from EMPLOYEE where FIRST_NAME='John' )
+update INCENTIVES set INCENTIVE_AMOUNT='9000' 
+where EMPLOYEE_REF_ID = (select EMPLOYEE_ID from EMPLOYEE where FIRST_NAME='John' )
 ```
 **Explanation :** We need to join Employee and Incentive Table for updating the incentive amount. But for update statement joining query wont work. We need to use sub query to update the data in the incentive table. SQL Query is as shown below.
 
@@ -489,54 +510,66 @@ update INCENTIVES set INCENTIVE_AMOUNT='9000' where EMPLOYEE_REF_ID=(select EMPL
 
 #### 59. Select first_name, incentive amount from employee and incentives table for those employees who have incentives
 ```sql
-Select FIRST_NAME,INCENTIVE_AMOUNT from employee a inner join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME,INCENTIVE_AMOUNT 
+from employee a inner join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
  ```
 #### 60. Select first_name, incentive amount from employee and incentives table for those employees who have incentives and incentive amount greater than 3000
 ```sql
-Select FIRST_NAME,INCENTIVE_AMOUNT from employee a inner join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID and INCENTIVE_AMOUNT >3000
+Select FIRST_NAME,INCENTIVE_AMOUNT 
+from employee a inner join incentives B on A.EMPLOYEE_ID = B.EMPLOYEE_REF_ID and INCENTIVE_AMOUNT >3000
 ```
 #### 61. Select first_name, incentive amount from employee and incentives table for all employes even if they didn't get incentives
 ```sql
-Select FIRST_NAME,INCENTIVE_AMOUNT from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME,INCENTIVE_AMOUNT 
+from employee a left join incentives B on A.EMPLOYEE_ID = B.EMPLOYEE_REF_ID
 ```
 #### 62. Select first_name, incentive amount from employee and incentives table for all employees even if they didn't get incentives and set incentive amount as 0 for those employees who didn't get incentives.
 * SQL Queries in Oracle, 
 ```sql
-Select FIRST_NAME,nvl(INCENTIVE_AMOUNT,0) from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME,nvl(INCENTIVE_AMOUNT,0) 
+from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
 ```
 * SQL Queries in SQL Server, 
 ```sql
-Select FIRST_NAME, ISNULL(INCENTIVE_AMOUNT,0) from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME, ISNULL(INCENTIVE_AMOUNT,0) 
+from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
 ```
 * SQL Queries in MySQL, 
 ```sql
-Select FIRST_NAME, IFNULL(INCENTIVE_AMOUNT,0) from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME, IFNULL(INCENTIVE_AMOUNT,0) 
+from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
 ```
 #### 63. Select first_name, incentive amount from employee and incentives table for all employees who got incentives using left join
 * SQL Queries in Oracle, 
 ```sql
-Select FIRST_NAME,nvl(INCENTIVE_AMOUNT,0) from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME,nvl(INCENTIVE_AMOUNT,0) 
+from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
 ```
 * SQL Queries in SQL Server, 
 ```sql
-Select FIRST_NAME, isnull(INCENTIVE_AMOUNT,0) from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME, isnull(INCENTIVE_AMOUNT,0) 
+from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
 ```
 * SQL Queries in MySQL, 
 ```sql
-Select FIRST_NAME, IFNULL(INCENTIVE_AMOUNT,0) from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+Select FIRST_NAME, IFNULL(INCENTIVE_AMOUNT,0) 
+from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
 ```
 #### 64. Select max incentive with respect to employee from employee and incentives table using sub query
 * SQL Queries in Oracle, 
 ```sql
-select DEPARTMENT,(select nvl(max(INCENTIVE_AMOUNT),0) from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
+select DEPARTMENT,(select nvl(max(INCENTIVE_AMOUNT),0) from INCENTIVES 
+where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
 ```
 * SQL Queries in SQL Server, 
 ```sql
-select DEPARTMENT,(select ISNULL(max(INCENTIVE_AMOUNT),0) from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
+select DEPARTMENT,(select ISNULL(max(INCENTIVE_AMOUNT),0) 
+from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
 ```
 * SQL Queries in SQL Server, 
 ```sql
-select DEPARTMENT,(select IFNULL (max(INCENTIVE_AMOUNT),0) from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
+select DEPARTMENT,(select IFNULL (max(INCENTIVE_AMOUNT),0) 
+from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
 ``` 
 
 <br>
@@ -687,7 +720,11 @@ SHOW ERRORS;
 
 An example oracle view script is given below
 ```sql
-create view Employee_Incentive as select FIRST_NAME,max(INCENTIVE_AMOUNT) INCENTIVE_AMOUNT from EMPLOYEE a, INCENTIVES b where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID group by FIRST_NAME
+create view Employee_Incentive as 
+select FIRST_NAME,max(INCENTIVE_AMOUNT) INCENTIVE_AMOUNT 
+from EMPLOYEE a, INCENTIVES b 
+where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID 
+group by FIRST_NAME
 ```
 #### 82. Oracle materialized view - Daily Auto Refresh
 ```sql
