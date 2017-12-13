@@ -149,7 +149,7 @@ Select * from employee order by FIRST_NAME asc,SALARY desc
 
 ### "SQL Where Condition" Interview Questions
 
-<br>
+<hr>
 
 #### 18. Get employee details from employee table whose employee name is “John”
 ```sql
@@ -169,7 +169,7 @@ Select * from EMPLOYEE where FIRST_NAME not in ('John','Roy')
 
 ### "SQL Wild Card Search" Interview Questions
 
-<br>
+<hr>
 
 #### 21. Get employee details from employee table whose first name starts with 'J'
 ```sql
@@ -189,7 +189,7 @@ Select * from EMPLOYEE where FIRST_NAME like '%n'
 
 ### "SQL Pattern Matching" Interview Questions
 
-<br>
+<hr>
 
 #### 24. Get employee details from employee table whose first name ends with 'n' and name contains 4 letters
 ```sql
@@ -221,10 +221,9 @@ Select * from EMPLOYEE where FIRST_NAME in ('John','Michael')
 
 ### Interview Questions on "SQL DATE Functions"
 
-<br>
+<hr>
 
 #### 30. Get employee details from employee table whose joining year is “2013”
-
 * SQL Queries in Oracle, 
 ```sql
 Select * from EMPLOYEE where to_char(joining_date,'YYYY')='2013'
@@ -237,9 +236,6 @@ Select * from EMPLOYEE where SUBSTRING(convert(varchar,joining_date,103),7,4)='2
 ```sql
 Select * from EMPLOYEE where year(joining_date)='2013'
 ```
-
- 
-
 #### 31. Get employee details from employee table whose joining month is “January”
 * SQL Queries in Oracle, 
 ```sql
@@ -266,7 +262,6 @@ Select * from EMPLOYEE where joining_date <'01/01/2013'
 ```sql
 Select * from EMPLOYEE where joining_date <'2013-01-01'
 ```
-
 #### 33. Get employee details from employee table who joined after January 31st
 * SQL Queries in Oracle, 
 ```sql
@@ -280,7 +275,6 @@ Select * from EMPLOYEE where joining_date >'01/31/2013'
 ```sql
 Select * from EMPLOYEE where joining_date >'2013-01-31'
 ```
-
 #### 35. Get Joining Date and Time from employee table
 * SQL Queries in Oracle, 
 ```sql
@@ -330,7 +324,7 @@ select now()
 
 ### "SQL Escape Characters" Interview Questions
 
-<br>
+<hr>
 
 #### 39. Get names of employees from employee table who has '%' in Last_Name. Tip : Escape character for special characters in a query.
 
@@ -346,7 +340,6 @@ Select FIRST_NAME from employee where Last_Name like '%[%]%'
 ```sql
 Select FIRST_NAME from employee where Last_Name like '%\%%'
 ```
-
 #### 40. Get Last Name from employee table after replacing special character with white space
 * SQL Queries in Oracle, 
 ```sql
@@ -363,7 +356,7 @@ Select REPLACE(LAST_NAME,'%',' ') from employee
 
 ### "SQL Group By Query" Interview Questions and Answers
 
-<br>
+<hr>
 
 #### 41. Get department,total salary with respect to a department from employee table.
 ```sql
@@ -380,7 +373,7 @@ Select DEPARTMENT,sum(SALARY) Total_Salary from employee group by DEPARTMENT ord
 
 ### SQL Queries Interview Questions and Answers on "SQL Mathematical Operations using Group By"
 
-<br>
+<hr>
 
 #### 43. Get department,no of employees in a department,total salary with respect to a department from employee table order by total salary descending
 ```sql
@@ -422,7 +415,7 @@ Select DEPARTMENT,sum(SALARY) Total_Salary from employee group by DEPARTMENT hav
 
 ### Advanced SQL Queries Interview Questions and Answers
 
-<br>
+<hr>
 
 #### 49. Select employee details from employee table if data exists in incentive table ?
 ```sql
@@ -460,15 +453,11 @@ SELECT distinct DECODE (DEPARTMENT, 'Banking', 'Bank Dept', 'Insurance', 'Insura
 SELECT case DEPARTMENT when 'Banking' then 'Bank Dept' when 'Insurance' then 'Insurance Dept' when 'Services' then 'Services Dept' end FROM EMPLOYEE
 ```
 **Explanation :** Here "DECODE" keyword is used to specify the alias name. In oracle we had specify, Column Name followed by Actual Name and Alias Name as arguments. In SQL Server and MySQL, we can use the earlier switch case statements for alias names.
-
-
 #### 54. Delete employee data from employee table who got incentives in incentive table
 ```sql
 delete from EMPLOYEE where EMPLOYEE_ID in (select EMPLOYEE_REF_ID from INCENTIVES)
 ```
 **Explanation :** Trick about this question is that we can't delete data from a table based on some condition in another table by joining them. Here to delete multiple entries from EMPLOYEE table, we need to use Subquery. Entries will get deleted based on the result of Subquery.
-
-
 #### 55. Insert into employee table Last Name with " ' " (Single Quote - Special Character)
 Tip - Use another single quote before special character
 ```sql
@@ -479,17 +468,246 @@ Insert into employee (LAST_NAME) values ('Test''')
 Select * from EMPLOYEE where lower(LAST_NAME)=upper(LAST_NAME)
 ```
 **Explanation :** In order to achieve the desired result, we use "ASCII" property of the database. If we get results for a column using Lower and Upper commands, ASCII of both results will be same for numbers. If there is any alphabets in the column, results will differ.
-
-
 #### 57. Write a query to rank employees based on their incentives for a month
 ```sql
 select FIRST_NAME,INCENTIVE_AMOUNT,DENSE_RANK() OVER (PARTITION BY INCENTIVE_DATE ORDER BY INCENTIVE_AMOUNT DESC) AS Rank from EMPLOYEE a, INCENTIVES b where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID
 ```
 **Explanation :** In order to rank employees based on their rank for a month, "DENSE_RANK" keyword is used. Here partition by keyword helps us to sort the column with which filtering is done. Rank is provided to the column specified in the order by statement. The above query ranks employees with respect to their incentives for a given month.
-
-
 #### 58. Update incentive table where employee name is 'John'
 ```sql
 update INCENTIVES set INCENTIVE_AMOUNT='9000' where EMPLOYEE_REF_ID=(select EMPLOYEE_ID from EMPLOYEE where FIRST_NAME='John' )
 ```
 **Explanation :** We need to join Employee and Incentive Table for updating the incentive amount. But for update statement joining query wont work. We need to use sub query to update the data in the incentive table. SQL Query is as shown below.
+
+
+<br>
+<br>
+
+### "SQL Join" Interview Questions
+
+<hr>
+
+#### 59. Select first_name, incentive amount from employee and incentives table for those employees who have incentives
+```sql
+Select FIRST_NAME,INCENTIVE_AMOUNT from employee a inner join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+ ```
+#### 60. Select first_name, incentive amount from employee and incentives table for those employees who have incentives and incentive amount greater than 3000
+```sql
+Select FIRST_NAME,INCENTIVE_AMOUNT from employee a inner join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID and INCENTIVE_AMOUNT >3000
+```
+#### 61. Select first_name, incentive amount from employee and incentives table for all employes even if they didn't get incentives
+```sql
+Select FIRST_NAME,INCENTIVE_AMOUNT from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+```
+#### 62. Select first_name, incentive amount from employee and incentives table for all employees even if they didn't get incentives and set incentive amount as 0 for those employees who didn't get incentives.
+* SQL Queries in Oracle, 
+```sql
+Select FIRST_NAME,nvl(INCENTIVE_AMOUNT,0) from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+```
+* SQL Queries in SQL Server, 
+```sql
+Select FIRST_NAME, ISNULL(INCENTIVE_AMOUNT,0) from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+```
+* SQL Queries in MySQL, 
+```sql
+Select FIRST_NAME, IFNULL(INCENTIVE_AMOUNT,0) from employee a left join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+```
+#### 63. Select first_name, incentive amount from employee and incentives table for all employees who got incentives using left join
+* SQL Queries in Oracle, 
+```sql
+Select FIRST_NAME,nvl(INCENTIVE_AMOUNT,0) from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+```
+* SQL Queries in SQL Server, 
+```sql
+Select FIRST_NAME, isnull(INCENTIVE_AMOUNT,0) from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+```
+* SQL Queries in MySQL, 
+```sql
+Select FIRST_NAME, IFNULL(INCENTIVE_AMOUNT,0) from employee a right join incentives B on A.EMPLOYEE_ID=B.EMPLOYEE_REF_ID
+```
+#### 64. Select max incentive with respect to employee from employee and incentives table using sub query
+* SQL Queries in Oracle, 
+```sql
+select DEPARTMENT,(select nvl(max(INCENTIVE_AMOUNT),0) from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
+```
+* SQL Queries in SQL Server, 
+```sql
+select DEPARTMENT,(select ISNULL(max(INCENTIVE_AMOUNT),0) from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
+```
+* SQL Queries in SQL Server, 
+```sql
+select DEPARTMENT,(select IFNULL (max(INCENTIVE_AMOUNT),0) from INCENTIVES where EMPLOYEE_REF_ID=EMPLOYEE_ID) Max_incentive from EMPLOYEE
+``` 
+
+<br>
+<br>
+
+### "Top N Salary" SQL Interview Questions and Answers
+
+<hr>
+
+#### 65. Select TOP 2 salary from employee table
+
+* SQL Queries in Oracle, 
+```sql
+select * from (select * from employee order by SALARY desc) where rownum <3
+```
+* SQL Queries in SQL Server, 
+```sql
+select top 2 * from employee order by salary desc
+```
+* SQL Queries in MySQL, 
+```sql
+select * from employee order by salary desc limit 2
+```
+#### 66. Select TOP N salary from employee table
+* SQL Queries in Oracle, 
+```sql
+select * from (select * from employee order by SALARY desc) where rownum <N + 1
+```
+* SQL Queries in SQL Server, 
+```sql
+select top N * from employee
+```
+* SQL Queries in MySQL, 
+```sql
+select * from employee order by salary desc limit N
+```
+#### 67. Select 2nd Highest salary from employee table
+
+* SQL Queries in Oracle, 
+```sql
+select min(salary) from (select * from (select * from employee order by SALARY desc) where rownum <3)
+```
+* SQL Queries in SQL Server, 
+```sql
+select min(SALARY) from (select top 2 * from employee) a
+```
+* SQL Queries in MySQL, 
+```sql
+select min(SALARY) from (select * from employee order by salary desc limit 2) a
+```
+#### 68. Select Nth Highest salary from employee table
+
+* SQL Queries in Oracle, 
+```sql
+select min(salary) from (select * from (select * from employee order by SALARY desc) where rownum <N + 1)
+```
+* SQL Queries in SQL Server, 
+```sql
+select min(SALARY) from (select top N * from employee) a
+```
+* SQL Queries in MySQL, 
+```sql
+select min(SALARY) from (select * from employee order by salary desc limit N) a
+```
+
+<br>
+<br>
+
+### "SQL Union" Query Interview Questions
+
+<br>
+
+#### 69. Select First_Name,LAST_NAME from employee table as separate rows
+```sql
+select FIRST_NAME from EMPLOYEE union select LAST_NAME from EMPLOYEE
+```
+#### 70. What is the difference between UNION and UNION ALL ?
+Both UNION and UNION ALL is used to select information from structurally similar tables. That means corresponding columns specified in the union should have same data type. For example, in the above query, if FIRST_NAME is DOUBLE and LAST_NAME is STRING above query wont work. Since the data type of both the columns are VARCHAR, union is made possible. Difference between UNION and UNION ALL is that , UNION query return only distinct values. 
+
+
+
+<br>
+<br>
+
+### SQL Interview Questions on "SQL Table Scripts"
+
+<hr>
+
+#### 71. Write create table syntax for employee table
+```sql
+Oracle -CREATE TABLE EMPLOYEE (
+EMPLOYEE_ID NUMBER,
+FIRST_NAME VARCHAR2(20 BYTE),
+LAST_NAME VARCHAR2(20 BYTE),
+SALARY FLOAT(126),
+JOINING_DATE TIMESTAMP (6) DEFAULT sysdate,
+DEPARTMENT VARCHAR2(30 BYTE) )
+SQL Server -CREATE TABLE EMPLOYEE(
+EMPLOYEE_ID int NOT NULL,
+FIRST_NAME varchar(50) NULL,
+LAST_NAME varchar(50) NULL,
+SALARY decimal(18, 0) NULL,
+JOINING_DATE datetime2(7) default getdate(),
+DEPARTMENT varchar(50) NULL)
+```
+
+#### 72. Write syntax to delete table employee
+```sql
+DROP table employee;
+```
+#### 73. Write syntax to set EMPLOYEE_ID as primary key in employee table
+```sql
+ALTER TABLE EMPLOYEE add CONSTRAINT EMPLOYEE_PK PRIMARY KEY(EMPLOYEE_ID)
+```
+#### 74. Write syntax to set 2 fields(EMPLOYEE_ID,FIRST_NAME) as primary key in employee table
+```sql
+ALTER TABLE EMPLOYEE add CONSTRAINT EMPLOYEE_PK PRIMARY KEY(EMPLOYEE_ID,FIRST_NAME)
+```
+#### 75. Write syntax to drop primary key on employee table
+```sql
+Alter TABLE EMPLOYEE drop CONSTRAINT EMPLOYEE_PK;
+```
+#### 76. Write Sql Syntax to create EMPLOYEE_REF_ID in INCENTIVES table as foreign key with respect to EMPLOYEE_ID in employee table
+```sql
+ALTER TABLE INCENTIVES ADD CONSTRAINT INCENTIVES_FK FOREIGN KEY (EMPLOYEE_REF_ID) REFERENCES EMPLOYEE(EMPLOYEE_ID)
+```
+#### 77. Write SQL to drop foreign key on employee table
+```sql
+ALTER TABLE INCENTIVES drop CONSTRAINT INCENTIVES_FK;
+```
+#### 78. Write SQL to create Orcale Sequence
+```sql
+CREATE SEQUENCE EMPLOYEE_ID_SEQ START WITH 0 NOMAXVALUE MINVALUE 0 NOCYCLE NOCACHE NOORDER;
+```
+#### 79. Write Sql syntax to create Oracle Trigger before insert of each row in employee table
+```sql
+CREATE OR REPLACE TRIGGER EMPLOYEE_ROW_ID_TRIGGER
+BEFORE INSERT ON EMPLOYEE FOR EACH ROW
+DECLARE
+seq_no number(12);
+BEGIN
+select EMPLOYEE_ID_SEQ.nextval into seq_no from dual ;
+:new EMPLOYEE_ID :=seq_no;
+END;
+SHOW ERRORS;
+```
+#### 80. Oracle Procedure81. Oracle View
+
+An example oracle view script is given below
+```sql
+create view Employee_Incentive as select FIRST_NAME,max(INCENTIVE_AMOUNT) INCENTIVE_AMOUNT from EMPLOYEE a, INCENTIVES b where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID group by FIRST_NAME
+```
+#### 82. Oracle materialized view - Daily Auto Refresh
+```sql
+CREATE MATERIALIZED VIEW Employee_Incentive
+REFRESH COMPLETE
+START WITH SYSDATE
+NEXT SYSDATE + 1 AS
+select FIRST_NAME,INCENTIVE_DATE,INCENTIVE_AMOUNT from EMPLOYEE a, INCENTIVES b 
+where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID
+```
+#### 83. Oracle materialized view - Fast Refresh on Commit
+
+Create materialized view log for fast refresh. Following materialized view script wont get executed if materialized view log doesn't exists
+```sql
+CREATE MATERIALIZED VIEW MAT_Employee_Incentive_Refresh
+BUILD IMMEDIATE
+REFRESH FAST ON COMMIT AS
+select FIRST_NAME,max(INCENTIVE_AMOUNT) from EMPLOYEE a, INCENTIVES b
+where a.EMPLOYEE_ID=b.EMPLOYEE_REF_ID group by FIRST_NAME
+```
+#### 84. What is SQL Injection ?
+
+SQL Injection is one of the the techniques uses by hackers to hack a website by injecting SQL commands in data fields.
