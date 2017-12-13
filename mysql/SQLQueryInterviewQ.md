@@ -1,7 +1,6 @@
 
 ### Table Name : Employee
 
-|-----------|-----------|----------|----------|------------|------------|
 |Employee_id|	First_name|	Last_name|	Salary	|Joining_date|	Department|
 |-----------|-----------|----------|----------|------------|------------|
 |1	|John	|Abraham	|1000000|	01-JAN-13 12.00.00 AM	|Banking|
@@ -16,7 +15,6 @@
 
 ### Table Name : Incentives
 
-|-----------|-----------|----------|
 |Employee_ref_id	|Incentive_date|	Incentive_amount|
 |-----------|-----------|----------|
 |1	|01-FEB-13	|5000|
