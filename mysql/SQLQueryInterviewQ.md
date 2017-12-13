@@ -54,33 +54,29 @@ select distinct DEPARTMENT from EMPLOYEE
 ```
 #### 7. Select first 3 characters of FIRST_NAME from EMPLOYEE
 
-Oracle Equivalent of SQL Server SUBSTRING is SUBSTR, Query : 
+* Oracle Equivalent of SQL Server SUBSTRING is SUBSTR, Query : 
 ```sql
 select substr(FIRST_NAME,0,3) from employee
 ```
-
-SQL Server Equivalent of Oracle SUBSTR is SUBSTRING, Query : 
+* SQL Server Equivalent of Oracle SUBSTR is SUBSTRING, Query : 
 ```sql
 select substring(FIRST_NAME,1,3) from employee
 ```
-
-MySQL Server Equivalent of Oracle SUBSTR is SUBSTRING. In MySQL start position is 1, Query : 
+* MySQL Server Equivalent of Oracle SUBSTR is SUBSTRING. In MySQL start position is 1, Query : 
 ```sql
 select substring(FIRST_NAME,1,3) from employee
 ```
 #### 8. Get position of 'o' in name 'John' from employee table
 
-Oracle Equivalent of SQL Server CHARINDEX is INSTR, Query : 
+* Oracle Equivalent of SQL Server CHARINDEX is INSTR, Query : 
 ```sql
 Select instr(FIRST_NAME,'o') from employee where first_name='John'
 ```
-
-SQL Server Equivalent of Oracle INSTR is CHARINDEX, Query: 
+* SQL Server Equivalent of Oracle INSTR is CHARINDEX, Query: 
 ```sql
 Select CHARINDEX('o',FIRST_NAME,0) from employee where first_name='John'
 ```
-
-MySQL Server Equivalent of Oracle INSTR is LOCATE, Query: 
+* MySQL Server Equivalent of Oracle INSTR is LOCATE, Query: 
 ```sql
 Select LOCATE('o',FIRST_NAME) from employee where first_name='John'
 ```
@@ -94,12 +90,12 @@ select LTRIM(FIRST_NAME) from employee
 ```
 #### 11. Get length of FIRST_NAME from employee table
 
-Oracle,MYSQL Equivalent of SQL Server Len is Length , Query :
+* Oracle,MYSQL Equivalent of SQL Server Len is Length , Query :
 ```sql
 select length(FIRST_NAME) from employee
 ```
 
-SQL Server Equivalent of Oracle,MYSQL Length is Len, Query :
+* SQL Server Equivalent of Oracle,MYSQL Length is Len, Query :
 ```sql
 select len(FIRST_NAME) from employee
 ```
@@ -109,32 +105,29 @@ select REPLACE(FIRST_NAME,'o','$') from employee
 ```
 #### 13. Get First_Name and Last_Name as single column from employee table separated by a '_'
 
-Oracle Equivalent of MySQL concat is '||', Query : 
+* Oracle Equivalent of MySQL concat is '||', Query : 
 ```sql
 Select FIRST_NAME|| '_' ||LAST_NAME from EMPLOYEE
 ```
-
-SQL Server Equivalent of MySQL concat is '+', Query : 
+* SQL Server Equivalent of MySQL concat is '+', Query : 
 ```sql
 Select FIRST_NAME + '_' +LAST_NAME from EMPLOYEE
 ```
-
-MySQL Equivalent of Oracle '||' is concat, Query : 
+* MySQL Equivalent of Oracle '||' is concat, Query : 
 ```sql
 Select concat(FIRST_NAME,'_',LAST_NAME) from EMPLOYEE
 ```
 #### 14. Get FIRST_NAME ,Joining year,Joining Month and Joining Date from employee table
 
-SQL Queries in Oracle, 
+* SQL Queries in Oracle, 
 ```sql
 Select FIRST_NAME, to_char(joining_date,'YYYY') JoinYear , to_char(joining_date,'Mon'), to_char(joining_date,'dd') from EMPLOYEE
 ```
-SQL Queries in SQL Server, 
+* SQL Queries in SQL Server, 
 ```sql
 select SUBSTRING (convert(varchar,joining_date,103),7,4) , SUBSTRING (convert(varchar,joining_date,100),1,3) , SUBSTRING (convert(varchar,joining_date,100),5,2) from EMPLOYEE
 ```
-
-SQL Queries in MySQL, 
+* SQL Queries in MySQL, 
 ```sql
 select year(joining_date),month(joining_date), DAY(joining_date) from EMPLOYEE
 ```
