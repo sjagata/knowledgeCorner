@@ -200,6 +200,9 @@ Example –
 * Query that has WHERE condition
 * Query that has HAVING condition.
 
+* The WHERE clause is used to filter records from a result. The filtering occurs before any groupings are made.
+* The HAVING clause is used to filter values from a group (i.e., to check conditions after aggregation into groups has been performed).
+
 ### 40. What is recursive stored procedure?
 A stored procedure which calls by itself until it reaches some boundary condition. This recursive function or procedure helps programmers to use the same set of code any number of times.
 
