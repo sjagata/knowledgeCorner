@@ -427,7 +427,14 @@ select * from EMPLOYEE where exists (select * from INCENTIVES)
 
 #### 50. How to fetch data that are common in two query results ?
 ```sql
-select * from EMPLOYEE where EMPLOYEE_ID INTERSECT select * from EMPLOYEE where EMPLOYEE_ID < 4
+select * from EMPLOYEE where EMPLOYEE_ID 
+INTERSECT 
+select * from EMPLOYEE where EMPLOYEE_ID < 4
+
+--  above query in Mysql
+select * from EMPLOYEE where EMPLOYEE_ID 
+IN 
+(select EMPLOYEE_ID from EMPLOYEE where EMPLOYEE_ID < 22);
 ```
 **Explanation :** Here "INTERSECT" command is used to fetch data that are common in 2 queries. In this example, we had taken EMPLOYEE table in both the queries.We can apply INTERSECT command on different tables. The result of the above query will return employee details of "ROY" because, employee id of ROY is 3, and both query results have the information about ROY.
 
@@ -436,6 +443,12 @@ select * from EMPLOYEE where EMPLOYEE_ID INTERSECT select * from EMPLOYEE where 
 select EMPLOYEE_ID from EMPLOYEE
 MINUS
 select EMPLOYEE_REF_ID from INCENTIVES
+
+--  above query in Mysql
+Select EMPLOYEE_ID
+From EMPLOYEE
+LEFT Join INCENTIVES on EMPLOYEE_REF_ID
+Where EMPLOYEE_REF_ID = EMPLOYEE_ID;
 ```
 **Explanation :** To filter out certain information we use MINUS command. What MINUS Command odes is that, it returns all the results from the first query, that are not part of the second query. In our example, first three employees received the incentives. So query will return employee id's 4 to 8.
 [mysql - minus](http://www.mysqltutorial.org/mysql-minus/)
