@@ -24,3 +24,44 @@ Standard SQL Commands are Select.
 ### 4. What is a Database?
 Database is nothing but an organized form of data for easy access, storing, retrieval and managing of data. This is also known as structured form of data which can be accessed in many ways. <br>
 Example: School Management Database, Bank Management Database.
+
+### 5. What are tables and Fields?
+A table is a set of data that are organized in a model with Columns and Rows. Columns can be categorized as vertical, and Rows are horizontal. A table has specified number of column called fields but can have any number of rows which is called record.
+
+### 6. What is a primary key?
+A primary key is a combination of fields which uniquely specify a row. This is a special kind of unique key, and it has implicit NOT NULL constraint. It means, Primary key values cannot be NULL.
+
+### 7. What is a unique key?
+A Unique key constraint uniquely identified each record in the database. This provides uniqueness for the column or set of columns.
+* A Primary key constraint has automatic unique constraint defined on it. But not, in the case of Unique Key.
+* There can be many unique constraint defined per table, but only one Primary key constraint defined per table.
+
+### 8. What is a foreign key?
+A foreign key is one table which can be related to the primary key of another table. Relationship needs to be created between two tables by referencing foreign key with the primary key of another table.
+
+### 9. What is a join?
+This is a keyword used to query data from more tables based on the relationship between the fields of the tables. Keys play a major role when JOINs are used.
+
+### 10. What are the types of join and explain each?
+There are various types of join which can be used to retrieve data and it depends on the relationship between tables.
+* Inner join.
+Inner join return rows when there is at least one match of rows between the tables.
+* Right Join.
+Right join return rows which are common between the tables and all rows of Right hand side table. Simply, it returns all the rows from the right hand side table even though there are no matches in the left hand side table.
+* Left Join.
+Left join return rows which are common between the tables and all rows of Left hand side table. Simply, it returns all the rows from Left hand side table even though there are no matches in the Right hand side table.
+* Full Join.
+Full join return rows when there are matching rows in any one of the tables. This means, it returns all the rows from the left hand side table and all the rows from the right hand side table.
+
+
+
+
+
+
+
+
+<br>
+<br>
+
+References:
+* [link](https://career.guru99.com/top-50-sql-question-answers/)
