@@ -345,6 +345,8 @@ Peter
 * It can be a candidate key
 * Unique key can be NULL and may not be unique
 
+<br>
+<hr>
 
 
 
@@ -358,4 +360,8 @@ Peter
 
 
 
-[Ref](https://www.youtube.com/watch?v=Kd3HTph0Mds&index=2&list=PL6n9fhu94yhXcztdLO7i6mdyaegC8CJwR)
+
+Refereneces :
+
+* [Ref](https://www.youtube.com/watch?v=Kd3HTph0Mds&index=2&list=PL6n9fhu94yhXcztdLO7i6mdyaegC8CJwR)
+* [link](https://www.toptal.com/sql/interview-questions)
