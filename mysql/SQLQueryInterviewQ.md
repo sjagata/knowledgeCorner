@@ -455,14 +455,16 @@ Where EMPLOYEE_REF_ID = EMPLOYEE_ID;
 
 #### 52. Select 20 % of salary from John , 10% of Salary for Roy and for other 15 % of salary from employee table
 ```sql
-SELECT FIRST_NAME, CASE FIRST_NAME 
-WHEN 'John' 
-THEN SALARY * .2 
-WHEN 'Roy' 
-THEN SALARY * .10 
-ELSE 
-SALARY * .15 
-END "Deduced_Amount" FROM EMPLOYEE
+SELECT FIRST_NAME, 
+	CASE FIRST_NAME 
+		WHEN 'John' 
+			THEN SALARY * .2 
+		WHEN 'Roy' 
+			THEN SALARY * .10 
+		ELSE 
+			SALARY * .15 
+	END "Deduced_Amount" 
+FROM EMPLOYEE;
 ```
 **Explanation :** Here, we are using "SQL CASE" statement to achieve the desired results. After case statement, we had to specify the column on which filtering is applied. In our case it is "FIRST_NAME". And in then condition, specify the name of filter like John, Roy etc. To handle conditions outside our filter, use else block where every one other than John and Roy enters.
 
