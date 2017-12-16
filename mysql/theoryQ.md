@@ -44,14 +44,53 @@ This is a keyword used to query data from more tables based on the relationship 
 
 ### 10. What are the types of join and explain each?
 There are various types of join which can be used to retrieve data and it depends on the relationship between tables.
-* Inner join.
+* Inner join.<br>
 Inner join return rows when there is at least one match of rows between the tables.
-* Right Join.
+* Right Join.<br>
 Right join return rows which are common between the tables and all rows of Right hand side table. Simply, it returns all the rows from the right hand side table even though there are no matches in the left hand side table.
-* Left Join.
+* Left Join.<br>
 Left join return rows which are common between the tables and all rows of Left hand side table. Simply, it returns all the rows from Left hand side table even though there are no matches in the Right hand side table.
-* Full Join.
+* Full Join.<br>
 Full join return rows when there are matching rows in any one of the tables. This means, it returns all the rows from the left hand side table and all the rows from the right hand side table.
+* CROSS JOIN <br>
+Cross join selects the all the rows from the first table and all the rows from second table and shows as Cartesian product ie, with all possibilities
+
+### 11. What is normalization?
+Normalization is the process of **minimizing redundancy and dependency** by organizing fields and table of a database. The main aim of Normalization is to add, delete or modify field that can be made in a single table.
+
+Ref: <br>
+* [video](https://youtu.be/xoTyrdT9SZI)
+* [video - forms](https://www.youtube.com/watch?v=UrYLYV7WSHM)
+
+### 12. What is Denormalization.
+DeNormalization is a technique used to access the data from higher to lower normal forms of database. It is also process of introducing redundancy into a table by incorporating data from the related tables.
+
+### 13. What are all the different normalizations?
+The normal forms can be divided into 5 forms, and they are explained below -.
+* First Normal Form (1NF):. <br>
+This should remove all the duplicate columns from the table. Creation of tables for the related data and identification of unique columns.
+* Second Normal Form (2NF):. <br>
+Meeting all requirements of the first normal form. Placing the subsets of data in separate tables and Creation of relationships between the tables using primary keys.
+* Third Normal Form (3NF):. <br>
+This should meet all requirements of 2NF. Removing the columns which are not dependent on primary key constraints.
+* Fourth Normal Form (3NF):. <br>
+Meeting all the requirements of third normal form and it should not have multi- valued dependencies.
+
+### 14. What is a View?
+A view is a virtual table which consists of a subset of data contained in a table. Views are not virtually present, and it takes less space to store. View can have data of one or more tables combined, and it is depending on the relationship.
+
+### 15. What is an Index?
+An index is performance tuning method of allowing faster retrieval of records from the table. An index creates an entry for each value and it will be faster to retrieve data.
+
+### 16. What are all the different types of indexes?
+There are three types of indexes -.
+* Unique Index. <br>
+This indexing does not allow the field to have duplicate values if the column is unique indexed. Unique index can be applied automatically when primary key is defined.
+* Clustered Index. <br>
+This type of index reorders the physical order of the table and search based on the key values. Each table can have only one clustered index.
+* NonClustered Index.<br>
+NonClustered Index does not alter the physical order of the table and maintains logical order of data. Each table can have 999 nonclustered indexes.
+
 
 
 
