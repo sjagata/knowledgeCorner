@@ -438,6 +438,7 @@ MINUS
 select EMPLOYEE_REF_ID from INCENTIVES
 ```
 **Explanation :** To filter out certain information we use MINUS command. What MINUS Command odes is that, it returns all the results from the first query, that are not part of the second query. In our example, first three employees received the incentives. So query will return employee id's 4 to 8.
+[mysql - minus](http://www.mysqltutorial.org/mysql-minus/)
 
 #### 52. Select 20 % of salary from John , 10% of Salary for Roy and for other 15 % of salary from employee table
 ```sql
