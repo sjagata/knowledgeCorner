@@ -175,6 +175,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 * The `@Repository` annotation is a specialization of the `@Component annotation with similar use and functionality. In addition to importing the DAOs into the DI container, it also makes the unchecked exceptions (thrown from DAO methods) eligible for translation into Spring `DataAccessException`.
 
 * The `@Service annotation is also a specialization of the component annotation. It doesn’t currently provide any additional behavior over the @Component annotation, but it’s a good idea to use `@Service` over `@Component` in service-layer classes because it specifies intent better.
+The main advantage of using `@Repository` or `@Service` over `@Component` is that it's **easy to write an AOP pointcut that targets, for instance, all classes annotated with `@Repository`.**
 
 * `@Controller` annotation marks a class as a Spring Web MVC controller. It too is a `@Component` specialization, so beans marked with it are automatically imported into the DI container. When you add the `@Controller` annotation to a class, you can use another annotation i.e. `@RequestMapping;` to map URLs to instance methods of a class.
 
