@@ -59,6 +59,7 @@ Cross join selects the all the rows from the first table and all the rows from s
 Normalization is the process of **minimizing redundancy and dependency** by organizing fields and table of a database. The main aim of Normalization is to add, delete or modify field that can be made in a single table.
 
 Ref: <br>
+* [link](http://www.studytonight.com/dbms/database-normalization.php)
 * [video](https://youtu.be/xoTyrdT9SZI)
 * [video - forms](https://www.youtube.com/watch?v=UrYLYV7WSHM)
 
