@@ -111,7 +111,7 @@ A subquery is a query within another query. The outer query is called as main qu
 ### 21. What are the types of subquery?
 There are two types of subquery – 
 1. Correlated <br>
-A correlated subquery cannot be considered as independent query, but it can refer the column in a table listed in the FROM the list of the main query.
+A correlated subquery cannot be considered as independent query (both are interdependent), but it can refer the column in a table listed in the FROM the list of the main query.
 2. Non-Correlated. <br>
 A Non-Correlated sub query can be considered as independent query and the output of subquery are substituted in the main query.
 
