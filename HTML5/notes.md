@@ -90,7 +90,10 @@ The box-sizing property allows us to include the padding and border in an elemen
         6. Purple - Power, nobility and wealth
         7. Brown - relaxation and confidence
 
-
+7. Icons
+   * Icons should be recognizable
+   * Label your icons
+  
 
 
 
