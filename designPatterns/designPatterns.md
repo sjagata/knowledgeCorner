@@ -16,8 +16,8 @@
 ISP is basically a recommendation on how to split interfaces into smaller interfaces 
 
 ### 5. DIP - Dependency Inversion Principle
-> A. High-level modules should not depend on low-level modules. 
+> A. High-level modules should not depend on low-level modules. <br>
 > Both should depend on abstractions.
 
-> B. Abstractions should not depend on details. 
+> B. Abstractions should not depend on details. <br>
 > Details should depend on abstractions.
