@@ -1,3 +1,75 @@
+### 1) What are Dependency Injection and Inversion Of Control?
+Answer: Dependency Injection (DI): is a design pattern where instead of having your objects create a dependency or asking a factory object to make one for you, you pass the needed dependencies into the constructor (i.e. Constructor Injection) or via setter methods (i.e. Setter Injection) from outside the class.
+
+This is achieved by defining the dependencies as interfaces, and then injecting in a concrete class implementing that interface via a constructor (i.e. constructor injection) or a setter method (i.e. setter injection) by wiring up via an IoC container like Spring. 
+
+Inversion of Control (IoC): is a software design principle where the framework controls the program flow. Spring framework, Guice, etc are IoC containers that implement the IoC principle. An IoC container like Spring is responsibly for loosely wiring up the dependencies. When Spring application runs, it looks at the either XML config file or the annotations to wire up the dependencies. 
+
+### 2) What are you “Inverting” in IoC?
+
+Answer: Flow of control is “inverted” by dependency injection because you are effectively delegating dependencies to some external system (e.g. IoC container like Spring or Service Locator).
+
+### 3) What are the different types of dependency injections?
+
+Answer: There are 4 types of dependency injection. Spring supports 3 types. 1, 2 & 4 shown below.
+1. Constructor Injection (e.g. Spring): Dependencies are provided as constructor parameters.
+2. Setter Injection (e.g. Spring): Dependencies are assigned through setter methods.
+3. Interface Injection (e.g. Avalon): Injection is done through an interface.
+4. Field injection: Using annotations on fields and parameters.
+
+### 4) When will you favor DI type “Setter Injection” over “Constructor Injection”?
+
+Answer: In some scenarios, the constructors may get a lot of parameters, which force you to create a lot of overloaded constructors for every way the object might be created. In these scenarios setter injection can be favored over constructor injection, but having too many constructor parameters may be an indication of a bad design.
+
+### 5) Which DI would you favor – Constructor-based or setter-based DI?
+
+Answer: You can use both constructor-based and setter-based Dependency Injection. Favor constructor arguments for mandatory dependencies and setters for optional dependencies.
+
+### 6) How can you inject a Java Collection in Spring?
+
+Answer: You can use list, set, map, or prop elements to configure collections.
+
+### 7) What does the `@Required` annotation mean?
+
+Answer: This annotation indicates that the annotated bean property must be injected at configuration time, and if not set, the container throws BeanInitializationException if the affected bean property has not been populated.
+
+### 8) What does the `@Qualifier` annotation mean?
+
+Answer: When there are more than one beans of the same type and only one is needed to be wired with a property, the @Qualifier annotation is used along with @Autowired annotation to remove the confusion by specifying which exact bean will be wired.
+
+### 9) When will you use singleton scope? When will you use prototype scope?
+
+Answer: Singleton scope is used for stateless object use. For example, injectiong a DAO (i.e. Data Access Object) into a service object. DAOs don’t need to maintain conversation state.
+
+Prototype is useful when your objects maintain state in a multi-threaded environment. Each thread needs to use its own object and cannot share the single object. For example, you might have a RESTFul web service client making multi-threaded calls to Web services. The REST easy client APIs like RESTEasy uses the Apache Connection manager which is not thread safe and each thread should use its own client. Hence, you need to use the prototype scope.
+
+### 10) What happens if you inject a prototype scoped bean into a singleton scoped bean?
+
+Answer: A new prototype scoped bean will be injected into a singleton scoped bean once at runtime, and the same prototype bean will be used by the singleton bean.
+
+### 11) What are the scopes defined in HTTP context?
+
+Answer: Following scopes are only valid in the context of a web-aware Spring ApplicationContext.
+
+Request Scope is for a single bean definition to the lifecycle of a single HTTP request. In other words each and every HTTP request will have its own instance of a bean created off the back of a single bean definition.
+
+Session Scope is for a single bean definition to the lifecycle of a HTTP Session.
+
+Global Session Scope is for a single bean definition to the lifecycle of a global HTTP Session. Typically only valid when used in a portlet context.
+
+### 12)  Does Spring allow you to define your own bean scopes?
+
+Answer: Yes, from Spring 2.0 onwards you can define custom scopes. For example,
+
+example:
+* You can write a custom scope to inject stateful objects into singleton services or factories.
+
+
+
+
+<hr>
+
+
 ### 1. What is Inversion of Control (IoC) and Dependency Injection?
 In software engineering, **inversion of control (IoC)** is a programming technique in which object coupling is bound at run time by an assembler object and is typically not known at compile time using static analysis. In traditional programming, the flow of the business logic is determined by objects that are statically assigned to one another. With inversion of control, the flow depends on the object graph that is instantiated by the assembler and is made possible by object interactions being defined through abstractions. The binding process is achieved through “dependency injection”.
 
