@@ -55,6 +55,8 @@ Full join return rows when there are matching rows in any one of the tables. Thi
 * CROSS JOIN <br>
 Cross join selects the all the rows from the first table and all the rows from second table and shows as Cartesian product ie, with all possibilities
 
+* [stackoverflow](https://stackoverflow.com/questions/38549/what-is-the-difference-between-inner-join-and-outer-join)
+
 ### 11. What is normalization?
 Normalization is the process of **minimizing redundancy and dependency** by organizing fields and table of a database. The main aim of Normalization is to add, delete or modify field that can be made in a single table.
 
