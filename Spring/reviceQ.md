@@ -14,4 +14,5 @@ public class CustomerController {
 
 ### Spring MVC
 
-### 
+### Differences between Line and Branch coverage
+Sol:  [stackoverflow](https://stackoverflow.com/questions/8229236/differences-between-line-and-branch-coverage)
