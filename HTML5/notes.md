@@ -136,8 +136,10 @@ The box-sizing property allows us to include the padding and border in an elemen
   
 
 <hr>
-To make image background cover and position center with gradient on top of image to make text overlay to visible clear
- ```css
+
+To make image background cover and position center with gradient on top of image to make text overlay to visible clear.
+
+```css
 header {
      background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/hero.jpg);
      background-size: cover;
