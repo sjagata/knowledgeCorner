@@ -134,7 +134,24 @@ The box-sizing property allows us to include the padding and border in an elemen
    * Icons should be recognizable
    * Label your icons
   
-
+<hr>
+To make image background cover and position center with gradient on top of image to make text overlay to visible clear
+ ```css
+header {
+     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/hero.jpg);
+     background-size: cover;
+     height: 100vh;
+     background-position: center;
+ }
+ 
+.hero-text-box {
+    position: absolute;
+    width: 1140px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+ ```
 
 
 
