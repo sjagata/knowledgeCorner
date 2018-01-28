@@ -40,7 +40,5 @@ console.log(myVar);
 // 2. Execution context (created and execute)
 a(); // execution context
 console.log(myVar);
-
-// 1. Global execution context (created and code is executed) // myVar = 1
-// Every execution context has its own variable enviornment 
 ```
+> Every execution context has its own variable enviornment 
