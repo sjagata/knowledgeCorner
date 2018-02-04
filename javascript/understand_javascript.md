@@ -71,6 +71,8 @@ if( a > b ){
 }
 ```
 
+![Alt text](img/scope.png?raw=true "Title")
+
 ### Asynchronous
 > Asynchronous more than one at a time
 
