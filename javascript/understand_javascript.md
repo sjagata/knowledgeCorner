@@ -76,6 +76,21 @@ if( a > b ){
 ### Asynchronous
 > Asynchronous more than one at a time
 
+<hr>
+
+## Types & Operators
+
+> Javascript is Dynamically typed
+```js
+var isNew = true; // no errors
+isNew = 'yep!';
+isNew = 1;
+```
+
+### Primitive Type
+> A type of data that reperesents a single value <br> That is, not an object
+
+
 
 
 
