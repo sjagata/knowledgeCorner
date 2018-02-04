@@ -97,12 +97,42 @@ isNew = 1;
 6. `SYMBOL` - Used in ES6 (the next version of javascript)
 
 
+### Operator
+> A Special function that is syntactically written differently
+
+[Operator_Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
+
+* equals assotivity is right-left
+```js
+var a=1, b=2, c=3;
+
+a = b = c;
+
+console.log(a); //4
+console.log(b); //4
+console.log(c); //4
+```
 
 
+### Coercion
+> Converting a value from one type to another
+```js
+var a = 1 + '2';
+console.log(a); // 12
+```
 
+### Comparison Operators
+```js
+console(1 < 2 < 3); // true (1<2) = true < 3 (1<3) = true
+console(3 < 2 < 1); // true (3<2) = false < 1 (0<1) = true
 
+// true is coerced to 1
+// false is coerced to 0
+```
 
+* 99% try to use `===` for comparision to avoid serious bugs
 
+[Equality_comparisons_and_sameness](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)
 
 
 
