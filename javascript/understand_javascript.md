@@ -205,11 +205,78 @@ greet();
 	console.log(person["address"]["state"]);
 	```
 
-2. 
+2. Object Literals
+	```js
+	var Tony = { 
+	    firstname: 'Tony', 
+	    lastname: 'Alicea',
+	    address: {
+		street: '111 Main St.',
+		city: 'New York',
+		state: 'NY'
+	    }
+	};
 
+	function greet(person) {
+	    console.log('Hi ' + person.firstname);
+	}
 
+	greet(Tony);
 
+	greet({ 
+	    firstname: 'Mary', 
+	    lastname: 'Doe' 
+	});
 
+	Tony.address2 = {
+	    street: '333 Second St.'
+	}
+	```
 
+3. Faking Namespaces
+	```js
+	var greet = 'Hello!';
+	var greet = 'Hola!'; 
+
+	console.log(greet);
+
+	var english = { 
+	    greetings: { 
+		basic: 'Hello!' 
+	    } 
+	};
+
+	var spanish = {};
+
+	spanish.greet = 'Hola!';
+
+	console.log(english);
+	```
+
+4. JSON and Object Literals
+	> JSON is inspired by Object literals in JavaScript. Both are different.
+	> XML is a huge amount of wasted download bandwith with 
+	
+	```js
+	var objectLiteral = {
+	    firstname: 'Mary',
+	    isAProgrammer: true
+	}
+
+	console.log(JSON.stringify(objectLiteral));
+
+	var jsonValue = JSON.parse('{ "firstname": "Mary", "isAProgrammer": true }');
+
+	console.log(jsonValue);
+	```
+4. Functions are Objects
+	```js
+	function greet() {
+	    console.log('hi');   
+	}
+
+	greet.language = 'english';
+	console.log(greet.language);
+	```
 
 
