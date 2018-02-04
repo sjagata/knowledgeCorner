@@ -279,4 +279,5 @@ greet();
 	console.log(greet.language);
 	```
 
+![Alt text](img/functions.png?raw=true "Title")
 
