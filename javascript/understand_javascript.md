@@ -43,3 +43,54 @@ a(); // execution context
 console.log(myVar); // after completing a() myVar is global execution
 ```
 > Every execution context has its own variable enviornment 
+
+### Scope Chain
+```js
+function a() {
+    
+    function b() {
+        console.log(myVar);
+    }
+    
+	b();
+}
+
+var myVar = 1;
+a();
+```
+
+
+### Scope
+> Where a variable is available in your code 
+
+> `let' - can be used instead of var. let allows javascript engine to use what's called block scoping.
+
+```js
+if( a > b ){
+ let c = true;
+}
+```
+
+### Asynchronous
+> Asynchronous more than one at a time
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
