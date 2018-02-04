@@ -143,13 +143,33 @@ var a;
 
 // goes to internet and looks for a value
 
-if (a) {
+if (a || a === 0 ) {
     console.log('Something is there.');
 }
+
+Boolean(undefined) // false
+Boolean(null) // false 
+Boolean("") // false
+
+// Not for 0 
+// Boolean(0) // fasle but if a = 0 then above if condition will be true
 ```
 
+### Default Values
 
+```js
+function greet(name) {
+    name = name || 'No Name';
+    console.log('Hello ' + name);    
+}
 
+greet('Tony');
+greet();
+```
+
+<hr>
+
+## Objects and functions
 
 
 
