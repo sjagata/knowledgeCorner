@@ -135,8 +135,18 @@ console(3 < 2 < 1); // true (3<2) = false < 1 (0<1) = true
 [Equality_comparisons_and_sameness](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)
 
 
+### Existance and booleans
+a is coerced as Boolean(undefined) == false, Boolean(null) == false, Boolean("") == false
 
+```js
+var a;
 
+// goes to internet and looks for a value
+
+if (a) {
+    console.log('Something is there.');
+}
+```
 
 
 
