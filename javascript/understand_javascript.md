@@ -276,8 +276,251 @@ greet();
 	}
 
 	greet.language = 'english';
-	console.log(greet.language);
+	console.log(greet.language); //english
 	```
 
 ![Alt text](img/functions.png?raw=true "Title")
+
+5. Function Statements and Function Expressions
+	> Expression - A unit of code that results in a value
+	
+	```js
+	greet();
+
+	// function statement
+	function greet() {
+	    console.log('hi');   
+	}
+	
+	// anonymousGreet(); // this will throw undefined is not a function we are invoking a variable which is undefined, Javascript hoisted only variable until it executes below lines 
+
+	// function expression
+	var anonymousGreet = function() {
+	    console.log('hi');   
+	}
+
+	anonymousGreet();
+
+	function log(a) {
+	   a();    
+	}
+
+	log(function() {
+	    console.log('hi');   
+	});
+	```
+
+6. By Value vs By Reference
+	> All primitives are by value
+	> All functions are by reference
+	
+	> Mutate - To change something
+	> Immutable - can't be changed
+	
+	```js
+	// by value (primitives)
+	var a = 3;
+	var b;
+
+	b = a;
+	a = 2;
+
+	console.log(a); // 2
+	console.log(b); // 3
+
+	// by reference (all objects (including functions))
+	var c = { greeting: 'hi' };
+	var d;
+
+	d = c;
+	c.greeting = 'hello'; // mutate
+
+	console.log(c); // {greeting: "hello"}
+	console.log(d); // {greeting: "hello"}
+
+	// by reference (even as parameters)
+	function changeGreeting(obj) {
+	    obj.greeting = 'Hola'; // mutate   
+	}
+
+	changeGreeting(d);
+	console.log(c); // {greeting: "Hola"}
+	console.log(d); // {greeting: "Hola"}
+
+	// equals operator sets up new memory space (new address)
+	c = { greeting: 'howdy' };
+	console.log(c); // { greeting: 'howdy' }
+	console.log(d); //  { greeting: 'Hola' }
+	```
+
+![Alt text](img/byvalue.png?raw=true "Title")
+
+![Alt text](img/byref.png?raw=true "Title")
+
+
+7. Objects, Functions and this
+	> When a function is invoked a new execution context is created
+	
+	```js
+	function a() {
+	    console.log(this);
+	    this.newvariable = 'hello';
+	}
+
+	var b = function() {
+	    console.log(this);   
+	}
+
+	a();
+
+	console.log(newvariable); // not good!
+
+	b();
+
+	var c = {
+	    name: 'The c object',
+	    log: function() {
+		var self = this;
+
+		self.name = 'Updated c object';
+		console.log(self);
+
+		var setname = function(newname) {
+		    self.name = newname;   
+		}
+		setname('Updated again! The c object');
+		console.log(self);
+	    }
+	}
+
+	c.log();
+
+	```
+
+8. Arrays - Collections of Anything
+	```js
+	var arr = [
+	    1, 
+	    false, 
+	    {
+		name: 'Tony',
+		address: '111 Main St.'
+	    },
+	    function(name) {
+		var greeting = 'Hello ';
+		console.log(greeting + name);
+	    },
+	    "hello"
+	];
+
+	console.log(arr); // (5) [1, false, {…}, ƒ, "hello"]
+	arr[3](arr[2].name); // Hello Tony
+	```
+
+9. Arguments and spread
+	> The Parameters you pass to a function
+	> 'arguments' acts like an array but it is not javascript array
+	
+	```js
+	function greet(firstname, lastname, language) {
+
+	    language = language || 'en';
+	    
+	    console.log(Array.isArray(arguments)); // false
+
+	    if (arguments.length === 0) {
+		console.log('Missing parameters!');
+		console.log('-------------');
+		return;
+	    }
+
+	    console.log(firstname);
+	    console.log(lastname);
+	    console.log(language);
+	    console.log(arguments);
+	    console.log('arg 0: ' + arguments[0]);
+	    console.log('-------------');
+
+	}
+
+	greet(); // 'Missing parameters!'
+	greet('John'); 
+	// John 
+	// undefined 
+	// en 
+	// Arguments ["John", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+	// arg 0: John
+	// -------------
+	
+	greet('John', 'Doe');
+	// John 
+	// Doe 
+	// en 
+	// Arguments(2) ["John", "Doe", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+	// arg 0: John
+	// -------------
+	
+	greet('John', 'Doe', 'es');
+	// John 
+	// Doe 
+	// es 
+	// Arguments(3) ["John", "Doe", "es", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+	// arg 0: John
+	// -------------
+
+	// in ES6 I can do:  function greet(firstname, ...other)
+	// and 'other' will be an array that contains the rest of the arguments
+	```
+
+![Alt text](img/execontext.png?raw=true "Title")
+
+10. Function Overloading
+	```js
+	function greet(firstname, lastname, language) {
+
+	    language = language || 'en';
+
+	    if (language === 'en') {
+		console.log('Hello ' + firstname + ' ' + lastname);   
+	    }
+
+	    if (language === 'es') {
+		console.log('Hola ' + firstname + ' ' + lastname);   
+	    }
+
+	}
+
+	function greetEnglish(firstname, lastname) {
+	    greet(firstname, lastname, 'en');   
+	}
+
+	function greetSpanish(firstname, lastname) {
+	    greet(firstname, lastname, 'es');   
+	}
+
+	greetEnglish('John', 'Doe');
+	greetSpanish('John', 'Doe');
+	```
+11. Automatic Semicolon Insertion
+	> All keep your semicolon 
+	
+	```js
+	function getPerson() {
+	    return 
+	    {
+		firstname: 'Tony'
+	    }
+	    // vs
+	    //return {
+	    //  firstname: 'Tony'
+	    //}
+	    
+	}
+	console.log(getPerson()); // undefined
+	```
+
+
+
+
+
 
