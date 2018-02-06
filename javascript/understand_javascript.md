@@ -518,9 +518,341 @@ greet();
 	}
 	console.log(getPerson()); // undefined
 	```
+	
+12. Immediately Invoked Functions Expressions (IIFEs)
+	> By wrapping the code in IIFE, it does not interfere with crash into, or be interfered by other any other code that might be included in my application
+	
+	```js
+	// function statement
+	function greet(name) {
+	    console.log('Hello ' + name);   
+	}
+	greet('John');
+
+	// using a function expression
+	var greetFunc = function(name) {
+	    console.log('Hello ' + name);
+	};
+	greetFunc('John');
+
+	// using an Immediately Invoked Function Expression (IIFE)
+	var greeting = function(name) {
+
+	    return 'Hello ' + name;
+
+	}('John');
+
+	console.log(greeting);
+
+	// IIFE
+	var firstname = 'John';
+
+	(function(name) {
+
+	    var greeting = 'Inside IIFE: Hello';
+	    console.log(greeting + ' ' + name);
+
+	}(firstname)); // IIFE
+	```
+	```js
+	// IIFE
+	(function(global, name) {
+
+	    var greeting = 'Hello';
+	    global.greeting = 'Hello';
+	    console.log(greeting + ' ' + name);
+
+	}(window, 'John')); // IIFE
+
+	console.log(greeting);
+	```
+	
+![Alt text](img/iife.png?raw=true "Title")
+
+13. Closures
+	```js
+	function greet(whattosay) {
+
+	   return function(name) {
+	       console.log(whattosay + ' ' + name);
+	   }
+
+	}
+
+	var sayHi = greet('Hi');
+	sayHi('Tony');
+
+	```	
+	```js
+	function buildFunctions() {
+ 
+	    var arr = [];
+
+	    for (var i = 0; i < 3; i++) {
+
+		arr.push(
+		    function() {
+			console.log(i);   
+		    }
+		)
+
+	    }
+
+	    return arr;
+	}
+
+	var fs = buildFunctions();
+
+	fs[0](); // 3
+	fs[1](); // 3
+	fs[2](); // 3
+	// All three point at the same memory spot going up the scope 
+	// When executed it all childern function can tell only their parents value in the memory right 
+	// since we are executing then right now after it execution context is poped out 
+	
+	
+	function buildFunctions2() {
+	    var arr = [];
+	    for (var i = 0; i < 3; i++) {
+	    	 let j = i; // with ES6
+		 arr.push(
+		 function() {
+		    console.log(j);   
+		  }
+		)
+	    }
+	    return arr;
+	}
+	var fs2 = buildFunctions2();
+	fs2[0]();
+	fs2[1]();
+	fs2[2]();
+
+	function buildFunctions2() {
+
+	    var arr = [];
+
+	    for (var i = 0; i < 3; i++) {
+		arr.push(
+		    (function(j) {
+			return function() {
+			    console.log(j);   
+			}
+		    }(i))
+		)
+
+	    }
+
+	    return arr;
+	}
+
+	var fs2 = buildFunctions2();
+
+	fs2[0]();
+	fs2[1]();
+	fs2[2]();
+	```
+
+![Alt text](img/closure.png?raw=true "Title")
+![Alt text](img/closure1.png?raw=true "Title")
+![Alt text](img/closure2.png?raw=true "Title")
+
+14. Function Factories
+	> Once makeGreeting is executed its execution context is poped out but its contatext will be hang on memory and when greetEnglish/greetSpanish is executed it will point to its own execution context and also will be pointed to the execution context of where the function was created.
+	
+	```js
+	function makeGreeting(language) {
+
+	    return function(firstname, lastname) {
+
+		if (language === 'en') {
+		    console.log('Hello ' + firstname + ' ' + lastname);   
+		}
+
+		if (language === 'es') {
+		    console.log('Hola ' + firstname + ' ' + lastname);   
+		}
+
+	    }
+
+	}
+
+	var greetEnglish = makeGreeting('en');
+	var greetSpanish = makeGreeting('es');
+
+	greetEnglish('John', 'Doe');
+	greetSpanish('John', 'Doe');
+	```
+![Alt text](img/ff.png?raw=true "Title")
+
+15. Closures and Callbacks
+	> Callback Function :- A function you give to another fucntion, to be run when the other function is finished
+	> So the function you call (i.e. invoke), 'calls back' by calling function you gave it when it finishes.
+	
+	```js
+	function sayHiLater() {
+	    var greeting = 'Hi!';
+
+	    setTimeout(function() {
+		console.log(greeting);
+	    }, 3000);
+	}
+
+	sayHiLater();
+
+	// jQuery uses function expressions and first-class functions!
+	//$("button").click(function() {
+	//    
+	//});
+
+	function tellMeWhenDone(callback) {
+	    var a = 1000; // some work
+	    var b = 2000; // some work
+
+	    callback(); // the 'callback', it runs the function I give it!
+	}
+
+	tellMeWhenDone(function() {
+	    console.log('I am done!');
+	});
+
+	tellMeWhenDone(function() {
+	    console.log('All done...');
+	});
+	```
+	
+16. call(), apply(), and bind()
+	> bind() - creates a copy and won't executes it.
+	> call() - will take aruments and executes
+	> apply() - same as call() but it takes arguments in array
+	
+	> By using them we can borrow/currying functions from other objects 
+	
+	> Function Currying :- Creating a copy of a function but with some preset parameters
+	
+	```js
+	var person = {
+	    firstname: 'John',
+	    lastname: 'Doe',
+	    getFullName: function() {
+		var fullname = this.firstname + ' ' + this.lastname;
+		return fullname;
+	    }
+	}
+
+	var logName = function(lang1, lang2) {
+	    console.log('Logged: ' + this.getFullName());
+	    console.log('Arguments: ' + lang1 + ' ' + lang2);
+	    console.log('-----------');
+	}
+
+	var logPersonName = logName.bind(person);
+	logPersonName('en');
+
+	logName.call(person, 'en', 'es');
+	logName.apply(person, ['en', 'es']);
+
+	(function(lang1, lang2) {
+	    console.log('Logged: ' + this.getFullName());
+	    console.log('Arguments: ' + lang1 + ' ' + lang2);
+	    console.log('-----------');
+	}).apply(person, ['es', 'en']);
+
+	// -----------------------------------------------------
+
+	// function borrowing
+	var person2 = {
+	    firstname: 'Jane',
+	    lastname: 'Doe'
+	}
+
+	console.log(person.getFullName.apply(person2));
+
+	// function currying
+	function multiply(a, b) {
+	    return a*b;   
+	}
+
+	var multipleByTwo = multiply.bind(this, 2);
+	console.log(multipleByTwo(4));
+
+	var multipleByThree = multiply.bind(this, 3);
+	console.log(multipleByThree(4));
+	```
+![Alt text](img/cab.png?raw=true "Title")
+
+
+17. Functional Programming
+	```js
+	function mapForEach(arr, fn) {
+	    var newArr = [];
+	    for (var i=0; i < arr.length; i++) {
+		newArr.push(
+		    fn(arr[i])   
+		)
+	    };
+
+	    return newArr;
+	}
+
+	var arr1 = [1,2,3];
+	console.log(arr1);
+
+
+	var arr2 = mapForEach(arr1, function(item) {
+	   return item * 2; 
+	});
+	console.log(arr2);
+
+
+	var arr3 = mapForEach(arr1, function(item) {
+	   return item > 2; 
+	});
+	console.log(arr3);
+
+
+	var checkPastLimit = function(limiter, item) {
+	    return item > limiter;   
+	}
+	var arr4 = mapForEach(arr1, checkPastLimit.bind(this, 1));
+	console.log(arr4);
+
+
+	var checkPastLimitSimplified = function(limiter) {
+	    return function(limiter, item) {
+		return item > limiter;   
+	    }.bind(this, limiter); 
+	};
+
+	var arr5 = mapForEach(arr1, checkPastLimitSimplified(1));
+	console.log(arr5);
+	
+	
+	// underscore
+	var arr6 = _.map(arr1, function(item) { return item * 3 });
+	console.log(arr6);
+
+	var arr7 = _.filter([2,3,4,5,6,7], function(item) { return item % 2 === 0; });
+	console.log(arr7);
+	```
+
+[underscorejs](http://underscorejs.org/)
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+	
