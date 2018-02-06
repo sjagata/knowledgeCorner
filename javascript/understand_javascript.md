@@ -353,9 +353,7 @@ greet();
 	console.log(d); //  { greeting: 'Hola' }
 	```
 
-![Alt text](img/byvalue.png?raw=true "Title")
-
-![Alt text](img/byref.png?raw=true "Title")
+![Alt text](img/byvr.png?raw=true "Title")
 
 
 7. Objects, Functions and this
