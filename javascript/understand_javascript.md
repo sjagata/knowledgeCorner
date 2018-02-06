@@ -653,9 +653,7 @@ greet();
 	fs2[2]();
 	```
 
-![Alt text](img/closure.png?raw=true "Title")
-![Alt text](img/closure1.png?raw=true "Title")
-![Alt text](img/closure2.png?raw=true "Title")
+![Alt text](img/closur.png?raw=true "Title")
 
 14. Function Factories
 	> Once makeGreeting is executed its execution context is poped out but its contatext will be hang on memory and when greetEnglish/greetSpanish is executed it will point to its own execution context and also will be pointed to the execution context of where the function was created.
