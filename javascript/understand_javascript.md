@@ -834,10 +834,106 @@ greet();
 
 [underscorejs](http://underscorejs.org/)
 
+<br>
 
+<hr>
 
+<br>
 
+## Object-Oriented Javascript and Prototypal Inheritance
 
+### 1. Classical vs Prototypal Inheritance
+	> Inheritance : One Object gets access to the properties and methods of another object.
+
+	![Alt text](img/proto.png?raw=true "Title")
+
+	```js
+	var person = {
+	    firstname: 'Default',
+	    lastname: 'Default',
+	    getFullName: function() {
+		return this.firstname + ' ' + this.lastname;  
+	    }
+	}
+
+	var john = {
+	    firstname: 'John',
+	    lastname: 'Doe'
+	}
+
+	// don't do this EVER! for demo purposes only!!!
+	john.__proto__ = person;
+	console.log(john.getFullName()); // John Doe
+	console.log(john.firstname); // John
+
+	var jane = {
+	    firstname: 'Jane'   
+	}
+
+	jane.__proto__ = person;
+	console.log(jane.getFullName()); // Jane Default
+
+	person.getFormalFullName = function() {
+	    return this.lastname + ', ' + this.firstname;   
+	}
+
+	console.log(john.getFormalFullName()); // Doe, John
+	console.log(jane.getFormalFullName()); // Default, Jane
+	```
+
+### 2. Reflection and Extend
+	> 
+
+	```js
+	var person = {
+	    firstname: 'Default',
+	    lastname: 'Default',
+	    getFullName: function() {
+		return this.firstname + ' ' + this.lastname;  
+	    }
+	}
+
+	var john = {
+	    firstname: 'John',
+	    lastname: 'Doe'
+	}
+
+	// don't do this EVER! for demo purposes only!!!
+	john.__proto__ = person;
+
+	for (var prop in john) {
+	    if (john.hasOwnProperty(prop)) {
+		console.log(prop + ': ' + john[prop]);
+	    }
+	}
+
+	var jane = {
+	    address: '111 Main St.',
+	    getFormalFullName: function() {
+		return this.lastname + ', ' + this.firstname;   
+	    }
+	}
+
+	var jim = {
+	    getFirstName: function() {
+		return firstname;   
+	    }
+	}
+
+	_.extend(john, jane, jim);
+
+	console.log(john);
+	//firstname: John
+	//lastname: Doe
+	//Object{
+	//    address: "111 Main St."
+	//    firstname: "John"
+	//    getFirstName: ƒ()
+	//    getFormalFullName: ƒ()
+	//    lastname: "Doe"
+	//    __proto__: Object
+	//}
+	```
 
 
 
