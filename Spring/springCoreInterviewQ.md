@@ -1,6 +1,9 @@
 ### 1) What are Dependency Injection and Inversion Of Control?
 Answer: Dependency Injection (DI): is a design pattern where instead of having your objects create a dependency or asking a factory object to make one for you, you pass the needed dependencies into the constructor (i.e. Constructor Injection) or via setter methods (i.e. Setter Injection) from outside the class.
 
+The dependency inversion principle:
+The client deligates to calls to another object the responsibility of providing its dependencies.
+
 This is achieved by defining the dependencies as interfaces, and then injecting in a concrete class implementing that interface via a constructor (i.e. constructor injection) or a setter method (i.e. setter injection) by wiring up via an IoC container like Spring. 
 
 Inversion of Control (IoC): is a software design principle where the framework controls the program flow. Spring framework, Guice, etc are IoC containers that implement the IoC principle. An IoC container like Spring is responsibly for loosely wiring up the dependencies. When Spring application runs, it looks at the either XML config file or the annotations to wire up the dependencies. 
