@@ -345,6 +345,10 @@ Peter
 * It can be a candidate key
 * Unique key can be NULL and may not be unique
 
+**Candidate Key:**
+
+* Minimum set of attributes/coulmns used to uniquely differentiate records of the table.
+
 <br>
 <hr>
 
