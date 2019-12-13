@@ -1,12 +1,15 @@
 ## SOLID Desin Principles 
 
-S - Single-responsiblity principle
-O - Open-closed principle
-L - Liskov substitution principle
-I - Interface segregation principle
-D - Dependency Inversion Principle
+1. S - Single-responsiblity principle
+2. O - Open-closed principle
+3. L - Liskov substitution principle
+4. I - Interface segregation principle
+5. D - Dependency Inversion Principle
 
 ### 1. SPA - Single Responsibility Principle 
+
+A class should have one and only one reason to change, meaning that a class should have only one job.
+
 * SPA states that a class should have just a single reason to change.
 * A single class should have one primary responsibility instead of taking on lots of lots of different responsibility.
 
