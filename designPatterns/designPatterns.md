@@ -1,5 +1,11 @@
 ## SOLID Desin Principles 
 
+S - Single-responsiblity principle
+O - Open-closed principle
+L - Liskov substitution principle
+I - Interface segregation principle
+D - Dependency Inversion Principle
+
 ### 1. SPA - Single Responsibility Principle 
 * SPA states that a class should have just a single reason to change.
 * A single class should have one primary responsibility instead of taking on lots of lots of different responsibility.
@@ -21,3 +27,7 @@ ISP is basically a recommendation on how to split interfaces into smaller interf
 
 > B. Abstractions should not depend on details. <br>
 > Details should depend on abstractions.
+
+
+
+[More from scotch.io](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design)
