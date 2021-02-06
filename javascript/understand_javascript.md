@@ -843,9 +843,10 @@ greet();
 ## Object-Oriented Javascript and Prototypal Inheritance
 
 ### 1. Classical vs Prototypal Inheritance
-	> Inheritance : One Object gets access to the properties and methods of another object.
 
-	![Alt text](img/proto.png?raw=true "Title")
+![Alt text](img/proto.png?raw=true "Title")
+	
+	> Inheritance : One Object gets access to the properties and methods of another object.
 
 	```js
 	var person = {
