@@ -414,6 +414,42 @@ console.log(multipleByThree(4));
 ### 9. Function Constructors 
 ### 10. The new keyword
 ### 11. arguments 
+
+
 ### 12. Spread
+
+> Spread syntax (...) :- allows an iterable such as an array expression or string to be expanded in places where zero or more arguments (for function calls) or elements (for array literals) are expected, or an object expression to be expanded in places where zero or more key-value pairs (for object literals) are expected.
+
+
+```js
+function sum(x, y, z) {
+  return x + y + z;
+}
+
+const numbers = [1, 2, 3];
+
+console.log(sum(...numbers));
+// expected output: 6
+
+console.log(sum.apply(null, numbers));
+// expected output: 6
+
+```
+
+> Spread syntax can be used when all elements from an object or array need to be included in a list of some kind. 
+ 
+> In the above example, the defined function takes x, y, and z as arguments and returns the sum of these values. An array value is also defined.
+
+> When we invoke the function, we pass it all the values in the array using the spread syntax and the array name — ...numbers.
+
+>> If the array contained more than three numbers, e.g. [1, 2, 3, 4], then it would still work fine, except that all four would be passed, but only the first three would be used unless you added more arguments to the function, e.g.:
+
+```js
+function sum(x, y, z, n) {
+  return x + y + z + n;
+}
+```
+
+
 ### 13. Arrow function behavior changes 
  
