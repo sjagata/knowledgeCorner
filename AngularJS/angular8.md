@@ -859,6 +859,36 @@ In this case, we don’t need to provide the service in the component’s inject
 <br>
 
 ### 13. Routing 
+Routing is a mechanism which enables user to navigate between views/components. Angular 2 simplifies the routing and provide flexibility to configure and define at module level (Lazy loading).
+
+The angular application has single instance of the Router service and whenever URL changes, corresponding Route is matched from the routing configuration array. On successful match, it applies redirects and the router builds a tree of ActivatedRoute objects and contains the current state of the router. Before redirection, the router will check whether new state is permitted by running guards (CanActivate). Route Guards is simply an interface method that router runs to check the route authorization. After guard runs, it will resolve the route data and activate the router state by instantiation the required components into .
+
+```js
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { Users } from "./users";
+import { CreateUser } from "./createUser";
+
+let routes: Routes = [
+    { path: "", redirectTo: "/users", pathMatch: 'full' },
+    { path: 'users', component: Users },
+    { path: 'createUser', component: CreateUser },
+    { path: 'editUser/:id', component: CreateUser }
+];
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class UserRoutes { }
+```
+
+```js
+export class EditUser{
+    constructor(route: ActivatedRoute){
+        console.log("User selected:", route.params.value.id);
+    }
+}
+```
 
 <br>
 <br>
@@ -869,7 +899,7 @@ In this case, we don’t need to provide the service in the component’s inject
 <br>
 <br>
 
-### 16. Observable & 17. Promises 
+### 16. Promises Vs Observable
 #### Promises:
 * returns a single value
 * not cancellable
@@ -946,11 +976,182 @@ class LogOnClick {
 <br>
 <br>
 
-### 19. Bindings
-### 20.Component data sharing types 
+### 20. Component data sharing types 
 ### 21. Auth guard 
-### 22. Query Params
-### 23. Params 
+
+<br>
+<br>
+
+### 22. Query Params & Params 
+### routerLink
+Router link is able to parse the string that which we pass and loads component.
+* It handles the click differently 
+* It helps to maintain the state
+* It catches to click on the element precents the default which would be to send the request and instead analyzes what we passed to the router link directive and checks the fitting route in configuration
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <li role="presentation"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="/">Home</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a routerLink="servers">Servers</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a [routerLink]="['users']">Users</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+```
+
+### routerLinkActive
+routerLinkActive - sets the class if that url is opted. <br>
+
+routerLinkActiveOptions - tells angular that if the url is full exact means, slash the set true
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <li role="presentation"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="/">Home</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a routerLink="servers">Servers</a>
+        </li>
+        <li role="presentation"
+            routerLinkActive="active">
+          <a [routerLink]="['users']">Users</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+```
+
+### Navigate Programically and pass queryparams and fragment
+
+* use `router.navigate` to navigate programatically.
+```js
+export class HomeComponent implements OnInit {
+
+  constructor(private router: Router, private authService: AuthService) { }
+
+  ngOnInit() {
+  }
+
+  onLoadServer(id: number) {
+    // complex calculation
+    this.router.navigate(['/servers', id, 'edit'], {queryParams: {allowEdit: '1'}, fragment: 'loading'});
+  }
+}
+```
+* `ActivatedRoute` is to pass the current route
+```js
+  constructor(private serversService: ServersService,
+      private router: Router,
+      private route: ActivatedRoute) {
+  }
+this.router.navigate(['servers'], {relativeTo: this.route});
+```
+
+### queryParams & fragment
+on click url be :
+
+localhost:4200/servers/5/edit?allowEdit=1#loading
+
+```html
+    <div class="list-group">
+      <a
+        [routerLink]="['/servers', server.id]"
+        [queryParams]="{allowEdit: server.id === 3 ? '1' : '0'}"
+        fragment="loading"
+        href="#"
+        class="list-group-item"
+        *ngFor="let server of servers">
+        {{ server.name }}
+      </a>
+    </div>
+  </div>
+```
+
+* Retreving/Accessing queryParams & fragment using ActivatedRoute
+```js
+  constructor(private serversService: ServersService,
+      private route: ActivatedRoute,
+      private router: Router) {
+  }
+  
+  console.log(this.route.snapshot.queryParams);
+  console.log(this.route.snapshot.fragment);
+  this.route.queryParams
+      .subscribe(
+        (queryParams: Params) => {
+          this.allowEdit = queryParams['allowEdit'] === '1' ? true : false;
+        }
+      );
+  this.route.fragment.subscribe();
+```
+
+### Child(Nested) Routes:
+```js
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'users', component: UsersComponent, children: [
+    { path: ':id/:name', component: UserComponent }
+  ] },
+  {
+    path: 'servers',
+    // canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: ServersComponent,
+    children: [
+    { path: ':id', component: ServerComponent, resolve: {server: ServerResolver} },
+    { path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard] }
+  ] },
+  // { path: 'not-found', component: PageNotFoundComponent },
+  { path: 'not-found', component: ErrorPageComponent, data: {message: 'Page not found!'} },
+  { path: '**', redirectTo: '/not-found' }
+];
+
+@NgModule({
+  imports: [
+    // RouterModule.forRoot(appRoutes, {useHash: true})
+    RouterModule.forRoot(appRoutes)
+  ],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {
+
+}
+```
+
+<br>
+<br>
+
 ### 24. Services 
 
 <br>
@@ -1017,7 +1218,59 @@ export const routing: ModuleWithProviders = RouterModule.forChild(routes);
 <br>
 
 ### 28. Hoisting in JavaScript
+Hoisting is JavaScript's default behavior of moving declarations to the top.
+
+In JavaScript, a variable can be declared after it has been used.
+
+In other words; a variable can be used before it has been declared.
+
+<br>
+<br>
+
 ### 29. Testbed
+Configures and initializes environment for unit testing and provides methods for creating components and services in unit tests.
+
+```js
+import {TestBed, ComponentFixture} from '@angular/core/testing';
+import {LoginComponent} from './login.component';
+import {AuthService} from "./auth.service";
+
+describe('Component: Login', () => {
+
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>; (1)
+  let authService: AuthService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [LoginComponent],
+      providers: [AuthService]
+    });
+
+    // create component and test fixture
+    fixture = TestBed.createComponent(LoginComponent); (2)
+
+    // get test component from the fixture
+    component = fixture.componentInstance; (3)
+
+    // UserService provided to the TestBed
+    authService = TestBed.get(AuthService); (4)
+
+  });
+});
+
+it('needsLogin returns true when the user has not been authenticated', () => {
+    spyOn(authService, 'isAuthenticated').and.returnValue(false);
+    expect(component.needsLogin()).toBeTruthy();
+    expect(authService.isAuthenticated).toHaveBeenCalled();
+});
+
+it('needsLogin returns false when the user has been authenticated', () => {
+    spyOn(authService, 'isAuthenticated').and.returnValue(true);
+    expect(component.needsLogin()).toBeFalsy();
+    expect(authService.isAuthenticated).toHaveBeenCalled();
+});
+```
 
 <br>
 <br>
@@ -1028,6 +1281,19 @@ check JS MD file
 <br>
 
 ### 31. Debugging
+The debugger keyword stops the execution of JavaScript, and calls (if available) the debugging function.
+
+This has the same function as setting a breakpoint in the debugger.
+
+If no debugging is available, the debugger statement has no effect.
+
+With the debugger turned on, this code will stop executing before it executes the third line.
+
+```js
+var x = 15 * 5;
+debugger;
+document.getElementById("demo").innerHTML = x;
+```
 
 <br>
 <br>
@@ -1148,6 +1414,51 @@ export class FilterPipe implements PipeTransform {
 <br>
 
 ### 33. Classical Inheritance & Prototypal Inheritance
+
+JavaScript’s class inheritance uses the prototype chain to wire the child `Constructor.prototype` to the parent `Constructor.prototype` for delegation. Usually, the `super()` constructor is also called. Those steps form single-ancestor parent/child hierarchies and create the tightest coupling available in OO design.
+
+Class Inheritance: A class is like a blueprint — a description of the object to be created. Classes inherit from classes and create subclass relationships: hierarchical class taxonomies.
+
+Prototypal Inheritance: A prototype is a working object instance. Objects inherit directly from other objects.
+
+```js
+function Person() {
+}
+
+var will = new Person();
+```
+
+```js
+var human = {
+    species: "human",
+    saySpecies: function() {
+        console.log(this.species);
+    },
+    sayName: function() {
+        console.log(this.name);
+    }
+};
+
+var musician = Object.create(human);
+musician.playInstrument = function() {
+    console.log("playss..." + this.instrument);
+};
+
+var will = Object.create(musician);
+will.name = "Will";
+will.instrument = "Drums";
+
+// {name: "Will", instrument: "Drums"}
+// instrument: "Drums"
+// name: "Will"
+// __proto__:
+// playInstrument: ƒ ()
+// __proto__:
+// sayName: ƒ ()
+// saySpecies: ƒ ()
+// species: "human"
+// __proto__: Object
+```
 
 <br>
 <br>
@@ -1274,12 +1585,85 @@ class ContactCard {
 <br>
 
 ### 36. Just in Time & Ahead/Arrived in Time
-### 37. Closure In Java Script Functions In Javascript
-### 38. Scope Chain In Javascript
-### 39. Java Classes
+
+> JIT - Compile TypeScript just in time for executing it.
+
+* Compiled in the browser.
+* Each file compiled separately.
+* No need to build after changing your code and before reloading the browser page.
+* Suitable for local development.
+
+> AOT - Compile TypeScript during build phase.
+
+* Compiled by the machine itself, via the command line (Faster).
+* All code compiled together, inlining HTML/CSS in the scripts.
+* No need to deploy the compiler (Half of Angular size).
+* More secure, original source not disclosed.
+* Suitable for production builds.
+
+AOT compilation stands for Ahead Of Time compilation, in which the angular compiler compiles the angular components and templates to native JavaScript and HTML during the build time. The compiled Html and JavaScript is deployed to the web server so that the compilation and render time can be saved by the browser.
+
+#### Advantages
+
+* **Faster download:** Since the app is already compiled, many of the angular compiler related libraries are not required to be bundled, the app bundle size get reduced. So, the app can be downloaded faster.
+* **Lesser No. of Http Requests:** If the app is not bundled to support lazy loading (or whatever reasons), for each associated html and css, there is a separate request goes to the server. The pre-compiled application in-lines all templates and styles with components, so the number of Http requests to the server would be lesser.
+* **Faster Rendering:** If the app is not AOT compiled, the compilation process happens in the browser once the application is fully loaded. This has a wait time for all necessary component to be downloaded, and then the time taken by the compiler to compile the app. With AOT compilation, this is optimized.
+* **Detect error at build time:** Since compilation happens beforehand, many compile time error can be detected, providing a better degree of stability of application.
+
+#### Disadvantages
+
+* Works only with HTML and CSS, other file types need a previous build step
+* No watch mode yet, must be done manually (bin/ngc-watch.js) and compiles all the files
+* Need to maintain AOT version of bootstrap file (might not be required while using tools like cli)
+* Needs cleanup step before compiling
+
+
+<br>
+<br>
+
+
 ### 40. Different Ways To Communicate Between Components In Angular
-### 41. Promises Vs Observable
-### 42. Change Deduction Mechanism In Angular
+1. Binding (@Input & @Output)
+
+2. Reference (@ViewChild & @ContentChild)
+`@ContentChild` and `@ContentChildren` queries will return directives existing inside the element of your view, whereas `@ViewChild` and `@ViewChildren` only look at elements that are on your view template directly.
+
+`ViewChild` element can be read after the view is initialized (ngAfterViewInit).
+
+`ContentChild` is used to query the reference of the DOM within ng-content. Content Child are set before the ngAfterContentInit lifecycle hook.
+
+```js
+<input type="text" #username required ... />
+
+@ViewChild('username') username: HTMLInputElement;
+```
+
+```js
+// <code>app.component.ts</code>
+<my-component>
+   <p #contentRef>{{test}}</p>
+</my-component>
+ 
+// MyComponent.component.ts
+@Component({
+   selector: ‘my-component',
+   template: `
+    <ng-content></ng-content>
+    <div>ContentChild Example </div>`
+})
+export class LifecycleComponent implements ngAfterContentInit{
+  @ContentChild(‘contentRef’)   childContent: HTMLElement;
+  
+  ngAfterContentInit() {
+    this.log('ngAfterContentInit');
+    console.log(this.childContent);
+  }
+}
+```
+
+3. Provider (Service)
+
+4. Template Outlet
 
 ### 43. PrimeNG Library In Angular Material
 ### 44. How Do You Divide Modules
@@ -1290,13 +1674,23 @@ class ContactCard {
 
 ### 46. Attribute Binding Vs Two Way Binding
 
+It is recommended that you set an element property with a property binding whenever possible. However, sometimes you don't have an element property to bind. In those situations, you can use attribute binding.
+
+```js
+<p [attr.attribute-you-are-targeting]="expression"></p>
+```
+
+Two-way binding gives components in your application a way to share data. Use two-way binding to listen for events and update values simultaneously between parent and child components.
+
+Angular's two-way binding syntax is a combination of square brackets and parentheses, `[()]`. The `[()]` syntax combines the brackets of property binding, `[]`, with the parentheses of event binding, `()`, as follows.
+
+```js
+<app-sizer [(size)]="fontSizePx"></app-sizer>
+```
+
 <br>
 <br>
 
-### 47. Arrow Function And Anonymous Function
-
-<br>
-<br>
 
 ### 48. Have you used Forms in Angular ?
 
@@ -1336,4 +1730,35 @@ this.renderer.setStyle(element, 'background-color', 'red');
 <br>
 
 ### 51. Trackby concept
+An optional function passed into the NgForOf directive that defines how to track changes for items in an iterable. The function takes the iteration index and item ID. When supplied, Angular tracks changes by the return value of the function.
+
+On each `ngDoCheck` triggered for the ngForOf directive Angular checks what objects have changed. It uses differs for this process and each differ uses trackBy function to compare the current object with the new one. The default trackBy function tracks items by identity:
+
+```js
+const trackByIdentity = (index: number, item: any) => item;
+```
+
+
+<br>
+<br>
+
 ### 52. Differential Loading
+
+Differential loading is a process by which the browser chooses between modern or legacy JavaScript based on its own capabilities. We now take advantage of this by default by performing a modern build (es2015) and a legacy build (es5) of your application. When users load your application, they’ll automatically get the bundle they need.
+
+If you use ng update, we update your tsconfig.jsonfor you to take advantage of this. Our CLI looks at the target JS level in your tsconfig.json to determine whether or not to take advantage of Differential Loading.
+
+```js
+{
+  "compilerOptions": {
+  …
+  "module": "esnext",
+  "moduleResolution": "node",
+  …
+  "target": "es2015",
+  …
+},
+```
+
+<br>
+<br>
