@@ -337,10 +337,21 @@ tellMeWhenDone(function() {
 
 
 
-
-
-
 ### 6. This keyword variant 
+> The JavaScript this keyword refers to the object it belongs to.
+
+```js
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  id       : 5566,
+  fullName : function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+```
+
+
 ### 7. Functions and objects 
 
 
