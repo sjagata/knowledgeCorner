@@ -5,7 +5,7 @@
 ### CSS Selectors
 
 
-### Scope chain
+### 1. Scope chain
 > When a variable is used in JavaScript, the JavaScript engine will try to find the variable’s value in the current scope. If it could not find the variable, it will look into the outer scope and will continue to do so until it finds the variable or reaches global scope.
 
 > If it’s still could not find the variable, it will either implicitly declare the variable in the global scope (if not in strict mode) or return an error.
@@ -73,7 +73,10 @@ lexicalEnvironment = {
   outer: <outer lexical environemt>
 }
 ```
-### Event loop
+
+
+### 2. Event loop
+
 
 > Your JavaScript code runs single threaded. There is just one thing happening at a time.
 
@@ -99,7 +102,11 @@ lexicalEnvironment = {
 
 > The event loop continuously checks the call stack to see if there’s any function that needs to run.
 
-### Execution context 
+
+
+### 3. Execution context 
+
+
 1. Global Object
 2. 'this'
 3. Outer Enviornment
@@ -140,7 +147,47 @@ console.log(myVar); // after completing a() myVar is global execution
 ```
 > Every execution context has its own variable enviornment 
 
-### Prototypal inheritance 
+
+### 4. Prototypal inheritance 
+### 1. Classical vs Prototypal Inheritance
+
+![Alt text](img/proto.png?raw=true "Title")
+	
+	> Inheritance : One Object gets access to the properties and methods of another object.
+
+	```js
+	var person = {
+	    firstname: 'Default',
+	    lastname: 'Default',
+	    getFullName: function() {
+		return this.firstname + ' ' + this.lastname;  
+	    }
+	}
+
+	var john = {
+	    firstname: 'John',
+	    lastname: 'Doe'
+	}
+
+	// don't do this EVER! for demo purposes only!!!
+	john.__proto__ = person;
+	console.log(john.getFullName()); // John Doe
+	console.log(john.firstname); // John
+
+	var jane = {
+	    firstname: 'Jane'   
+	}
+
+	jane.__proto__ = person;
+	console.log(jane.getFullName()); // Jane Default
+
+	person.getFormalFullName = function() {
+	    return this.lastname + ', ' + this.firstname;   
+	}
+
+	console.log(john.getFormalFullName()); // Doe, John
+	console.log(jane.getFormalFullName()); // Default, Jane
+
 ### Closures
 ### This keyword variant 
 ### Functions and objects 
