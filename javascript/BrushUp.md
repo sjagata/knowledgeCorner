@@ -73,7 +73,7 @@ lexicalEnvironment = {
   outer: <outer lexical environemt>
 }
 ```
-#### Event loop
+### Event loop
 
 > Your JavaScript code runs single threaded. There is just one thing happening at a time.
 
@@ -99,7 +99,7 @@ lexicalEnvironment = {
 
 > The event loop continuously checks the call stack to see if there’s any function that needs to run.
 
-#### Execution context 
+### Execution context 
 1. Global Object
 2. 'this'
 3. Outer Enviornment
@@ -116,7 +116,7 @@ lexicalEnvironment = {
 > ### Invocation:
 > Running a function 
 
-### Functions, Context and Variable Enviornments 
+#### Functions, Context and Variable Enviornments 
 ```js
 function b() {
 	var myVar; // myVar = undefined
@@ -140,15 +140,15 @@ console.log(myVar); // after completing a() myVar is global execution
 ```
 > Every execution context has its own variable enviornment 
 
-#### Prototypal inheritance 
-#### Closures
-#### This keyword variant 
-#### Functions and objects 
-#### Call bind apply 
+### Prototypal inheritance 
+### Closures
+### This keyword variant 
+### Functions and objects 
+### Call bind apply 
 
-#### Function Constructors 
-#### The new keyword
-#### arguments 
-#### Spread
-#### Arrow function behavior changes 
+### Function Constructors 
+### The new keyword
+### arguments 
+### Spread
+### Arrow function behavior changes 
  
