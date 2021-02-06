@@ -73,9 +73,32 @@ lexicalEnvironment = {
   outer: <outer lexical environemt>
 }
 ```
-
-
 #### Event loop
+
+> Your JavaScript code runs single threaded. There is just one thing happening at a time.
+
+> This is a limitation that’s actually very helpful, as it simplifies a lot how you program without worrying about concurrency issues.
+
+> You just need to pay attention to how you write your code and avoid anything that could block the thread, like synchronous network calls or infinite loops.
+
+> In general, in most browsers there is an event loop for every browser tab, to make every process isolated and avoid a web page with infinite loops or heavy processing to block your entire browser.
+
+> The environment manages multiple concurrent event loops, to handle API calls for example. Web Workers run in their own event loop as well.
+
+> You mainly need to be concerned that your code will run on a single event loop, and write code with this thing in mind to avoid blocking it.
+
+##### Blocking the event loop
+
+> Any JavaScript code that takes too long to return back control to the event loop will block the execution of any JavaScript code in the page, even block the UI thread, and the user cannot click around, scroll the page, and so on.
+
+> Almost all the I/O primitives in JavaScript are non-blocking. Network requests, Node.js filesystem operations, and so on. Being blocking is the exception, and this is why JavaScript is based so much on callbacks, and more recently on promises and async/await.
+
+##### The call stack
+
+> The call stack is a LIFO queue (Last In, First Out).
+
+> The event loop continuously checks the call stack to see if there’s any function that needs to run.
+
 #### Execution context 
 #### Prototypal inheritance 
 #### Closures
