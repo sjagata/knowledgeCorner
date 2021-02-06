@@ -675,6 +675,177 @@ source1.
 <br>
 
 ### 10. Dependency injection 
+Angular components are meant to be the user interface and nothing more. They display data and enable user interaction, react on user clicks and inputs. The application logic should be done in services. When you need a service in a component, you usually don’t create an instance yourself using new. You mark the service as injectable and you add it as a parameter to the component’s constructor. The Angular Dependency Injection (DI) will take care of creating an instance and will inject it for you.
+
+It is common not to think too much about this process. When you create a service to fetch data from the server, you need only one instance of it, and it doesn’t really matter to you where it lives. But you sometimes need services to be available only inside a module, or even a component and its children. You might need to inject different instances of the service in different components. That is why a good understanding of how the Angular DI works is an important quality for an Angular developer.
+
+#### @Inject and @Injectable
+`@Inject()` is a manual mechanism for letting Angular know that a parameter must be injected. It can be used like so 
+```js
+import { Component, Inject } from '@angular/core';
+import { ChatWidget } from '../components/chat-widget';
+
+@Component({
+  selector: 'app-root',
+  template: `Encryption: {{ encryption }}`
+})
+export class AppComponent {
+  encryption = this.chatWidget.chatSocket.encryption;
+
+  constructor(@Inject(ChatWidget) private chatWidget) { }
+}
+```
+In the above we've asked for chatWidget to be the **singleton** Angular associates with the class symbol ChatWidget by calling `@Inject(ChatWidget)`. It's important to note that we're using ChatWidget for its typings and as a reference to its singleton. We are not using ChatWidget to instantiate anything, Angular does that for us behind the scenes.
+
+`@Injectable()` lets Angular know that a class can be used with the dependency injector.
+
+`@Injectable()` is not strictly required if the class has other Angular decorators on it or does not have any dependencies. What is important is that any class that is going to be injected with Angular is decorated. However, best practice is to decorate injectables with `@Injectable()`, as it makes more sense to the reader.
+
+Here's an example of ChatWidget marked up with `@Injectable`:
+```js
+import { Injectable } from '@angular/core';
+import { AuthService } from './auth-service';
+import { AuthWidget } from './auth-widget';
+import { ChatSocket } from './chat-socket';
+
+@Injectable()
+export class ChatWidget {
+  constructor(
+    public authService: AuthService,
+    public authWidget: AuthWidget,
+    public chatSocket: ChatSocket) { }
+}
+```
+In the above example Angular's injector determines what to inject into ChatWidget's constructor by using type information. This is possible because these particular dependencies are typed, and are not primitive types. In some cases Angular's DI needs more information than just types.
+
+#### Injectors
+
+Injectors are responsible for creating instances of the service classes and injecting them in the components that request them. Services are singletons inside an injector scope, there can be at most only one instance of a service.
+
+Injectors are created by Angular. **A root injector is created in the bootstrap process.** Angular will also create injectors for components, pipes or directives, but they stay empty unless you declare a providers array in their decorators. Each lazy-loaded module also gets its own injector.
+
+Injectors are inherited. When you request a service in a component, Angular will look in the injector of the component, then in the one of its parent, then of its parent’s parent’s… etc, until it either finds it or runs out of ancestors. If it hasn’t found it in the element injectors, Angular starts looking in the modules injectors, until it finds a provider (or runs out of injectors).
+
+#### Providers
+Injectors create instances and inject them but you need to tell them how to create these instances. When you inject a service in a component, you give a DI Token to the closest injector. By default the token is the service class, TestService in the example below. The injector has a map token-provider, the token is the key. The provider of a service is usually the class itself:
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { TestService } from 'src/app/services/test.service';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.scss'],
+  providers: [{ provide: TestService, useClass: TestService }]
+})
+export class TestComponent implements OnInit {
+  text: string;
+
+  constructor(
+    private testService: TestService,
+  ) { }
+
+  ngOnInit() {
+    this.text = this.testService.getTest();
+  }
+}
+```
+
+```js
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class TestService {
+  getTest(): string {
+    return 'test';
+  }
+}
+```
+
+In this example the service is provided only in the TestComponent and we tell Angular to use the class TestService to create an instance when injecting TestService. This is such a common behaviour that Angular gives you a shortcut for it:
+
+```js
+providers: [TestService]
+```
+
+That also means that we can tell the injector to use some other class when injecting TestService. In the following example, we tell the injector to return an instance of the HelloWorldService when being requested the TestService.
+
+```js
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class HelloWorldService {
+  getTest(): string {
+    return 'Hello World!';
+  }
+}
+```
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { TestService } from 'src/app/services/test.service';
+import { HelloWorldService } from 'src/app/services/hello-world.service';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.scss'],
+  providers: [{ provide: TestService, useClass: HelloWorldService }]
+})
+export class TestComponent implements OnInit {
+  text: string;
+
+  constructor(
+    private testService: TestService,
+  ) { }
+
+  ngOnInit() {
+    this.text = this.testService.getTest();
+  }
+}
+```
+
+#### Root Injector
+
+You might not be providing services in your components that regularly. By default when you create a service with the Angular cli, the service is provided in the root injector.
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { TestService } from 'src/app/services/test.service';
+import { HelloWorldService } from 'src/app/services/hello-world.service';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.scss'],
+})
+export class TestComponent implements OnInit {
+  text: string;
+
+  constructor(
+    private testService: TestService,
+  ) { }
+
+  ngOnInit() {
+    this.text = this.testService.getTest();
+  }
+}
+```
+
+```js
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class TestService {
+  getTest(): string {
+    return 'test';
+  }
+}
+```
+In this case, we don’t need to provide the service in the component’s injector. An instance of the service will be created in the root injector and injected in our component. This instance will be available everywhere in the application.
+
+
 <br>
 <br>
 
