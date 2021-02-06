@@ -131,25 +131,48 @@ In general, a zone can keep track and intercept any asynchronous tasks.
 
 A zone normally has these phases:
 
-it starts stable
-it becomes unstable if tasks run in the zone
-it becomes stable again if the tasks completed
-Angular patches several low-level browser APIs at startup to be able to detect changes in the application. This is done using zone.js which patches APIs such as EventEmitter, DOM event listeners, XMLHttpRequest, fs API in Node.js and more.
+* it starts stable
+* it becomes unstable if tasks run in the zone
+* it becomes stable again if the tasks completed
+
+Angular patches several low-level browser APIs at startup to be able to detect changes in the application. This is done using zone.js which patches APIs such as `EventEmitter`, DOM event listeners, `XMLHttpRequest`, fs API in Node.js and more.
 
 In short, the framework will trigger a change detection if one of the following events occurs:
 
-any browser event (click, keyup, etc.)
-setInterval() and setTimeout()
-HTTP requests via XMLHttpRequest
-Angular uses its zone called NgZone. There exists only one NgZone and change detection is only triggered for async operations triggered in this zone.
+* any browser event (click, keyup, etc.)
+* `setInterval()` and `setTimeout()`
+* HTTP requests via `XMLHttpRequest`
 
+Angular uses its zone called `NgZone`. There exists only one NgZone and change detection is only triggered for async operations triggered in this zone.
 
-
+[ref](https://www.mokkapps.de/blog/the-last-guide-for-angular-change-detection-you-will-ever-need/)
 
 <br>
 <br>
 
-### View Encapsulation 
+### 5. View Encapsulation 
+In Angular, component CSS styles are encapsulated into the component's view and don't affect the rest of the application.
+
+To control how this encapsulation happens on a per component basis, you can set the view encapsulation mode in the component metadata. Choose from the following modes:
+
+* ShadowDom view encapsulation uses the browser's native shadow DOM implementation (see [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)) to attach a shadow DOM to the component's host element, and then puts the component view inside that shadow DOM. The component's styles are included within the shadow DOM.
+
+* Emulated view encapsulation (the default) emulates the behavior of shadow DOM by preprocessing (and renaming) the CSS code to effectively scope the CSS to the component's view.
+
+* None means that Angular does no view encapsulation. Angular adds the CSS to the global styles. The scoping rules, isolations, and protections discussed earlier don't apply. This is essentially the same as pasting the component's styles into the HTML.
+
+To set the component's encapsulation mode, use the encapsulation property in the component metadata:
+
+```js
+// src/app/quest-summary.component.ts
+
+// warning: few browsers support shadow DOM encapsulation at this time
+encapsulation: ViewEncapsulation.ShadowDom
+```
+
+<br>
+<br>
+
 ### Ngrx basics 
 ### Redux
 ### 15 main inbuilt functions of RXJS
