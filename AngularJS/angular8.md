@@ -854,7 +854,15 @@ In this case, we don’t need to provide the service in the component’s inject
 <br>
 
 ### 12. Angular material 
+
+<br>
+<br>
+
 ### 13. Routing 
+
+<br>
+<br>
+
 ### 14. Authentication and authorization 
 ### 15. JWT tokens 
 
@@ -956,10 +964,69 @@ class LogOnClick {
 <br>
 
 ### 26. Modular structure division 
+
+<br>
+<br>
+
 ### 27. Lazy Loading
+Most of the enterprise application contains various modules for specific business cases. Bundling whole application code and loading will be huge performance impact at initial call. Lazy lading enables us to load only the module user is interacting and keep the rest to be loaded at runtime on demand.
+
+Lazy loading speeds up the application initial load time by splitting the code into multiple bundles and loading them on demand.
+
+Every Angular application must have one main module say AppModule. The code should be splitted into various child modules (NgModule) based on the application business case.
+
+1. We don't require to import or declare lazily loading module in root module.
+2. Add the route to top level routing (app.routing.ts) and set **loadChildren**. loadChildren takes **absolute path from root folder followed by #{ModuleName}.** **RouterModule.forRoot()** takes routes array and configures the router.
+3. Import module specific routing in the child module.
+4. In the child module routing, specify path as empty string ' ', the empty path. **RouterModule.forChild** again takes routes array for the child module components to load and configure router for child.
+5. Then, export const routing: `ModuleWithProviders = RouterModule.forChild(routes);`
+
+```js
+const routes: Routes = [
+  { path: '', redirectTo: 'eager', pathMatch: 'full' },
+  { path: 'eager', component: EagerComponent },
+  { path: 'lazy', loadChildren: 'app/lazy/lazy.module#LazyModule' }
+];
+
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
+```
+```js
+import { NgModule } from '@angular/core';
+
+import { LazyComponent }   from './lazy.component';
+import { routing } from './lazy.routing';
+
+@NgModule({
+  imports: [routing],
+  declarations: [LazyComponent]
+})
+export class LazyModule {}
+```
+```js
+const routes: Routes = [
+  { path: '', component: LazyComponent }
+];
+
+export const routing: ModuleWithProviders = RouterModule.forChild(routes);
+```
+
+[plnkr](https://plnkr.co/edit/PNwh0Mn2ZJighpSoOTtw?p=info)
+
+
+<br>
+<br>
+
 ### 28. Hoisting in JavaScript
 ### 29. Testbed
+
+<br>
+<br>
+
 ### 30. Spread Operator in JavaScript
+check JS MD file
+<br>
+<br>
+
 ### 31. Debugging
 
 <br>
@@ -1149,6 +1216,63 @@ export class BetterHighlightDirective implements OnInit {
 <br>
 
 ### 35. Directives and Components
+In Angular, a Component is a special kind of directive that uses a simpler configuration which is suitable for a component-based application structure.
+
+* A @Component requires a view whereas a @Directive does not.
+
+#### Directives
+* Directives add behaviour to an existing DOM element or an existing component instance. One example use case for a directive would be to log a click on an element.
+```js
+import {Directive} from '@angular/core';
+
+@Directive({
+    selector: "[logOnClick]",
+    hostListeners: {
+        'click': 'onClick()',
+    },
+})
+class LogOnClick {
+    constructor() {}
+    onClick() { console.log('Element clicked!'); }
+}
+```
+```html
+<button logOnClick>I log when clicked!</button>
+```
+
+#### Components
+* A component, rather than adding/modifying behaviour, actually creates its own view (hierarchy of DOM elements) with attached behaviour. An example use case for this might be a contact card component:
+```js
+import {Component, View} from '@angular/core';
+
+@Component({
+  selector: 'contact-card',
+  template: `
+    <div>
+      <h1>{{name}}</h1>
+      <p>{{city}}</p>
+    </div>
+  `
+})
+class ContactCard {
+  @Input() name: string
+  @Input() city: string
+  constructor() {}
+}
+```
+```html
+<contact-card [name]="'foo'" [city]="'bar'"></contact-card>
+```
+`ContactCard` is a reusable UI component that we could use anywhere in our application, even within other components. These basically make up the UI building blocks of our applications.
+
+
+* Write a **component** when you want to create a reusable set of DOM elements of UI with custom behaviour. 
+* Write a **directive** when you want to write reusable behaviour to supplement existing DOM elements.
+
+
+<br>
+<br>
+
 ### 36. Just in Time & Ahead/Arrived in Time
 ### 37. Closure In Java Script Functions In Javascript
 ### 38. Scope Chain In Javascript
@@ -1160,10 +1284,56 @@ export class BetterHighlightDirective implements OnInit {
 ### 43. PrimeNG Library In Angular Material
 ### 44. How Do You Divide Modules
 ### 45. Service Worker Module Of Angular
+
+<br>
+<br>
+
 ### 46. Attribute Binding Vs Two Way Binding
+
+<br>
+<br>
+
 ### 47. Arrow Function And Anonymous Function
+
+<br>
+<br>
+
 ### 48. Have you used Forms in Angular ?
+
+<br>
+<br>
+
 ### 49. What is Form Control ?
+Two Approaches:
+
+1. Template-Driven : Angular infers the Form Object from the DOM
+2. Reactive : Form is created programamatically and synchronized with the DOM
+
+<br>
+<br>
+
 ### 50. Difference NG4 & NgF
+* Improved `*ngIf` and `*ngFor`
+    * You can now use an if/else style syntax, and assign local variables such as when unrolling an observable.
+```html
+<div *ngIf="userList | async as users; else loading">
+  <user-profile *ngFor="let user of users; count as count; index as i" [user]="user">
+    User {{i}} of {{count}}
+  </user-profile>
+</div>
+<ng-template #loading>Loading...</ng-template>
+```
+* renderer2
+deprecated but still works but will remove in furture
+```js
+this.renderer.setElementStyle(element, 'background-color', 'red');
+```
+to 
+```js
+this.renderer.setStyle(element, 'background-color', 'red');
+```
+<br>
+<br>
+
 ### 51. Trackby concept
 ### 52. Differential Loading
