@@ -6,9 +6,9 @@
 
 
 ### 1. Scope chain
-> When a variable is used in JavaScript, the JavaScript engine will try to find the variable’s value in the current scope. If it could not find the variable, it will look into the outer scope and will continue to do so until it finds the variable or reaches global scope.
+When a variable is used in JavaScript, the JavaScript engine will try to find the variable’s value in the current scope. If it could not find the variable, it will look into the outer scope and will continue to do so until it finds the variable or reaches global scope.
 
-> If it’s still could not find the variable, it will either implicitly declare the variable in the global scope (if not in strict mode) or return an error.
+If it’s still could not find the variable, it will either implicitly declare the variable in the global scope (if not in strict mode) or return an error.
 
 For example:
 
@@ -26,8 +26,9 @@ function bar() {
 bar();
 ```
 
-> Where a variable is available in your code. 
-> `let' - can be used instead of var. let allows javascript engine to use what's called block scoping.
+Where a variable is available in your code. 
+
+`let' - can be used instead of var. let allows javascript engine to use what's called block scoping.
 
 ```js
 function a() {
@@ -50,8 +51,9 @@ if( a > b ){
 ![Alt text](img/scope.png?raw=true "Title")
 
 #### How Does Scope and Scope Chain Work?
-> Up until now, we have discussed what scope is and types of scope. Now let’s understand how JavaScript engine determines the scope of variables and perform variable lookups under the hood.
-> In order to understand how JavaScript engine performs variable lookups, we have to understand the concept of lexical environment in JavaScript.
+Up until now, we have discussed what scope is and types of scope. Now let’s understand how JavaScript engine determines the scope of variables and perform variable lookups under the hood.
+
+In order to understand how JavaScript engine performs variable lookups, we have to understand the concept of lexical environment in JavaScript.
 
 ##### What is a Lexical Environment?
 > A lexical environment is a structure that holds identifier-variable mapping. (here identifier refers to the name of variables/functions, and the variable is the reference to actual object [including function object and array object] or primitive value).
