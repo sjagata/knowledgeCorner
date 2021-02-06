@@ -671,6 +671,56 @@ source1.
 <br>
 
 ### 9. Protractor 
+Protractor is an end-to-end test framework for Angular and AngularJS applications. Protractor runs tests against your application running in a real browser, using Selenium.
+
+In order to run your first test with protractor you will need to :
+1. get update webdriver-manager
+2. write the test ( daaa, is obvious that, right?)
+3. set the configuration to run the test
+4. run it!
+
+The `configuration file` tells Protractor how to set up the Selenium Server, which tests to run, how to set up the browsers, and which test framework to use. The configuration file can also include one or more global settings. The config file provides explanations for all of the Protractor configuration options. Default settings include the standalone Selenium Server, the Chrome browser, and the Jasmine test framework.
+
+`Spec file` is the one where we write actual test code. It contains the logic and locators to interact with an application.
+
+```js
+exports.config = {
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+  specs: ['todo-spec.js']
+};
+```
+
+#### What are the locators in Protractor?
+
+Protractor supports all the element location strategies given by Selenium and it also has unique set of locators particularly to identify elements based on AngularJS attributes.
+
+> Selenium locators:
+
+* by.className
+* by.css
+* by.id
+* by.linkText
+* by.name
+* by.partialLinkText
+* by.tagName
+* by.xpath
+
+> Angular Specific Locators
+
+* by.binding
+* by.exactBinding
+* by.model
+* by.repeater
+* by.exactRepeater
+* by.options
+
+> Other element locator’s introduced in Protractor:
+
+* by.buttonText
+* by.paritalButtonText
+* by.cssContainingText
+* by.deepCss
+
 <br>
 <br>
 
