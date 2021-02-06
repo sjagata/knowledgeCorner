@@ -1,5 +1,5 @@
 
-### Angular CLI (Authentication, Routing)
+### 1. Angular CLI (Authentication, Routing)
 Routing is a mechanism which enables user to navigate between views/components. Angular 2 simplifies the routing and provide flexibility to configure and define at module level (Lazy loading). 
 
 The angular application has single instance of the Router service and whenever URL changes, corresponding Route is matched from the routing configuration array. On successful match, it applies redirects and the router builds a tree of ActivatedRoute objects and contains the current state of the router. Before redirection, the router will check whether new state is permitted by running guards (CanActivate). 
@@ -34,6 +34,8 @@ export class EditUser{
 
 
 ### Angular structure 
+![alt text](https://angular.io/generated/images/guide/architecture/overview2.png)
+
 ### Life cycle hooks all
 ### Change detection 
 ### View Encapsulation 
