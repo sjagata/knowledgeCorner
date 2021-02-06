@@ -152,53 +152,63 @@ console.log(myVar); // after completing a() myVar is global execution
 
 ![Alt text](img/proto.png?raw=true "Title")
 	
-	> Inheritance : One Object gets access to the properties and methods of another object.
+> Inheritance : One Object gets access to the properties and methods of another object.
 
-	```js
-	var person = {
-	    firstname: 'Default',
-	    lastname: 'Default',
-	    getFullName: function() {
-		return this.firstname + ' ' + this.lastname;  
-	    }
-	}
+```js
+var person = {
+    firstname: 'Default',
+    lastname: 'Default',
+    getFullName: function() {
+	return this.firstname + ' ' + this.lastname;  
+    }
+}
 
-	var john = {
-	    firstname: 'John',
-	    lastname: 'Doe'
-	}
+var john = {
+    firstname: 'John',
+    lastname: 'Doe'
+}
 
-	// don't do this EVER! for demo purposes only!!!
-	john.__proto__ = person;
-	console.log(john.getFullName()); // John Doe
-	console.log(john.firstname); // John
+// don't do this EVER! for demo purposes only!!!
+john.__proto__ = person;
+console.log(john.getFullName()); // John Doe
+console.log(john.firstname); // John
 
-	var jane = {
-	    firstname: 'Jane'   
-	}
+var jane = {
+    firstname: 'Jane'   
+}
 
-	jane.__proto__ = person;
-	console.log(jane.getFullName()); // Jane Default
+jane.__proto__ = person;
+console.log(jane.getFullName()); // Jane Default
 
-	person.getFormalFullName = function() {
-	    return this.lastname + ', ' + this.firstname;   
-	}
+person.getFormalFullName = function() {
+    return this.lastname + ', ' + this.firstname;   
+}
 
-	console.log(john.getFormalFullName()); // Doe, John
-	console.log(jane.getFormalFullName()); // Default, Jane
+console.log(john.getFormalFullName()); // Doe, John
+console.log(jane.getFormalFullName()); // Default, Jane
+```
 
 
 ### 5. Closures
 
 > Whenever you use function inside another function, a closure is used.
+
 > Whenever you use eval() inside a function, a closure is used. The text you eval can reference local variables of the function, and within eval you can even create new local variables by using eval('var foo = …')
+
 > When you use new Function(…) (the Function constructor) inside a function, it does not create a closure. (The new function cannot reference the local variables of the outer function.)
+
 > A closure in JavaScript is like keeping a copy of all the local variables, just as they were when a function exited.
+
 > It is probably best to think that a closure is always created just an entry to a function, and the local variables are added to that closure.
+
 > A new set of local variables is kept every time a function with a closure is called (given that the function contains a function declaration inside it, and a reference to that inside function is either returned or an external reference is kept for it in some way).
+
 > Two functions might look like they have the same source text, but have completely different behaviour because of their 'hidden' closure. I don't think JavaScript code can actually find out if a function reference has a closure or not.
+
 > If you are trying to do any dynamic source code modifications (for example: myFunction = Function(myFunction.toString().replace(/Hello/,'Hola'));), it won't work if myFunction is a closure (of course, you would never even think of doing source code string substitution at runtime, but...).
+
 > It is possible to get function declarations within function declarations within functions — and you can get closures at more than one level.
+
 > I think normally a closure is the term for both the function along with the variables that are captured. Note that I do not use that definition in this article!
 
 ```js
@@ -287,7 +297,10 @@ fs2[2]();
 
 ![Alt text](img/closur.png?raw=true "Title")
 
-> Callback Function :- A function you give to another fucntion, to be run when the other function is finished
+> Callback Function 
+
+> :- A function you give to another fucntion, to be run when the other function is finished
+
 > So the function you call (i.e. invoke), 'calls back' by calling function you gave it when it finishes.
 	
 ```js
@@ -334,7 +347,9 @@ tellMeWhenDone(function() {
 ### 8. Call bind apply 
 
 > bind() - creates a copy and won't executes it.
+
 > call() - will take aruments and executes
+
 > apply() - same as call() but it takes arguments in array
 	
 > By using them we can borrow/currying functions from other objects 
