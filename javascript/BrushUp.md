@@ -149,7 +149,6 @@ console.log(myVar); // after completing a() myVar is global execution
 
 
 ### 4. Prototypal inheritance 
-### 1. Classical vs Prototypal Inheritance
 
 ![Alt text](img/proto.png?raw=true "Title")
 	
@@ -188,14 +187,218 @@ console.log(myVar); // after completing a() myVar is global execution
 	console.log(john.getFormalFullName()); // Doe, John
 	console.log(jane.getFormalFullName()); // Default, Jane
 
-### Closures
-### This keyword variant 
-### Functions and objects 
-### Call bind apply 
 
-### Function Constructors 
-### The new keyword
-### arguments 
-### Spread
-### Arrow function behavior changes 
+### 5. Closures
+
+> Whenever you use function inside another function, a closure is used.
+> Whenever you use eval() inside a function, a closure is used. The text you eval can reference local variables of the function, and within eval you can even create new local variables by using eval('var foo = …')
+> When you use new Function(…) (the Function constructor) inside a function, it does not create a closure. (The new function cannot reference the local variables of the outer function.)
+> A closure in JavaScript is like keeping a copy of all the local variables, just as they were when a function exited.
+> It is probably best to think that a closure is always created just an entry to a function, and the local variables are added to that closure.
+> A new set of local variables is kept every time a function with a closure is called (given that the function contains a function declaration inside it, and a reference to that inside function is either returned or an external reference is kept for it in some way).
+> Two functions might look like they have the same source text, but have completely different behaviour because of their 'hidden' closure. I don't think JavaScript code can actually find out if a function reference has a closure or not.
+> If you are trying to do any dynamic source code modifications (for example: myFunction = Function(myFunction.toString().replace(/Hello/,'Hola'));), it won't work if myFunction is a closure (of course, you would never even think of doing source code string substitution at runtime, but...).
+> It is possible to get function declarations within function declarations within functions — and you can get closures at more than one level.
+> I think normally a closure is the term for both the function along with the variables that are captured. Note that I do not use that definition in this article!
+
+```js
+function greet(whattosay) {
+
+   return function(name) {
+       console.log(whattosay + ' ' + name);
+   }
+
+}
+
+var sayHi = greet('Hi');
+sayHi('Tony');
+
+```	
+
+```js
+function buildFunctions() {
+
+    var arr = [];
+
+    for (var i = 0; i < 3; i++) {
+
+	arr.push(
+	    function() {
+		console.log(i);   
+	    }
+	)
+
+    }
+
+    return arr;
+}
+
+var fs = buildFunctions();
+
+fs[0](); // 3
+fs[1](); // 3
+fs[2](); // 3
+// All three point at the same memory spot going up the scope 
+// When executed it all childern function can tell only their parents value in the memory right 
+// since we are executing then right now after it execution context is poped out 
+
+
+function buildFunctions2() {
+    var arr = [];
+    for (var i = 0; i < 3; i++) {
+	 let j = i; // with ES6
+	 arr.push(
+	 function() {
+	    console.log(j);   
+	  }
+	)
+    }
+    return arr;
+}
+var fs2 = buildFunctions2();
+fs2[0]();
+fs2[1]();
+fs2[2]();
+
+function buildFunctions2() {
+
+    var arr = [];
+
+    for (var i = 0; i < 3; i++) {
+	arr.push(
+	    (function(j) {
+		return function() {
+		    console.log(j);   
+		}
+	    }(i))
+	)
+
+    }
+
+    return arr;
+}
+
+var fs2 = buildFunctions2();
+
+fs2[0]();
+fs2[1]();
+fs2[2]();
+```
+
+![Alt text](img/closur.png?raw=true "Title")
+
+> Callback Function :- A function you give to another fucntion, to be run when the other function is finished
+> So the function you call (i.e. invoke), 'calls back' by calling function you gave it when it finishes.
+	
+```js
+function sayHiLater() {
+    var greeting = 'Hi!';
+
+    setTimeout(function() {
+	console.log(greeting);
+    }, 3000);
+}
+
+sayHiLater();
+
+// jQuery uses function expressions and first-class functions!
+//$("button").click(function() {
+//    
+//});
+
+function tellMeWhenDone(callback) {
+    var a = 1000; // some work
+    var b = 2000; // some work
+
+    callback(); // the 'callback', it runs the function I give it!
+}
+
+tellMeWhenDone(function() {
+    console.log('I am done!');
+});
+
+tellMeWhenDone(function() {
+    console.log('All done...');
+});
+```
+
+
+
+
+
+
+### 6. This keyword variant 
+### 7. Functions and objects 
+
+
+### 8. Call bind apply 
+
+> bind() - creates a copy and won't executes it.
+> call() - will take aruments and executes
+> apply() - same as call() but it takes arguments in array
+	
+> By using them we can borrow/currying functions from other objects 
+	
+> Function Currying :- Creating a copy of a function but with some preset parameters
+	
+```js
+var person = {
+    firstname: 'John',
+    lastname: 'Doe',
+    getFullName: function() {
+	var fullname = this.firstname + ' ' + this.lastname;
+	return fullname;
+    }
+}
+
+var logName = function(lang1, lang2) {
+    console.log('Logged: ' + this.getFullName());
+    console.log('Arguments: ' + lang1 + ' ' + lang2);
+    console.log('-----------');
+}
+
+var logPersonName = logName.bind(person);
+logPersonName('en');
+
+logName.call(person, 'en', 'es');
+logName.apply(person, ['en', 'es']);
+
+(function(lang1, lang2) {
+    console.log('Logged: ' + this.getFullName());
+    console.log('Arguments: ' + lang1 + ' ' + lang2);
+    console.log('-----------');
+}).apply(person, ['es', 'en']);
+
+// -----------------------------------------------------
+
+// function borrowing
+var person2 = {
+    firstname: 'Jane',
+    lastname: 'Doe'
+}
+
+console.log(person.getFullName.apply(person2));
+
+// function currying
+function multiply(a, b) {
+    return a*b;   
+}
+
+var multipleByTwo = multiply.bind(this, 2);
+console.log(multipleByTwo(4));
+
+var multipleByThree = multiply.bind(this, 3);
+console.log(multipleByThree(4));
+```
+
+![Alt text](img/cab.png?raw=true "Title")
+
+
+
+
+### 9. Function Constructors 
+### 10. The new keyword
+### 11. arguments 
+### 12. Spread
+### 13. Arrow function behavior changes 
  
