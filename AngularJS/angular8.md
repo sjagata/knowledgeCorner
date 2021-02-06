@@ -122,7 +122,7 @@ The following GIF demonstrates this process in a simplified way:
 ![Alt text](images/cd-cycle.gif?raw=true "Change detection")
 
 
-The picture shows an Angular component tree and its change detector (CD) for each component which is created during the application bootstrap process. This detector compares the current value with the previous value of the property. If the value has changed it will set isChanged to true. Check out the implementation in the framework code which is just a === comparison with special handling for NaN.
+The picture shows an Angular component tree and its change detector (CD) for each component which is created during the application bootstrap process. This detector compares the current value with the previous value of the property. If the value has changed it will set isChanged to true. Check out [the implementation in the framework code](https://github.com/angular/angular/blob/885f1af509eb7d9ee049349a2fe5565282fbfefb/packages/core/src/util/comparison.ts#L13) which is just a === comparison with special handling for NaN.
 
 > Change Detection does not perform a deep object comparison, it only compares the previous and current value of properties used by the template
 
