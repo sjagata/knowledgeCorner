@@ -34,6 +34,8 @@ export class EditUser{
 
 
 ### Angular structure 
+![Alt text](img/structure.png?raw=true "Angular Structure")
+
 ![alt text](https://angular.io/generated/images/guide/architecture/overview2.png)
 
 ### Life cycle hooks all
