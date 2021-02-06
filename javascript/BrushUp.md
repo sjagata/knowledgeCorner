@@ -453,3 +453,46 @@ function sum(x, y, z, n) {
 
 ### 13. Arrow function behavior changes 
  
+ ```js
+const myFunction = function() {
+  //...
+}
+
+// to
+
+const myFunction = () => {
+  //...
+}
+
+ ```
+
+> If the function body contains just a single statement, you can omit the brackets and write all on a single line:
+
+```js
+const myFunction = () => doSomething()
+```
+
+> Parameters are passed in the parentheses:
+
+```js
+const myFunction = (param1, param2) => doSomething(param1, param2)
+```
+
+> If you have one (and just one) parameter, you could omit the parentheses completely:
+
+```js
+const myFunction = param => doSomething(param)
+```
+
+> Implicit return :- 
+> Arrow functions allow you to have an implicit return: values are returned without having to use the return keyword.
+
+```js
+const myFunction = () => 'test'
+myFunction() //'test'
+
+const myFunction = () => ({ value: 'test' })
+myFunction() //{value: 'test'}
+```
+
+> This is where regular functions should be used instead, when dynamic context is not needed.
