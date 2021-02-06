@@ -857,25 +857,297 @@ In this case, we don’t need to provide the service in the component’s inject
 ### 13. Routing 
 ### 14. Authentication and authorization 
 ### 15. JWT tokens 
-### 16. Observable 
-### 17. Promises 
+
+<br>
+<br>
+
+### 16. Observable & 17. Promises 
+#### Promises:
+* returns a single value
+* not cancellable
+
+#### Observables:
+Observable:
+Various Data sources (User Input) events, Http Requests, Triggered in code,..
+
+Observable might emit a couple normal data packages, it might have been an error or eventually it might get completed and the respective code is then executed in observer
+
+Observer:
+You write the code which gets executed!
+Handle Data, Handle Error, Handle Completion
+
+Both **Promises and Observables** provide us with abstractions that help us deal with the **asynchronous nature of our applications.** 
+
+However, there are important differences between the two:
+* As seen in the example above, **Observables** can define both the setup and teardown aspects of asynchronous behavior.
+* Observables are cancellable.
+* Moreover, **Observables** can be retried using one of the retry operators provided by the API, such as **retry** and **retryWhen**. On the other hand, **Promises** require the caller to have access to the original function that returned the promise in order to have a retry capability.
+
+
+* works with multiple values over time
+* cancellable
+* supports map, filter, reduce and similar operators
+* proposed feature for ES 2016
+* use Reactive Extensions (RxJS)
+* an array whose items arrive asynchronously over time
+
+Ex: params is a observable
+
+```js
+  ngOnInit() {
+    this.user = {
+      id: this.route.snapshot.params['id'],
+      name: this.route.snapshot.params['name']
+    };
+    this.paramsSubscription = this.route.params
+      .subscribe(
+        (params: Params) => {
+          this.user.id = params['id'];
+          this.user.name = params['name'];
+        }
+      );
+  }
+
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
+  }
+```
+<br>
+<br>
+
 ### 18. Custom directive and pipes 
+* Directives add behaviour to an existing DOM element or an existing component instance. One example use case for a directive would be to log a click on an element.
+```js
+import {Directive} from '@angular/core';
+
+@Directive({
+    selector: "[logOnClick]",
+    hostListeners: {
+        'click': 'onClick()',
+    },
+})
+class LogOnClick {
+    constructor() {}
+    onClick() { console.log('Element clicked!'); }
+}
+```
+```html
+<button logOnClick>I log when clicked!</button>
+```
+
+<br>
+<br>
+
 ### 19. Bindings
 ### 20.Component data sharing types 
 ### 21. Auth guard 
 ### 22. Query Params
 ### 23. Params 
 ### 24. Services 
+
+<br>
+<br>
+
 ### 25. Modules 
+**@NgModule** is a decorator function. A decorator function allows users to mark something as Angular 2 thing (could be a module or component or something else) and it enables you to provide additional data that determines how this Angular 2 thing will be processed, instantiated and used at the runtime. So, whenever user writes @NgModule, it tells the Angular 2 module, what’s going to be included and used in and using this module.
+
+
+<br>
+<br>
+
 ### 26. Modular structure division 
 ### 27. Lazy Loading
 ### 28. Hoisting in JavaScript
 ### 29. Testbed
 ### 30. Spread Operator in JavaScript
 ### 31. Debugging
+
+<br>
+<br>
+
 ### 32. Pure & Impure Pipe in Angular Custom pipe.
+
+#### What is Pipes? Why use Pipes?
+Pipes are feature built into angular to which bascially allows you to transform output in your template
+Something like filters in angular 1
+
+
+#### What is a pure and impure pipe?
+Filter pipe wont trigger while updating Arrays or Objects 
+We can enforce the pipe to be updated whenever the data changes by adding a second property to the pipe **(pure: false)**
+```js
+@Pipe({
+  name: 'filter',
+  pure: false
+})
+```
+This is a performance hit
+
+#### What is Async Pipe?
+* This is used to help us transform data we gat asynchronously and output in the template.
+
+
+Without **async** it will display [object object](since promise is a object) because angular doesn't know
+But we know after 2 seconds it gonna be a string
+So here we can use buil-in pipe called **async**
+
+* It recognizes that this is a promise and a side note it would also work ith observables there it would subscribe automatically and after 2 seconds it would simply reconize that something changed that the promise resolved or inthe case of an observable that data was sent from the subscription 
+
+```js
+  appStatus = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('stable');
+    }, 2000);
+  });
+```
+```html
+ <h2>App Status: {{ appStatus | async}}</h2>
+ ```
+
+
+#### How to create and use a custom Pipes?
+By implementing PipeTransform
+
+```js
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'shorten'
+})
+export class ShortenPipe implements PipeTransform {
+  transform(value: any, limit: number) {
+    if (value.length > limit) {
+      return value.substr(0, limit) + ' ...';
+    }
+    return value;
+  }
+}
+```
+#### Pipes Example
+```js
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'filter',
+  pure: false
+})
+export class FilterPipe implements PipeTransform {
+
+  transform(value: any, filterString: string, propName: string): any {
+    if (value.length === 0 || filterString === '') {
+      return value;
+    }
+    const resultArray = [];
+    for (const item of value) {
+      if (item[propName] === filterString) {
+        resultArray.push(item);
+      }
+    }
+    return resultArray;
+  }
+
+}
+```
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <input type="text" [(ngModel)]="filteredStatus">
+      <br>
+      <button class="btn btn-primary" (click)="onAddServer()">Add Server</button>
+      <br><br>
+      <h2>App Status: {{ appStatus | async}}</h2>
+      <hr>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let server of servers | filter:filteredStatus:'status'"
+          [ngClass]="getStatusClasses(server)">
+          <span
+            class="badge">
+            {{ server.status }}
+          </span>
+          <strong>{{ server.name | shorten:15 }}</strong> |
+          {{ server.instanceType | uppercase }} |
+          {{ server.started | date:'fullDate' | uppercase }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+```
+
+<br>
+<br>
+
 ### 33. Classical Inheritance & Prototypal Inheritance
+
+<br>
+<br>
+
 ### 34. Structural Directives
+#### Attribute Directives :
+Because they set on elements just like attribute 
+Never destroy an element from the DOM it only change the properties of that element, example: back-ground color
+1. Looks like a normal HTML attribute(possibly with databinding or event binding)
+2. Only affect/change the element they are added to.
+Example : `ngClass`, `ngStyle`
+
+#### Structural Directives :
+Basically do the same but they also changes the structure of the DOM around this element
+Ex: `*ngIf` removing and showing the DOM elements, `*ngFor`
+1. Look like a normal HTML attribute but have a leading `*`(for desugaring)
+2. Affect a whole area in the DOM(elements get added/removed)
+
+* we cannot have two structural directive on single element
+
+`@HostBinding`
+`@HostListner`
+
+`@HostBinding` and `@HostListener` are two decorators in Angular that can be really useful in custom directives. `@HostBinding` lets you **set properties on the element or component** that hosts the directive, and `@HostListener` lets you **listen for events on the host element or component.**
+
+```js
+import {
+  Directive,
+  Renderer2,
+  OnInit,
+  ElementRef,
+  HostListener,
+  HostBinding,
+  Input
+} from '@angular/core';
+
+@Directive({
+  selector: '[appBetterHighlight]'
+})
+export class BetterHighlightDirective implements OnInit {
+  @Input() defaultColor: string = 'transparent';
+  @Input('appBetterHighlight') highlightColor: string = 'blue';
+  @HostBinding('style.backgroundColor') backgroundColor: string;
+
+  constructor(private elRef: ElementRef, private renderer: Renderer2) { }
+
+  ngOnInit() {
+    this.backgroundColor = this.defaultColor;
+    // this.renderer.setStyle(this.elRef.nativeElement, 'background-color', 'blue');
+  }
+
+  @HostListener('mouseenter') mouseover(eventData: Event) {
+    // this.renderer.setStyle(this.elRef.nativeElement, 'background-color', 'blue');
+    this.backgroundColor = this.highlightColor;
+  }
+
+  @HostListener('mouseleave') mouseleave(eventData: Event) {
+    // this.renderer.setStyle(this.elRef.nativeElement, 'background-color', 'transparent');
+    this.backgroundColor = this.defaultColor;
+  }
+
+}
+```
+
+<br>
+<br>
+
 ### 35. Directives and Components
 ### 36. Just in Time & Ahead/Arrived in Time
 ### 37. Closure In Java Script Functions In Javascript
@@ -884,14 +1156,14 @@ In this case, we don’t need to provide the service in the component’s inject
 ### 40. Different Ways To Communicate Between Components In Angular
 ### 41. Promises Vs Observable
 ### 42. Change Deduction Mechanism In Angular
-### 43. Angular Material
-### 44. PrimeNG Library In Angular Material
-### 45. How Do You Divide Modules
-### 46. Service Worker Module Of Angular
-### 47. Attribute Binding Vs Two Way Binding
-### 48. Arrow Function And Anonymous Function
-### 49. Have you used Forms in Angular ?
-### 50. What is Form Control ?
-### 51. Difference NG4 & NgF
-### 52. Trackby concept
-### 53. Differential Loading
+
+### 43. PrimeNG Library In Angular Material
+### 44. How Do You Divide Modules
+### 45. Service Worker Module Of Angular
+### 46. Attribute Binding Vs Two Way Binding
+### 47. Arrow Function And Anonymous Function
+### 48. Have you used Forms in Angular ?
+### 49. What is Form Control ?
+### 50. Difference NG4 & NgF
+### 51. Trackby concept
+### 52. Differential Loading
