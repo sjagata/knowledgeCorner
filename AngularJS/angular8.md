@@ -43,7 +43,7 @@ export class EditUser{
 <br>
 <br>
 
-### 3. Life cycle hooks all
+### 3. Life Cycle Hooks In Angular
 #### Constructor:
 
 1. The **constructor** is a default method runs when component is being constructed.
@@ -155,11 +155,11 @@ In Angular, component CSS styles are encapsulated into the component's view and 
 
 To control how this encapsulation happens on a per component basis, you can set the view encapsulation mode in the component metadata. Choose from the following modes:
 
-* ShadowDom view encapsulation uses the browser's native shadow DOM implementation (see [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)) to attach a shadow DOM to the component's host element, and then puts the component view inside that shadow DOM. The component's styles are included within the shadow DOM.
+* `ShadowDom` view encapsulation uses the browser's native shadow DOM implementation (see [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)) to attach a shadow DOM to the component's host element, and then puts the component view inside that shadow DOM. The component's styles are included within the shadow DOM.
 
-* Emulated view encapsulation (the default) emulates the behavior of shadow DOM by preprocessing (and renaming) the CSS code to effectively scope the CSS to the component's view.
+* `Emulated` view encapsulation (the default) emulates the behavior of shadow DOM by preprocessing (and renaming) the CSS code to effectively scope the CSS to the component's view.
 
-* None means that Angular does no view encapsulation. Angular adds the CSS to the global styles. The scoping rules, isolations, and protections discussed earlier don't apply. This is essentially the same as pasting the component's styles into the HTML.
+* `None` means that Angular does no view encapsulation. Angular adds the CSS to the global styles. The scoping rules, isolations, and protections discussed earlier don't apply. This is essentially the same as pasting the component's styles into the HTML.
 
 To set the component's encapsulation mode, use the encapsulation property in the component metadata:
 
@@ -173,52 +173,106 @@ encapsulation: ViewEncapsulation.ShadowDom
 <br>
 <br>
 
-### Ngrx basics 
-### Redux
-### 15 main inbuilt functions of RXJS
-### Protractor 
-### Dependency injection 
-### SCSS css
-### Angular material 
-### Routing 
-### Authentication and authorization 
-### JWT tokens 
-### Observable 
-### Promises 
-### Custom directive and pipes 
-### Bindings
-### Component data sharing types 
-### Auth guard 
-### Query Params
-### Params 
-### Services 
-### Modules 
-### Modular structure division 
-### Lazy Loading
-### Hoisting in JavaScript
-### Testbed
-### Spread Operator in JavaScript
-### Debugging
-### Pure & Impure Pipe in Angular Custom pipe.
-### Classical Inheritance & Prototypal Inheritance
-### Structural Directives
-### Directives and Components
-### Just in Time & Ahead/Arrived in Time
-### Closure In Java Script Functions In Javascript
-### Scope Chain In Javascript
-### Java Classes
-### Different Ways To Communicate Between Components In Angular
-### Promises Vs Observable
-### Change Deduction Mechanism In Angular
-### Life Cycle Hooks In Angular
-### Angular Material
-### PrimeNG Library In Angular Material
-### How Do You Divide Modules
-### Service Worker Module Of Angular
-### Attribute Binding Vs Two Way Binding
-### Arrow Function And Anonymous Function
-### Have you used Forms in Angular ?
-### What is Form Control ?
-### Difference NG4 & NgF
-### Trackby concept
-### Differential Loading
+### 6. Ngrx basics 
+`NgRx` stands for Angular Reactive Extensions. `NgRx` is a state management system that is based on the `Redux pattern`. Before we go further into details, let’s try and understand the concept of state in an Angular application.
+
+### State
+Theoretically, application state is the entire memory of the application. In simple terms, application state is composed of data received by API calls, user inputs, presentation UI state, application preferences, etc. A simple, concrete example of an application state would be a list of customers maintained in a CRM application.
+
+
+Let’s try to understand the application state in the context of an Angular application. As you are well aware, an Angular application is typically made up of many components. Each of these components has its own state and has no awareness of the state of the other components. In order to share information between parent-child components, we use @Input and@Output decorators. However, this approach is practical only if your application consists of a few components, as shown below.
+
+![Alt text](images/ngrx1.png?raw=true "Change detection")
+
+When the number of components grows, it becomes a nightmare to pass the information between components solely via @Input and @Output decorators. Let’s take the following figure to elaborate on this.
+
+![Alt text](images/ngrx2.png?raw=true "Change detection")
+
+If you have to pass information from component three to component six, you will have to hop four times and involve three other components. As you can see, it’s a very cumbersome and error-prone way of managing the state. This is where the Redux Pattern comes into play.
+
+#### Redux
+Redux is a pattern that’s used to simplify the state management process in JavaScript applications (not just for Angular). Redux is primarily based on three main principles.
+
+* Single source of truth 
+* Read-only state 
+* State is modified with pure functions
+
+Single source of truth — This means the state of your application is stored in an object tree within a single store. The store is responsible for storing the data and providing the data to components whenever requested. (I’m referring to Angular applications here. But Redux can be applied to any JavaScript application in general.) According to this architecture, data flows between the store and the components, instead of from component to component. The following figure illustrates this concept.
+
+![Alt text](images/ngrx3.png?raw=true "Change detection")
+
+Read-only state — In other words, state is immutable. This doesn’t necessarily mean that state is always constant and cannot be changed. It only implies that you are not allowed to change the state directly. In order to make changes in the state, you have to dispatch `actions` (which we will discuss in detail later) from different parts of your application to the store.
+
+State is modified with pure functions — Dispatching actions will trigger a set of pure functions called `reducers`. Reducers are responsible for modifying the state in different ways based on the action received. A key thing to note here is that a reducer always returns a new state object with the modifications.
+
+#### NgRx
+`NgRx` is a group of libraries inspired by the Redux pattern. As the name suggests, NgRx is written specifically for Angular application as a state management solution. We will dive into the fundamental building blocks of NgRx library in the next section. Please note that I will be using NgRx version 8 for all the sample codes.
+
+
+<br>
+<br>
+
+### 7. Redux
+
+<br>
+<br>
+
+### 8. **15** main inbuilt functions of RXJS
+
+<br>
+<br>
+
+### 9. Protractor 
+<br>
+<br>
+
+### 10. Dependency injection 
+<br>
+<br>
+
+### 11. SCSS css
+<br>
+<br>
+
+### 12. Angular material 
+### 13. Routing 
+### 14. Authentication and authorization 
+### 15. JWT tokens 
+### 16. Observable 
+### 17. Promises 
+### 18. Custom directive and pipes 
+### 19. Bindings
+### 20.Component data sharing types 
+### 21. Auth guard 
+### 22. Query Params
+### 23. Params 
+### 24. Services 
+### 25. Modules 
+### 26. Modular structure division 
+### 27. Lazy Loading
+### 28. Hoisting in JavaScript
+### 29. Testbed
+### 30. Spread Operator in JavaScript
+### 31. Debugging
+### 32. Pure & Impure Pipe in Angular Custom pipe.
+### 33. Classical Inheritance & Prototypal Inheritance
+### 34. Structural Directives
+### 35. Directives and Components
+### 36. Just in Time & Ahead/Arrived in Time
+### 37. Closure In Java Script Functions In Javascript
+### 38. Scope Chain In Javascript
+### 39. Java Classes
+### 40. Different Ways To Communicate Between Components In Angular
+### 41. Promises Vs Observable
+### 42. Change Deduction Mechanism In Angular
+### 43. Angular Material
+### 44. PrimeNG Library In Angular Material
+### 45. How Do You Divide Modules
+### 46. Service Worker Module Of Angular
+### 47. Attribute Binding Vs Two Way Binding
+### 48. Arrow Function And Anonymous Function
+### 49. Have you used Forms in Angular ?
+### 50. What is Form Control ?
+### 51. Difference NG4 & NgF
+### 52. Trackby concept
+### 53. Differential Loading
