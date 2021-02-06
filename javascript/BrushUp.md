@@ -423,9 +423,49 @@ console.log(multipleByThree(4));
 
 
 ### 9. Function Constructors 
-### 10. The new keyword
-### 11. arguments 
+The Function constructor creates a new Function object. Calling the constructor directly can create functions dynamically, but suffers from security and similar (but far less significant) performance issues to eval. However, unlike eval, the Function constructor creates functions which execute in the global scope only.
 
+```js
+const sum = new Function('a', 'b', 'return a + b');
+
+console.log(sum(2, 6));
+// expected output: 8
+
+```
+
+### 10. The new keyword
+The new operator lets developers create an instance of a user-defined object type or of one of the built-in object types that has a constructor function.
+
+```js
+function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+}
+
+const car1 = new Car('Eagle', 'Talon TSi', 1993);
+
+console.log(car1.make);
+// expected output: "Eagle"
+```
+
+### 11. arguments 
+arguments is an Array-like object accessible inside functions that contains the values of the arguments passed to that function.
+
+```js
+function func1(a, b, c) {
+  console.log(arguments[0]);
+  // expected output: 1
+
+  console.log(arguments[1]);
+  // expected output: 2
+
+  console.log(arguments[2]);
+  // expected output: 3
+}
+
+func1(1, 2, 3);
+```
 
 ### 12. Spread
 
