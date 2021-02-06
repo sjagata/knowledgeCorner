@@ -56,7 +56,6 @@ export class EditUser{
 2. The ngOnInit is **called after** the **constructor** and ngOnInit is **called after** the **first ngOnChanges.**
 3. The **ngOnChanges** is called **when an input or output binding value changes.**
 
-<br>
 
 #### Explain the life cycle hooks of Angular 2 application
 Angular 2 component/directive has lifecycle events, managed by @angular/core. It creates the component, renders it, creates and renders its children, processes changes when its data-bound properties change, and then destroys it before removing its template from the DOM. Angular provides a set of lifecycle hooks(special events) which can be tapped into this lifecycle and perform operations when required. The constructor executes prior to all lifecycle events. Each interface has a single hook method prefixed with ng. For example, ngOnint interface has Oninit method that must be implemented in the component. 
@@ -96,7 +95,60 @@ Angular2 Lifecycle Events Log:-
 <br>
 
 
-### Change detection 
+### 4. Change detection 
+Two of Angular’s main goals are to be predictable and performant. The framework needs to replicate the state of our application on the UI by combining the state and the template:
+
+![Alt text](images/data-template-dom.png?raw=true "Change detection")
+
+It is also necessary to update the view if any changes happen to the state. This mechanism of syncing the HTML with our data is called “Change Detection”. Each frontend framework uses its implementation, e.g. React uses Virtual DOM, Angular uses change detection and so on. I can recommend the article [Change And Its Detection In JavaScript Frameworks](https://teropa.info/blog/2015/03/02/change-and-its-detection-in-javascript-frameworks.html) which gives a good general overview of this topic.
+
+> Change Detection: The process of updating the view (DOM) when the data has changed
+
+As developers, most of the time we do not need to care about change detection until we need to optimize the performance of our application. Change detection can decrease performance in larger applications if it is not handled correctly.
+
+#### How Change Detection Works
+A change detection cycle can be split into two parts:
+
+Developer updates the application model
+Angular syncs the updated model in the view by re-rendering it
+Let us take a more detailed look at this process:
+
+Developer updates the data model, e.g. by updating a component binding
+Angular detects the change
+Change detection checks every component in the component tree from top to bottom to see if the corresponding model has changed
+If there is a new value, it will update the component’s view (DOM)
+The following GIF demonstrates this process in a simplified way:
+
+![Alt text](images/cd-cycle.gif?raw=true "Change detection")
+
+
+The picture shows an Angular component tree and its change detector (CD) for each component which is created during the application bootstrap process. This detector compares the current value with the previous value of the property. If the value has changed it will set isChanged to true. Check out the implementation in the framework code which is just a === comparison with special handling for NaN.
+
+> Change Detection does not perform a deep object comparison, it only compares the previous and current value of properties used by the template
+
+#### Zone.js
+In general, a zone can keep track and intercept any asynchronous tasks.
+
+A zone normally has these phases:
+
+it starts stable
+it becomes unstable if tasks run in the zone
+it becomes stable again if the tasks completed
+Angular patches several low-level browser APIs at startup to be able to detect changes in the application. This is done using zone.js which patches APIs such as EventEmitter, DOM event listeners, XMLHttpRequest, fs API in Node.js and more.
+
+In short, the framework will trigger a change detection if one of the following events occurs:
+
+any browser event (click, keyup, etc.)
+setInterval() and setTimeout()
+HTTP requests via XMLHttpRequest
+Angular uses its zone called NgZone. There exists only one NgZone and change detection is only triggered for async operations triggered in this zone.
+
+
+
+
+<br>
+<br>
+
 ### View Encapsulation 
 ### Ngrx basics 
 ### Redux
