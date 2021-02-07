@@ -675,7 +675,7 @@ Protractor is an end-to-end test framework for Angular and AngularJS application
 
 In order to run your first test with protractor you will need to :
 1. get update webdriver-manager
-2. write the test ( daaa, is obvious that, right?)
+2. write the test
 3. set the configuration to run the test
 4. run it!
 
@@ -1508,6 +1508,43 @@ will.instrument = "Drums";
 // saySpecies: ƒ ()
 // species: "human"
 // __proto__: Object
+
+
+//prototypal inheritance
+var human = {
+ species: "human",
+ create: function(values) {
+  var instance = Object.create(this);
+  Object.keys(values).forEach(function(key) {
+    instance[key] = values[key];
+  });
+  return instance;
+ },
+ saySpecies: function() {
+  console.log(this.species);
+ },
+ sayName: function() {
+  console.log(this.name);
+ }
+};
+
+var musician = human.create({
+  species: "musician",
+  playInstrument: function() {
+    console.log("plays " + this.instrument);
+  }
+});
+
+var will = musician.create({
+  name: "Will",
+  instrument: "drums"
+});
+
+will.playInstrument(); // plays drums
+will.sayName(); //will
+
+
+
 ```
 
 <br>
