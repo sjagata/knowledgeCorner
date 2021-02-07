@@ -211,11 +211,13 @@ State is modified with pure functions — Dispatching actions will trigger a set
 #### NgRx
 `NgRx` is a group of libraries inspired by the Redux pattern. As the name suggests, NgRx is written specifically for Angular application as a state management solution. We will dive into the fundamental building blocks of NgRx library in the next section. Please note that I will be using NgRx version 8 for all the sample codes.
 
+[link](https://www.youtube.com/watch?v=f97ICOaekNU&ab_channel=Fireship)
+
 ![Alt text](images/ngrx.png?raw=true "Change detection")
 
 > Fundamental Elements of NgRx: `Store`, `Actions`, `Reducers`, `Selectors`, `Effects`
 
-#### The store
+#### The store [Acts like a angular service]
 The store is the key element in the entire state management process. It holds the state and facilitates the interaction between the components and the state. You can obtain a reference to the store via Angular dependency injection, as shown below.
 
 ```js
