@@ -690,6 +690,64 @@ exports.config = {
 };
 ```
 
+#### Structure
+```js
+/* avoid */
+
+|-- project-folder
+  |-- app
+    |-- css
+    |-- img
+    |-- partials
+        home.html
+        profile.html
+        contacts.html
+    |-- js
+      |-- controllers
+      |-- directives
+      |-- services
+      app.js
+      ...
+    index.html
+  |-- test
+    |-- unit
+    |-- e2e
+        home-page.js
+        home-spec.js
+        profile-page.js
+        profile-spec.js
+        contacts-page.js
+        contacts-spec.js
+
+/* recommended */
+
+|-- project-folder
+  |-- app
+    |-- css
+    |-- img
+    |-- partials
+        home.html
+        profile.html
+        contacts.html
+    |-- js
+      |-- controllers
+      |-- directives
+      |-- services
+      app.js
+      ...
+    index.html
+  |-- test
+    |-- unit
+    |-- e2e
+      |-- page-objects
+          home-page.js
+          profile-page.js
+          contacts-page.js
+      home-spec.js
+      profile-spec.js
+      contacts-spec.js
+```
+
 #### What are the locators in Protractor?
 
 Protractor supports all the element location strategies given by Selenium and it also has unique set of locators particularly to identify elements based on AngularJS attributes.
