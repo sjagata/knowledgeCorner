@@ -56,9 +56,11 @@ Up until now, we have discussed what scope is and types of scope. Now let’s un
 In order to understand how JavaScript engine performs variable lookups, we have to understand the concept of lexical environment in JavaScript.
 
 ##### What is a Lexical Environment?
-> A lexical environment is a structure that holds identifier-variable mapping. (here identifier refers to the name of variables/functions, and the variable is the reference to actual object [including function object and array object] or primitive value).
-> Simply put, a lexical environment is a place where variables and references to the objects are stored.
-> Note — Don’t confuse lexical scope with the lexical environment, lexical scope is a scope that is determined at compile time and a lexical environment is a place where variables are stored during the program execution.
+A lexical environment is a structure that holds identifier-variable mapping. (here identifier refers to the name of variables/functions, and the variable is the reference to actual object [including function object and array object] or primitive value).
+
+Simply put, a lexical environment is a place where variables and references to the objects are stored.
+
+Note — Don’t confuse lexical scope with the lexical environment, lexical scope is a scope that is determined at compile time and a lexical environment is a place where variables are stored during the program execution.
 
 ```js
 Conceptually a lexical environment looks like this:
