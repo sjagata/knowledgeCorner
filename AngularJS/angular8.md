@@ -683,74 +683,131 @@ In order to run your first test with protractor you will need to :
 3. set the configuration to run the test
 4. run it!
 
-The `configuration file` tells Protractor how to set up the Selenium Server, which tests to run, how to set up the browsers, and which test framework to use. The configuration file can also include one or more global settings. The config file provides explanations for all of the Protractor configuration options. Default settings include the standalone Selenium Server, the Chrome browser, and the Jasmine test framework.
+The `configuration file` tells Protractor how to set up the `Selenium Server`, `which tests to run`, how to set up the `browsers`, and `which test framework to use`. The configuration file can also include one or more global settings. The config file provides explanations for all of the Protractor configuration options. Default settings include the standalone Selenium Server, the Chrome browser, and the Jasmine test framework.
 
 `Spec file` is the one where we write actual test code. It contains the logic and locators to interact with an application.
 
 ```js
+//protractor.conf.js
 exports.config = {
-  seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['todo-spec.js']
+  seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
+  getPageTimeout: 60000,
+  allScriptsTimeout: 500000,
+  framework: 'custom',
+  // path relative to the current config file
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  capabilities: {
+    'browserName': 'chrome'
+  },
+
+  // Spec patterns are relative to this directory.
+  specs: [
+    'features/*.feature'
+  ],
+
+  baseURL: 'http://localhost:8080/',
+
+  cucumberOpts: {
+    require: 'features/step_definitions/stepDefinitions.js',
+    tags: false,
+    format: 'pretty',
+    profile: false,
+    'no-source': true
+  }
+};
+
+
+//test.spec.js
+describe('Protractor Test', function() {  
+  var addField = element(by.css('[placeholder="add new todo here"]'));  
+  var checkedBox = element(by.model('todo.done'));  
+  var addButton = element(by.css('[value="add"]'));  
+
+  it('should navigate to the AngularJS homepage', function() {  
+    browser.get('https://angularjs.org/'); //overrides baseURL  
+  });  
+});
+```
+
+#### Cucumber Setup
+First, you need to install Cucumber with `npm install -g cucumber`. Make sure it is installed in the same place as Protractor. Next, you’ll have to install the protractor-cucumber-framework with `npm install --save-dev protractor-cucumber-framework`. This iteration is designed with Protractor 3.x in mind. When the installation completes, you can write out a feature. In the project, create a features folder with a test.feature feature file. All of your features will be housed in this folder.
+
+```js
+#features/test.feature
+Feature: Running Cucumber with Protractor
+    As a user of Protractor
+    I should be able to use Cucumber
+    In order to run my E2E tests
+
+    Scenario: Protractor and Cucumber Test
+        Given I go to "https://angularjs.org/"
+        When I add "Be Awesome" in the task field
+        And I click the add button
+        Then I should see my new task in the list
+```
+
+Save the file and run cucumber.js to see how Cucumber processes the feature. Below is a snippet:
+
+```js
+Feature: Running Cucumber with Protractor
+    As a user of Protractor
+    I should be able to use Cucumber
+    In order to run my E2E tests
+
+    Scenario: Protractor and Cucumber Test
+        Given I go to "https://angularjs.org/"
+        When I add "Be Awesome" in the task field
+        And I click the add button
+        Then I should see my new task in the list
+
+1) Scenario: Protractor and Cucumber Test - features/test.feature:6
+   Step: Given I go to "https://angularjs.org/" - features/test.feature:7
+   Message:
+     Undefined. Implement with the following snippet:
+
+       this.Given(/^I go to "([^"]*)"$/, function (arg1, callback) {
+         // Write code here that turns the phrase above into concrete actions
+         callback(null, 'pending');
+       });
+1 scenario (1 undefined)
+3 steps (3 undefined)
+0m00.000s
+```
+
+#### Assertions: Chai and Chais-As-Promised
+Since you’re using the custom framework option with Protractor you’ll need to add an assertion library like Chai — a popular choice. Chai allows us to write assertions in a simple, readable style — such as the familiar expect syntax in `expect(element.getText()).to.eventually.equal('Name');`.
+
+```js
+//features/step_definitions/my_step_definitions.js
+var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
+var expect = chai.expect;
+
+module.exports = function() {
+  this.Given(/^I go to "([^"]*)"$/, function(site) {
+    browser.get(site);
+  });
+
+  this.When(/^I add "([^"]*)" in the task field$/, function(task) {
+    element(by.model('todoList.todoText')).sendKeys(task);
+  });
+
+  this.When(/^I click the add button$/, function() {
+    var el = element(by.css('[value="add"]'));
+    el.click();
+  });
+
+  this.Then(/^I should see my new task in the list$/, function(callback) {
+    var todoList = element.all(by.repeater('todo in todoList.todos'));
+    expect(todoList.count()).to.eventually.equal(3);
+    expect(todoList.get(2).getText()).to.eventually.equal('Do not Be Awesome')
+      .and.notify(callback);
+  });
 };
 ```
 
-#### Structure
-```js
-/* avoid */
-
-|-- project-folder
-  |-- app
-    |-- css
-    |-- img
-    |-- partials
-        home.html
-        profile.html
-        contacts.html
-    |-- js
-      |-- controllers
-      |-- directives
-      |-- services
-      app.js
-      ...
-    index.html
-  |-- test
-    |-- unit
-    |-- e2e
-        home-page.js
-        home-spec.js
-        profile-page.js
-        profile-spec.js
-        contacts-page.js
-        contacts-spec.js
-
-/* recommended */
-
-|-- project-folder
-  |-- app
-    |-- css
-    |-- img
-    |-- partials
-        home.html
-        profile.html
-        contacts.html
-    |-- js
-      |-- controllers
-      |-- directives
-      |-- services
-      app.js
-      ...
-    index.html
-  |-- test
-    |-- unit
-    |-- e2e
-      |-- page-objects
-          home-page.js
-          profile-page.js
-          contacts-page.js
-      home-spec.js
-      profile-spec.js
-      contacts-spec.js
-```
 
 #### What are the locators in Protractor?
 
@@ -760,6 +817,7 @@ Protractor supports all the element location strategies given by Selenium and it
 
 * by.className
 * by.css
+* by.cssContainingText
 * by.id
 * by.linkText
 * by.name
