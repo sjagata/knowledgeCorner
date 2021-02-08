@@ -1064,7 +1064,55 @@ export class EditUser{
 <br>
 
 ### 14. Authentication and authorization 
+
+<br>
+<br>
+
 ### 15. JWT tokens 
+
+All Auth0-issued JWTs have JSON Web Signatures (JWSs), meaning they are signed rather than encrypted. A JWS represents content secured with digital signatures or Message Authentication Codes (MACs) using JSON-based data structures.
+
+A well-formed JWT consists of three concatenated Base64url-encoded strings, separated by dots (.):
+
+`JOSE Header`: contains metadata about the type of token and the cryptographic algorithms used to secure its contents.
+
+JSON object containing the parameters describing the cryptographic operations and parameters employed. The JOSE (JSON Object Signing and Encryption) Header is comprised of a set of Header Parameters that typically consist of a name/value pair: the hashing algorithm being used (e.g., HMAC SHA256 or RSA) and the type of the JWT.
+
+```js
+  {
+      "alg": "HS256",
+      "typ": "JWT"
+    }
+```
+
+`JWS payload (set of claims)`: contains verifiable security statements, such as the identity of the user and the permissions they are allowed.
+
+The payload contains statements about the entity (typically, the user) and additional entity attributes, which are called claims. In this example, our entity is a user.
+
+```js
+{
+      "sub": "1234567890",
+      "name": "John Doe",
+      "admin": true
+    }
+```
+
+`JWS signature`: used to validate that the token is trustworthy and has not been tampered with. When you use a JWT, you must check its signature before storing and using it.
+
+The signature is used to verify that the sender of the JWT is who it says it is and to ensure that the message wasn't changed along the way.
+
+To create the signature, the Base64-encoded header and payload are taken, along with a secret, and signed with the algorithm specified in the header.
+
+For example, if you are creating a signature for a token using the HMAC SHA256 algorithm, you would do the following:
+
+```js
+HMACSHA256(
+      base64UrlEncode(header) + "." +
+      base64UrlEncode(payload),
+      secret)
+```
+
+
 
 <br>
 <br>
