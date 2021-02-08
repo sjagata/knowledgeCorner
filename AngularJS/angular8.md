@@ -1070,6 +1070,10 @@ export class EditUser{
 
 ### 15. JWT tokens 
 
+The general idea standing behind JWT is to securely transmit information between parties. In our case, it is the user’s identity along with his rights, transmitted between the client (browser) and the server. When the user logs in, sending login query to the server, he receives back a JWT (aka access token) signed by the server with a `private key`. This private key should be known only to the server as it allows the server later to verify that the token is legitimate. When JWT is transmitted between the browser and the server, it is encoded with Base64 algorithm, that makes it look like a string of random characters (nothing could be further from the truth!). If you take a JWT and decode it with Base64 you will find a JSON object. Below you can find a decoded content of a JWT from our example application. On jwt.io you can play with JWT online.
+
+
+
 All Auth0-issued JWTs have JSON Web Signatures (JWSs), meaning they are signed rather than encrypted. A JWS represents content secured with digital signatures or Message Authentication Codes (MACs) using JSON-based data structures.
 
 A well-formed JWT consists of three concatenated Base64url-encoded strings, separated by dots (.):
