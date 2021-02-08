@@ -1074,7 +1074,7 @@ All Auth0-issued JWTs have JSON Web Signatures (JWSs), meaning they are signed r
 
 A well-formed JWT consists of three concatenated Base64url-encoded strings, separated by dots (.):
 
-`JOSE Header`: contains metadata about the type of token and the cryptographic algorithms used to secure its contents.
+**JOSE Header**: The `header` defines the type of the token and the used algorithm. 
 
 JSON object containing the parameters describing the cryptographic operations and parameters employed. The JOSE (JSON Object Signing and Encryption) Header is comprised of a set of Header Parameters that typically consist of a name/value pair: the hashing algorithm being used (e.g., HMAC SHA256 or RSA) and the type of the JWT.
 
@@ -1085,7 +1085,7 @@ JSON object containing the parameters describing the cryptographic operations an
     }
 ```
 
-`JWS payload (set of claims)`: contains verifiable security statements, such as the identity of the user and the permissions they are allowed.
+**JWS payload (set of claims)**: The `payload` is the place where we put the data we want to securely transmit. In this case, we have a username, role, issuing timestamp (iat) and expiration timestamp (exp).
 
 The payload contains statements about the entity (typically, the user) and additional entity attributes, which are called claims. In this example, our entity is a user.
 
@@ -1097,11 +1097,7 @@ The payload contains statements about the entity (typically, the user) and addit
     }
 ```
 
-`JWS signature`: used to validate that the token is trustworthy and has not been tampered with. When you use a JWT, you must check its signature before storing and using it.
-
-The signature is used to verify that the sender of the JWT is who it says it is and to ensure that the message wasn't changed along the way.
-
-To create the signature, the Base64-encoded header and payload are taken, along with a secret, and signed with the algorithm specified in the header.
+**JWS signature**: The last block (HMACSHA256 function) is a signature generated with HMAC and SHA-256 algorithms. The signature guarantees not only that the token was created by a known party, but also the token’s integrity.
 
 For example, if you are creating a signature for a token using the HMAC SHA256 algorithm, you would do the following:
 
