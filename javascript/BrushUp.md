@@ -193,25 +193,25 @@ console.log(jane.getFormalFullName()); // Default, Jane
 
 ### 5. Closures
 
-> Whenever you use function inside another function, a closure is used.
+Whenever you use function inside another function, a closure is used.
 
-> Whenever you use eval() inside a function, a closure is used. The text you eval can reference local variables of the function, and within eval you can even create new local variables by using eval('var foo = …')
+Whenever you use eval() inside a function, a closure is used. The text you eval can reference local variables of the function, and within eval you can even create new local variables by using eval('var foo = …')
 
-> When you use new Function(…) (the Function constructor) inside a function, it does not create a closure. (The new function cannot reference the local variables of the outer function.)
+When you use new Function(…) (the Function constructor) inside a function, it does not create a closure. (The new function cannot reference the local variables of the outer function.)
 
-> A closure in JavaScript is like keeping a copy of all the local variables, just as they were when a function exited.
+A closure in JavaScript is like keeping a copy of all the local variables, just as they were when a function exited.
 
-> It is probably best to think that a closure is always created just an entry to a function, and the local variables are added to that closure.
+It is probably best to think that a closure is always created just an entry to a function, and the local variables are added to that closure.
 
-> A new set of local variables is kept every time a function with a closure is called (given that the function contains a function declaration inside it, and a reference to that inside function is either returned or an external reference is kept for it in some way).
+A new set of local variables is kept every time a function with a closure is called (given that the function contains a function declaration inside it, and a reference to that inside function is either returned or an external reference is kept for it in some way).
 
-> Two functions might look like they have the same source text, but have completely different behaviour because of their 'hidden' closure. I don't think JavaScript code can actually find out if a function reference has a closure or not.
+Two functions might look like they have the same source text, but have completely different behaviour because of their 'hidden' closure. I don't think JavaScript code can actually find out if a function reference has a closure or not.
 
-> If you are trying to do any dynamic source code modifications (for example: myFunction = Function(myFunction.toString().replace(/Hello/,'Hola'));), it won't work if myFunction is a closure (of course, you would never even think of doing source code string substitution at runtime, but...).
+If you are trying to do any dynamic source code modifications (for example: myFunction = Function(myFunction.toString().replace(/Hello/,'Hola'));), it won't work if myFunction is a closure (of course, you would never even think of doing source code string substitution at runtime, but...).
 
-> It is possible to get function declarations within function declarations within functions — and you can get closures at more than one level.
+It is possible to get function declarations within function declarations within functions — and you can get closures at more than one level.
 
-> I think normally a closure is the term for both the function along with the variables that are captured. Note that I do not use that definition in this article!
+I think normally a closure is the term for both the function along with the variables that are captured. Note that I do not use that definition in this article!
 
 ```js
 function greet(whattosay) {
@@ -299,11 +299,9 @@ fs2[2]();
 
 ![Alt text](img/closur.png?raw=true "Title")
 
-> Callback Function 
+**Callback Function** A function you give to another fucntion, to be run when the other function is finished
 
-> :- A function you give to another fucntion, to be run when the other function is finished
-
-> So the function you call (i.e. invoke), 'calls back' by calling function you gave it when it finishes.
+So the function you call (i.e. invoke), 'calls back' by calling function you gave it when it finishes.
 	
 ```js
 function sayHiLater() {
