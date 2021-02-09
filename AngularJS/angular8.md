@@ -1019,6 +1019,14 @@ In this case, we don’t need to provide the service in the component’s inject
 <br>
 <br>
 
+
+### 11. Difference between an Annotation and a Decorator in Angular
+
+
+
+<br>
+<br>
+
 ### 11. SCSS css
 <br>
 <br>
@@ -1955,8 +1963,8 @@ Angular's two-way binding syntax is a combination of square brackets and parenth
 ### 49. What is Form Control ?
 Two Approaches:
 
-1. Template-Driven : Angular infers the Form Object from the DOM
-2. Reactive : Form is created programamatically and synchronized with the DOM
+1. Template-Driven : Angular infers the Form Object from the DOM 
+2. Reactive [model driven] : Form is created programamatically and synchronized with the DOM 
 
 <br>
 <br>
