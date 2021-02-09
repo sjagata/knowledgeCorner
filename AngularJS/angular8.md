@@ -1021,8 +1021,35 @@ In this case, we don’t need to provide the service in the component’s inject
 
 
 ### 11. Difference between an Annotation and a Decorator in Angular
+Although Annotations and Decorators both share the same @ symbol in Angular, they both are different language features.
+
+**Annotations**: This are hard-coded language feature. Annotations are only metadata set on the class that is used to reflect the metadata library. When user annotates a class, the compiler creates an attribute on that class called annotations, stores an annotation array in it, then tries to instantiate an object with the same name as the annotation, passing the metadata into the constructor. Annotations are not predefined in AngularJs so we can name them on our own.
 
 
+```js
+@Component({selector: "my-app", template: 'Hello world!' })
+class AppComponent
+```
+```html
+<my-app>Working</my-app> // Hello world!
+```
+
+
+**Decorators**: A decorator is a function that adds metadata to a class, its members, or its method arguments. A decorator is just a function that gives you access to the target that needs to be decorated. There are four type of decorators all of them arem mentioned below:
+
+
+Types of Decorators:
+
+* Class decorators like @Component, @NgModule
+* Property decorators like @Input and @Output
+* Method decorators like @HostListener
+* Parameter decorators like @Injectable
+
+Features of Decorators:
+
+* Decorators are predefined in AngularJs.
+* Decorators are used by TypeScript compiler.
+* Decorators are used to attach metadata to a class,objects and method.
 
 <br>
 <br>
@@ -1071,7 +1098,32 @@ export class EditUser{
 <br>
 <br>
 
-### 14. Authentication and authorization 
+### 14. Authentication and Authorization
+
+#### Authentication
+
+`Authentication` is the act of validating that users are whom they claim to be. This is the first step in any security process. 
+
+Giving someone permission to download a particular file on a server or providing individual users with administrative access to an application are good examples of authentication.
+
+Complete an authentication process through:
+
+* `Passwords`. Usernames and passwords are the most common authentication factors. If a user enters the correct data, the system assumes the identity is valid and grants access.
+* `One-time pins`. Grant access for only one session or transaction.
+* `Authentication apps`. Generate security codes via an outside party that grants access.
+* `Biometrics`. A user presents a fingerprint or eye scan to gain access to the system. 
+
+In some instances, systems require the successful verification of more than one factor before granting access. This multi-factor authentication (MFA) requirement is often deployed to increase security beyond what passwords alone can provide.
+
+#### Authorization
+
+Authorization in a system security is the process of giving the user permission to access a specific resource or function. This term is often used interchangeably with access control or client privilege.
+
+In secure environments, authorization must always follow authentication. Users should first prove that their identities are genuine before an organization’s administrators grant them access to the requested resources.
+
+![Alt text](images/auth.png?raw=true "Authorization")
+
+![Alt text](images/auth1.png?raw=true "Authorization")
 
 <br>
 <br>
