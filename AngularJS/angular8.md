@@ -874,18 +874,23 @@ Protractor supports all the element location strategies given by Selenium and it
    | Previous Element     |  Not possible          |      //p/preceding-sibling::*[0] |
    
     ```js
+    // Id
     XPath: //div[@id='example']
     CSS: #example
     
+    // Element Type
     Xpath: //input or
     Css: =input
     
+    // Direct Child
     XPath: //div/a
     CSS: div > a
     
+    // Child or Sub-Child
     XPath: //div//a
     CSS: div a
     
+    // Class 
     XPath: //div[@class='example']
     CSS: .example
 
@@ -898,13 +903,16 @@ Protractor supports all the element location strategies given by Selenium and it
     <button class = "btn btn-lg btn-primary btn-block radius" type = "submit" name = "login">Login</button> 
     </form> 
     
+    // Next Sibling
     XPATH: //input[@id='username']/following-sibling:input[1]
     CSS: #username + input
     
-    XPATH: //input[@name='username'] // Attribute Values
+    // Attribute Values
+    XPATH: //input[@name='username'] 
     CSS: input[name='username']
     
-    XPATH: //input[@name='login'and @type='submit'] // Attribute Values
+    // Attribute Values
+    XPATH: //input[@name='login'and @type='submit'] 
     CSS: input[name='login'][type='submit']
     
     
