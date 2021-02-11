@@ -818,29 +818,36 @@ Protractor supports all the element location strategies given by Selenium and it
 * by.className
 * by.css
 * by.cssContainingText
+
   **Advantages**
     * It’s faster than XPath.
     * It’s much easier to learn and implement.
     * You have a high chance of finding your elements.
     * It’s compatible with most browsers to date.
+
   ```js
   element(by.cssContainingText('.col-sm-8', 'Account Information'))
   ```
+  
 * by.id
 * by.linkText
 * by.name
 * by.partialLinkText
 * by.tagName
 * by.xpath
+
   XPath stands for XML Path. It’s a query language that helps identify elements from an XML document.
+  
   **Advantages**
   * XPath allows you to navigate up the DOM when looking for elements to test or scrape.
   * It’s compatible with old browsers (or it was at time of publishing—including older versions of Internet Explorer, which some corporations still use).
   * Creating in XPath is more flexible than in CSS Selector.
   * When you don’t know the name of an element, you can use contains to search for possible matches.
+
   ```js
   element(by.xpath('//div[contains(text(), "Account Information: ")]')
   ```
+  
    | Elements               |      CSS 3      |         XPath                      |
    |------------------------|:---------------:|:-----------------------------------|
    | All Elements           |  *              |      //*                            |
