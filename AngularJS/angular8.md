@@ -2113,6 +2113,20 @@ Two Approaches:
 1. Template-Driven : Angular infers the Form Object from the DOM 
 2. Reactive [model driven] : Form is created programamatically and synchronized with the DOM 
 
+    * **FormControl** :- It is class that is used to get and set values and validation of form control.
+    * **FormGroup** :- It has the role to track value and validity state of group of FormControl.
+    * **FormArray** :- Tracks the value and validity state of an array of FormControl, FormGroup or FormArray instances.
+    * **Validation** :- To validate a form created by FormControl. we need to use Validators that belongs to @angular/forms library.
+
+#### What are different FormControl states , dirty , pristine, touched, Untouched, Valid and UnValid?
+   
+   * `Dirty` is true if user changed the value of the control.
+   * `Pristine` is the opposite of Dirty.
+   * `Touched` is true of the field has been touched by the user, Otherwise it's false.
+   * The apposite of Touched is UnTouched.
+   * `Valid` is true of the field doesn't have any validators.
+   * `UnValid` is apposite of Valid.
+
 <br>
 <br>
 
