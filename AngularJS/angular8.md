@@ -817,13 +817,25 @@ Protractor supports all the element location strategies given by Selenium and it
 
 * by.className
 * by.css
-* by.cssContainingText
+    
+    CSS selectors come in many types. This is mostly because unlike the tree or map build-up of the XPath option, selectors have actual names and categories. Here are some of the types.
+    
+    *   **Simple selectors**: These search for elements based on their class or ID.
+    *   **Attribute selectors**: These pick up elements based on values assigned to them. I’ll provide some examples later on in this article.
+    *   **Pseudo selectors**: In situations where the states of elements are declared with CSS, such as check boxes or on-hover attributes, these come into use.
 
   **Advantages**
     * It’s faster than XPath.
     * It’s much easier to learn and implement.
     * You have a high chance of finding your elements.
     * It’s compatible with most browsers to date.
+    
+    ```js
+    element(by.css(a[href^="some value here"]))
+    element(by.css(button[value="some value here"]))
+    ```
+
+* by.cssContainingText
 
   ```js
   element(by.cssContainingText('.col-sm-8', 'Account Information'))
@@ -861,7 +873,44 @@ Protractor supports all the element location strategies given by Selenium and it
    | Next Element     |  p + *          |      //p/following-sibling::*[0]  |
    | Previous Element     |  Not possible          |      //p/preceding-sibling::*[0] |
    
+    ```js
+    XPath: //div[@id='example']
+    CSS: #example
     
+    Xpath: //input or
+    Css: =input
+    
+    XPath: //div/a
+    CSS: div > a
+    
+    XPath: //div//a
+    CSS: div a
+    
+    XPath: //div[@class='example']
+    CSS: .example
+
+
+    <form class = "form-signin" role = "form" action = "/index.php" method = "post">
+    <h4 class = "form-signin-heading"></h4> 
+    <input type = "text" class = "form-control" id = "username" name = "username" placeholder = "username" required autofocus></br> 
+    <input type = "password" class = "form-control" id = "password" name = "password" placeholder = "password" required> 
+    <p> 
+    <button class = "btn btn-lg btn-primary btn-block radius" type = "submit" name = "login">Login</button> 
+    </form> 
+    
+    XPATH: //input[@id='username']/following-sibling:input[1]
+    CSS: #username + input
+    
+    XPATH: //input[@name='username'] // Attribute Values
+    CSS: input[name='username']
+    
+    XPATH: //input[@name='login'and @type='submit'] // Attribute Values
+    CSS: input[name='login'][type='submit']
+    
+    
+    
+    
+    ```
 
 > Angular Specific Locators
 
