@@ -2116,6 +2116,7 @@ Two Approaches:
     * **FormControl** :- It is class that is used to get and set values and validation of form control.
     * **FormGroup** :- It has the role to track value and validity state of group of FormControl.
     * **FormArray** :- Tracks the value and validity state of an array of FormControl, FormGroup or FormArray instances.
+    * **FormBuilder** :- Creating form control instances manually can become repetitive when dealing with multiple forms. The FormBuilder service provides convenient methods for generating controls.
     * **Validation** :- To validate a form created by FormControl. we need to use Validators that belongs to @angular/forms library.
 
 #### What are different FormControl states , dirty , pristine, touched, Untouched, Valid and UnValid?
