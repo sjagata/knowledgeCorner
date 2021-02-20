@@ -1,5 +1,5 @@
 ### 1) What are Dependency Injection and Inversion Of Control?
-Answer: Dependency Injection (DI): is a design pattern where instead of having your objects create a dependency or asking a factory object to make one for you, you pass the needed dependencies into the constructor (i.e. Constructor Injection) or via setter methods (i.e. Setter Injection) from outside the class.
+Answer: Dependency Injection (DI): is a design pattern where instead of having your objects create a dependency or asking a factory object to make one for you, you pass the needed dependencies into the constructor (i.e. **Constructor Injection**) or via setter methods (i.e. **Setter Injection**) from outside the class.
 
 The dependency inversion principle:
 The client deligates to calls to another object the responsibility of providing its dependencies.
