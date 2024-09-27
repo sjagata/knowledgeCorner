@@ -27,27 +27,28 @@ A Docker container is a runtime instance of a Docker image. It is a lightweight 
 
 A container is a single instance of an image. The container is in charge of running the program or application.
 
-+————————————+
+```
++------------------------------------+
 |             Container              |
 |                                    |
-|        +—————–+         |
+|        +-----------------+         |
 |        | Running Process(es) |       |
-|        +—————–+         |
+|        +-----------------+         |
 |                  |                 |
 |                  v                 |
-|          +––––––––+         |
+|          +----------------+         |
 |          |    OS Kernel   |         |
-|          +––––––––+         |
+|          +----------------+         |
 |                  |                 |
-|        +———+———+       |
+|        +---------+---------+       |
 |        |                   |       |
-|   +–––––+      +———–+ |
+|   +----------+      +-----------+ |
 |   |   RAM    |      |    CPU    | |
-|   +–––––+      +———–+ |
+|   +----------+      +-----------+ |
 |   | Hard Drive |    |  Network  | |
-|   +–––––+      +———–+ |
-+————————————+
-
+|   +----------+      +-----------+ |
++------------------------------------+
+```
 
 ## Putting Together Docker Image and Container
 1. **Build an Image:** You create a Docker image using a Dockerfile, which contains instructions on how to build the image, including the base operating system, software dependencies, and application code.
