@@ -15,8 +15,39 @@ Docker is an open-source platform that automates the deployment, scaling, and ma
 ## Docker Image
 A Docker image is a lightweight, standalone, and executable package that includes everything needed to run a piece of software, including the code, runtime, libraries, and environment variables. Images are read-only and serve as the blueprint for creating containers.
 
+An Image is a single file with all dependencies and configurations that are required to run a program or application.
+
+| File System Snapshot                          | Startup Command(s)                  |
+|-----------------------------------------------|-------------------------------------|
+| `app.jar` <br> `web_service` <br> `dependency` | > Start web_service <br> > Run app.jar |
+
+
 ## Docker Container
 A Docker container is a runtime instance of a Docker image. It is a lightweight and portable environment that allows you to run applications in isolation from the host system. Containers can be started, stopped, and managed without affecting the underlying system.
+
+A container is a single instance of an image. The container is in charge of running the program or application.
+
++————————————+
+|             Container              |
+|                                    |
+|        +—————–+         |
+|        | Running Process(es) |       |
+|        +—————–+         |
+|                  |                 |
+|                  v                 |
+|          +––––––––+         |
+|          |    OS Kernel   |         |
+|          +––––––––+         |
+|                  |                 |
+|        +———+———+       |
+|        |                   |       |
+|   +–––––+      +———–+ |
+|   |   RAM    |      |    CPU    | |
+|   +–––––+      +———–+ |
+|   | Hard Drive |    |  Network  | |
+|   +–––––+      +———–+ |
++————————————+
+
 
 ## Putting Together Docker Image and Container
 1. **Build an Image:** You create a Docker image using a Dockerfile, which contains instructions on how to build the image, including the base operating system, software dependencies, and application code.
