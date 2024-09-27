@@ -3,6 +3,15 @@
 
 Docker is an open-source platform that automates the deployment, scaling, and management of applications using containerization. It allows developers to package applications and their dependencies into containers, ensuring consistency across different environments.
 
+| Component         | Description                                      |
+|--------------------|--------------------------------------------------|
+| Docker Engine      | The core component that runs and manages containers. |
+| Docker Hub         | A cloud-based repository for sharing Docker images.  |
+| Docker Compose     | A tool for defining and running multi-container Docker applications. |
+| Docker Swarm       | A native clustering and orchestration tool for managing a cluster of Docker engines. |
+| Docker Desktop     | A desktop application that provides an easy-to-use interface for managing Docker containers. |
+| Docker CLI         | The command-line interface to interact with Docker and its components. |
+
 ## Docker Image
 A Docker image is a lightweight, standalone, and executable package that includes everything needed to run a piece of software, including the code, runtime, libraries, and environment variables. Images are read-only and serve as the blueprint for creating containers.
 
