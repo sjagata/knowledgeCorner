@@ -55,9 +55,7 @@ A container is a single instance of an image. The container is in charge of runn
 2. **Run a Container:** Once the image is built, you can create and run a container based on that image. The container will execute the application as specified in the image.
 3. **Manage Containers:** You can start, stop, delete, and manage containers using Docker CLI commands or Docker Desktop.
 
-
-
-# Putting Together Both Images and Containers
+## Putting Together Both Images and Containers
 
 1. The **Image** is installed on the allocated Hard Drive.
 2. The **Container** then runs the startup commands.
@@ -66,33 +64,33 @@ A container is a single instance of an image. The container is in charge of runn
 
 ```
 +---------------------------------------------------+
-|                      Container                     |
+|                      Container                    |
 |                                                   |
 |   +--------------------+      +----------------+  |
 |   |    web_service     |      |    app.jar     |  |
 |   +--------------------+      +----------------+  |
-|                  |                               |
-|                  |                               |
-|   +--------------+---------------+               |
-|   |         Running Process(es)  |               |
-|   +------------------------------+               |
-|                      |                           |
-|                      v                           |
-|            +--------------------+                |
-|            |     OS Kernel      |                |
-|            +--------------------+                |
-|                      |                           |
-|       +--------------+---------------+           |
-|       |                              |           |
-|   +-------+                     +----------+     |
-|   |  RAM  |                     |   CPU    |     |
-|   +-------+                     +----------+     |
-|   |       |                     |  Network  |     |
-|   +-------+                     +----------+     |
-|   | app.jar|                                     |
-|   | dependency|                                   |
-|   | web_service|                                   |
-|   +-----------+                                   |
+|                  |                                |
+|                  |                                |
+|   +--------------+---------------+                |
+|   |      Running Process(es)     |                |
+|   +------------------------------+                |
+|                      |                            |
+|                      v                            |
+|            +--------------------+                 |
+|            |     OS Kernel      |                 |
+|            +--------------------+                 |
+|                      |                            |
+|       +--------------+---------------+            |
+|       |                              |            |
+|   +------------+                +----------+      |
+|   |     RAM    |                |   CPU    |      |
+|   +------------+                +----------+      |
+|                                 |  Network |      |
+|   +--- Image --+                +----------+      |
+|   | app.jar    |                                  |
+|   | dependency |                                  |
+|   | web_service|                                  |
+|   +------------+                                  |
 +---------------------------------------------------+
 ```
 ### Explanation
