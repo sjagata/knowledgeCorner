@@ -17,7 +17,6 @@ A Docker image is a lightweight, standalone, and executable package that include
 
 An Image is a single file with all dependencies and configurations that are required to run a program or application.
 
-                                    Image
 | File System Snapshot                          | Startup Command(s)                  |
 |-----------------------------------------------|-------------------------------------|
 | `app.jar` <br> `web_service` <br> `dependency` | > Start web_service <br> > Run app.jar |
@@ -55,6 +54,58 @@ A container is a single instance of an image. The container is in charge of runn
 1. **Build an Image:** You create a Docker image using a Dockerfile, which contains instructions on how to build the image, including the base operating system, software dependencies, and application code.
 2. **Run a Container:** Once the image is built, you can create and run a container based on that image. The container will execute the application as specified in the image.
 3. **Manage Containers:** You can start, stop, delete, and manage containers using Docker CLI commands or Docker Desktop.
+
+
+
+# Putting Together Both Images and Containers
+
+1. The **Image** is installed on the allocated Hard Drive.
+2. The **Container** then runs the startup commands.
+3. The services and/or applications are started.
+4. Running applications and services are then given resources from the allocated pool.
+
+```
++---------------------------------------------------+
+|                      Container                     |
+|                                                   |
+|   +--------------------+      +----------------+  |
+|   |    web_service     |      |    app.jar     |  |
+|   +--------------------+      +----------------+  |
+|                  |                               |
+|                  |                               |
+|   +--------------+---------------+               |
+|   |         Running Process(es)  |               |
+|   +------------------------------+               |
+|                      |                           |
+|                      v                           |
+|            +--------------------+                |
+|            |     OS Kernel      |                |
+|            +--------------------+                |
+|                      |                           |
+|       +--------------+---------------+           |
+|       |                              |           |
+|   +-------+                     +----------+     |
+|   |  RAM  |                     |   CPU    |     |
+|   +-------+                     +----------+     |
+|   |       |                     |  Network  |     |
+|   +-------+                     +----------+     |
+|   | app.jar|                                     |
+|   | dependency|                                   |
+|   | web_service|                                   |
+|   +-----------+                                   |
++---------------------------------------------------+
+```
+### Explanation
+- **Image:** The blueprint that gets installed on the hard drive.
+- **Container:** The execution environment that runs applications based on the image.
+- **Running Process(es):** The processes executing within the container.
+- **OS Kernel:** The core component that manages system resources.
+- **Allocated Resources:** The specific resources assigned to the container:
+  - **RAM**
+  - **CPU**
+  - **Network**
+
+
 
 ## Docker Desktop Setup
 1. **Download Docker Desktop:**
