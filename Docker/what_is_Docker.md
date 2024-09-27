@@ -17,10 +17,12 @@ A Docker image is a lightweight, standalone, and executable package that include
 
 An Image is a single file with all dependencies and configurations that are required to run a program or application.
 
+Image
++------------------------------------+
 | File System Snapshot                          | Startup Command(s)                  |
 |-----------------------------------------------|-------------------------------------|
 | `app.jar` <br> `web_service` <br> `dependency` | > Start web_service <br> > Run app.jar |
-
++------------------------------------+
 
 ## Docker Container
 A Docker container is a runtime instance of a Docker image. It is a lightweight and portable environment that allows you to run applications in isolation from the host system. Containers can be started, stopped, and managed without affecting the underlying system.
@@ -31,22 +33,22 @@ A container is a single instance of an image. The container is in charge of runn
 +------------------------------------+
 |             Container              |
 |                                    |
-|        +-----------------+         |
-|        | Running Process(es) |       |
-|        +-----------------+         |
+|        +-------------------+       |
+|        |Running Process(es)|       |
+|        +-------------------+       |
 |                  |                 |
 |                  v                 |
-|          +----------------+         |
-|          |    OS Kernel   |         |
-|          +----------------+         |
+|          +----------------+        |
+|          |    OS Kernel   |        |
+|          +----------------+        |
 |                  |                 |
 |        +---------+---------+       |
 |        |                   |       |
-|   +----------+      +-----------+ |
-|   |   RAM    |      |    CPU    | |
-|   +----------+      +-----------+ |
-|   | Hard Drive |    |  Network  | |
-|   +----------+      +-----------+ |
+|   +----------+      +-----------+  |
+|   |   RAM    |      |    CPU    |  |
+|   +----------+      +-----------+  |
+|   | Hard Drive |    |  Network  |  |
+|   +----------+      +-----------+  |
 +------------------------------------+
 ```
 
