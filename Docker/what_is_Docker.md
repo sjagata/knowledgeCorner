@@ -62,37 +62,9 @@ A container is a single instance of an image. The container is in charge of runn
 3. The services and/or applications are started.
 4. Running applications and services are then given resources from the allocated pool.
 
-```
-+---------------------------------------------------+
-|                      Container                    |
-|                                                   |
-|   +--------------------+      +----------------+  |
-|   |    web_service     |      |    app.jar     |  |
-|   +--------------------+      +----------------+  |
-|                  |                                |
-|                  |                                |
-|   +--------------+---------------+                |
-|   |      Running Process(es)     |                |
-|   +------------------------------+                |
-|                      |                            |
-|                      v                            |
-|            +--------------------+                 |
-|            |     OS Kernel      |                 |
-|            +--------------------+                 |
-|                      |                            |
-|       +--------------+---------------+            |
-|       |                              |            |
-|   +------------+                +----------+      |
-|   |     RAM    |                |   CPU    |      |
-|   +------------+                +----------+      |
-|                                 |  Network |      |
-|   +--- Image --+                +----------+      |
-|   | app.jar    |                                  |
-|   | dependency |                                  |
-|   | web_service|                                  |
-|   +------------+                                  |
-+---------------------------------------------------+
-```
+
+![Docker Diagram](docker.jpg)
+
 ### Explanation
 - **Image:** The blueprint that gets installed on the hard drive.
 - **Container:** The execution environment that runs applications based on the image.
