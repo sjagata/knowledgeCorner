@@ -1,7 +1,7 @@
 
 # Minikube Setup on macOS
 
-[Visit Reference]([https://www.google.com](https://medium.com/@javatechie/kubernetes-tutorial-install-run-minikube-in-mac-os-k8s-cluster-369b25b0c3f0))
+[Visit Reference](https://medium.com/@javatechie/kubernetes-tutorial-install-run-minikube-in-mac-os-k8s-cluster-369b25b0c3f0)
 
 ### Step 1: Check Virtualization Support
 - **Check if Virtualization is Supported:**
