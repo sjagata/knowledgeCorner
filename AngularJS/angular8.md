@@ -2155,13 +2155,27 @@ this.renderer.setStyle(element, 'background-color', 'red');
 <br>
 
 ### 51. Trackby concept
-An optional function passed into the NgForOf directive that defines how to track changes for items in an iterable. The function takes the iteration index and item ID. When supplied, Angular tracks changes by the return value of the function.
+*ngFor creates and destroys DOM elements by default when the data array changes. Using trackBy helps Angular identify existing DOM elements to reuse them instead of recreating.
 
 On each `ngDoCheck` triggered for the ngForOf directive Angular checks what objects have changed. It uses differs for this process and each differ uses trackBy function to compare the current object with the new one. The default trackBy function tracks items by identity:
 
 ```js
-const trackByIdentity = (index: number, item: any) => item;
+items = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }];
+
+trackByFn(index: number, item: any): number {
+  return item.id; // Unique identifier
+}
 ```
+
+```html
+<div *ngFor="let item of items; trackBy: trackByFn">
+  {{ item.name }}
+</div>
+```
+
+Benefits:
+	•	Improves performance by minimizing DOM manipulation.
+	•	Useful for large lists with frequent updates.
 
 
 <br>
