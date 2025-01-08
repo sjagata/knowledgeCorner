@@ -898,6 +898,12 @@ Something like filters in angular 1
 
 
 ### What is a pure and impure pipe?
+Pure Pipes: Default behavior. Executed only when the input data changes.
+Example: Formatting text, filtering a static list.
+
+Impure Pipes: Set pure: false in the pipe decorator. Executed every change detection cycle.
+Example: A pipe working with dynamic or mutable data like an array updated by reference.
+
 Filter pipe wont trigger while updating Arrays or Objects 
 We can enforce the pipe to be updated whenever the data changes by adding a second property to the pipe **(pure: false)**
 ```js
