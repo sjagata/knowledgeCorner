@@ -1,0 +1,157 @@
+// tenure-card.component.ts
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { HorizonNode, TenureNode } from '../models';
+
+@Component({
+  selector: 'app-tenure-card',
+  templateUrl: './tenure-card.component.html',
+  styleUrls: ['./tenure-card.component.scss']
+})
+export class TenureCardComponent implements OnInit {
+  @Input() tenureGroup!: TenureNode;
+
+  // which horizon is currently selected
+  selectedHorizon!: HorizonNode;
+
+  // form for editing segment weights
+  form!: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    // default to first horizon
+    this.selectHorizon(this.tenureGroup.children[0]);
+  }
+
+  selectHorizon(h: HorizonNode) {
+    this.selectedHorizon = h;
+    this.buildForm();
+  }
+
+  private buildForm() {
+    // formArray of segment formGroups
+    const controls = this.selectedHorizon.children.map(seg =>
+      this.fb.group({
+        segmentLabel: [seg.label],
+        horizonWeight: [seg.data.horizonWeight],
+        segmentWeight: [seg.data.segmentWeight]
+      })
+    );
+
+    this.form = this.fb.group({
+      segments: this.fb.array(controls)
+    });
+  }
+
+  get segments(): FormArray {
+    return this.form.get('segments') as FormArray;
+  }
+
+  save() {
+    // here you can emit an event or call a service
+    console.log('Updated weights for', this.selectedHorizon, this.form.value);
+  }
+}
+
+
+
+
+
+<!-- tenure-card.component.html -->
+<mat-card class="tenure-card">
+  <mat-card-header>
+    <mat-card-title>Tenure: {{ tenureGroup.label }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="content">
+      <!-- left: horizon table -->
+      <div class="left">
+        <table mat-table [dataSource]="tenureGroup.children" class="mat-elevation-z1">
+          <!-- Horizon Label -->
+          <ng-container matColumnDef="label">
+            <th mat-header-cell *matHeaderCellDef>Horizon</th>
+            <td mat-cell *matCellDef="let h"
+                (click)="selectHorizon(h)"
+                [class.selected]="h === selectedHorizon">
+              {{ h.label }}
+            </td>
+          </ng-container>
+
+          <!-- Horizon Weight -->
+          <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef>Weight</th>
+            <td mat-cell *matCellDef="let h">
+              {{ h.children.reduce((sum, s) => sum + s.data.horizonWeight, 0) | number:'1.0-0' }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['label','weight']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['label','weight'];"></tr>
+        </table>
+      </div>
+
+      <!-- right: segment edit form -->
+      <div class="right" *ngIf="selectedHorizon">
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <table mat-table [dataSource]="segments.controls" class="mat-elevation-z1">
+            <!-- Segment Label -->
+            <ng-container matColumnDef="segmentLabel">
+              <th mat-header-cell *matHeaderCellDef>Segment</th>
+              <td mat-cell *matCellDef="let fg; let i = index" [formGroupName]="i">
+                {{ fg.get('segmentLabel')!.value }}
+              </td>
+            </ng-container>
+            <!-- Horizon Weight Input -->
+            <ng-container matColumnDef="horizonWeight">
+              <th mat-header-cell *matHeaderCellDef>Horizon Wt</th>
+              <td mat-cell *matCellDef="let fg; let i = index" [formGroupName]="i">
+                <input matInput type="number" formControlName="horizonWeight">
+              </td>
+            </ng-container>
+            <!-- Segment Weight Input -->
+            <ng-container matColumnDef="segmentWeight">
+              <th mat-header-cell *matHeaderCellDef>Segment Wt</th>
+              <td mat-cell *matCellDef="let fg; let i = index" [formGroupName]="i">
+                <input matInput type="number" formControlName="segmentWeight">
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['segmentLabel','horizonWeight','segmentWeight']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['segmentLabel','horizonWeight','segmentWeight'];"></tr>
+          </table>
+
+          <button mat-raised-button color="primary" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+/* tenure-card.component.scss */
+.tenure-card {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  gap: 1rem;
+}
+
+.left, .right {
+  flex: 1;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.left table tr.selected {
+  background: rgba(0,0,255,0.1);
+}
+
+
+
+
