@@ -1,179 +1,96 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AgGridAngular } from 'ag-grid-angular';
-
-interface SegmentNode {
-  key: string;
-  label: string;
-  data: {
-    horizonWeight: number;
-    segmentWeight: number;
-  };
-}
-
-interface HorizonNode {
-  key: string;
-  label: string;
-  children: SegmentNode[];
-}
-
-interface TenureNode {
-  key: string;
-  label: string;
-  children: HorizonNode[];
-}
-
-@Component({
-  selector: 'app-tenure-cards',
-  templateUrl: './tenure-cards.component.html'
-})
-export class TenureCardsComponent implements OnInit {
-  @Input() tenureGroups: TenureNode[] = [];
-
-  // AG-Grid col defs for the left (horizons) table
-  horizonCols = [
-    { headerName: 'Horizon', field: 'label', flex: 1 },
-    {
-      headerName: 'Weight',
-      valueGetter: params =>
-        params.data.children
-          .reduce((sum: number, seg: SegmentNode) => sum + seg.data.horizonWeight, 0),
-      flex: 1
-    }
-  ];
-
-  // AG-Grid col defs for the right (segments) table
-  segmentCols = [
-    { headerName: 'Segment', field: 'label', flex: 1, editable: false },
-    {
-      headerName: 'Horizon Wt',
-      field: 'data.horizonWeight',
-      editable: true,
-      valueParser: params => Number(params.newValue),
-      flex: 1
-    },
-    {
-      headerName: 'Segment Wt',
-      field: 'data.segmentWeight',
-      editable: true,
-      valueParser: params => Number(params.newValue),
-      flex: 1
-    }
-  ];
-
-  // track which horizon is selected per tenure card:
-  selectedHorizon = new Map<string, HorizonNode>();
-
-  ngOnInit() {
-    // default‐select first horizon in each tenure
-    for (const tg of this.tenureGroups) {
-      if (tg.children.length) {
-        this.selectedHorizon.set(tg.key, tg.children[0]);
+horizonCols = [
+  { headerName: 'Horizon', field: 'label', flex: 1 },
+  {
+    headerName: 'Weight',
+    flex: 1,
+    valueGetter: params => {
+      // if this is the pinned bottom row, return our pre-computed total
+      if (params.node.rowPinned) {
+        return params.data.totalWeight;
       }
+      // normal rows sum their children
+      return (params.data.children as SegmentNode[])
+        .reduce((sum, seg) => sum + seg.data.horizonWeight, 0);
     }
   }
-
-  onHorizonClicked(tg: TenureNode, event: any) {
-    // set selected horizon for this tenure card
-    this.selectedHorizon.set(tg.key, event.data);
+];
+segmentCols = [
+  { headerName: 'Segment', field: 'label', flex: 1 },
+  {
+    headerName: 'Horizon Wt',
+    flex: 1,
+    valueGetter: params => {
+      if (params.node.rowPinned) {
+        return params.data.data.horizonWeight;
+      }
+      return params.data.data.horizonWeight;
+    },
+    editable: true,
+    valueParser: p => Number(p.newValue)
+  },
+  {
+    headerName: 'Segment Wt',
+    flex: 1,
+    valueGetter: params => {
+      if (params.node.rowPinned) {
+        return params.data.data.segmentWeight;
+      }
+      return params.data.data.segmentWeight;
+    },
+    editable: true,
+    valueParser: p => Number(p.newValue)
   }
+];
 
-  getHorizonRowData(tg: TenureNode) {
-    return tg.children;
-  }
+<!-- horizon panel -->
+<ag-grid-angular
+  class="ag-theme-alpine"
+  [columnDefs]="horizonCols"
+  [rowData]="getHorizonRowData(tg)"
+  rowSelection="single"
+  (firstDataRendered)="onHorizonFirstData($event)"
+  [pinnedBottomRowData]="horizonPinned"
+  style="width:100%; height:200px;">
+</ag-grid-angular>
 
-  getSegmentRowData(tg: TenureNode) {
-    return this.selectedHorizon.get(tg.key)?.children || [];
-  }
+<!-- segment panel -->
+<ag-grid-angular
+  class="ag-theme-alpine"
+  [columnDefs]="segmentCols"
+  [rowData]="getSegmentRowData(tg)"
+  editable="true"
+  (firstDataRendered)="onSegmentFirstData($event)"
+  [pinnedBottomRowData]="segmentPinned"
+  style="width:100%; height:200px;">
+</ag-grid-angular>
 
-  onSegmentCellValueChanged(event: any, tg: TenureNode) {
-    // here you can push updates back to your server or update your model
-    console.log(`Updated in tenure ${tg.label}:`, event);
-  }
+horizonPinned: any[] = [];
+segmentPinned: any[] = [];
+
+onHorizonFirstData(ev: FirstDataRenderedEvent) {
+  const rows = this.getHorizonRowData(this.tenureGroup);
+  // sum each row’s weight
+  const total = rows.reduce((acc, r) => 
+    acc + r.children.reduce((s, seg) => s + seg.data.horizonWeight, 0)
+  , 0);
+
+  // create a single pinned row with our total
+  this.horizonPinned = [{ label: 'Total', totalWeight: total }];
+
+  // and tell the grid about it (optional, since [pinnedBottomRowData] is bound)
+  ev.api.setPinnedBottomRowData(this.horizonPinned);
 }
 
+onSegmentFirstData(ev: FirstDataRenderedEvent) {
+  const segs = this.selectedHorizon?.children || [];
+  const sumH = segs.reduce((s, seg) => s + seg.data.horizonWeight, 0);
+  const sumS = segs.reduce((s, seg) => s + seg.data.segmentWeight, 0);
 
-<div class="row">
-  <div
-    class="col-lg-4 col-md-6 mb-4"
-    *ngFor="let tg of tenureGroups"
-  >
-    <div class="card h-100">
-      <div class="card-header bg-primary text-white">
-        Tenure: {{ tg.label }}
-      </div>
-      <div class="card-body p-2 d-flex">
-        <!-- left: horizons list -->
-        <div class="flex-fill me-2" style="min-width: 0;">
-          <ag-grid-angular
-            #hGrid
-            class="ag-theme-alpine"
-            [columnDefs]="horizonCols"
-            [rowData]="getHorizonRowData(tg)"
-            rowSelection="single"
-            (rowClicked)="onHorizonClicked(tg, $event)"
-            style="height: 200px; width: 100%;"
-          ></ag-grid-angular>
-        </div>
+  // pinned row needs a `label` plus a `data` object matching your colDef valueGetters
+  this.segmentPinned = [{
+    label: 'Total',
+    data: { horizonWeight: sumH, segmentWeight: sumS }
+  }];
 
-        <!-- right: segment editor -->
-        <div class="flex-fill ms-2" style="min-width: 0;">
-          <ag-grid-angular
-            #sGrid
-            class="ag-theme-alpine"
-            [columnDefs]="segmentCols"
-            [rowData]="getSegmentRowData(tg)"
-            editable="true"
-            (cellValueChanged)="onSegmentCellValueChanged($event, tg)"
-            style="height: 200px; width: 100%;"
-          ></ag-grid-angular>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-.card {
-  display: flex;
-  flex-direction: column;
+  ev.api.setPinnedBottomRowData(this.segmentPinned);
 }
-
-.card-body {
-  flex: 1;
-  display: flex;
-}
-
-.ag-theme-alpine {
-  font-size: 0.9rem;
-}
-
-/* width of all scrollbars */
-*::-webkit-scrollbar {
-  width: var(--scrollbar-width);
-  height: var(--scrollbar-width);
-}
-
-/* the track (background) */
-*::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-  border-radius: calc(var(--scrollbar-width) / 2);
-}
-
-/* the draggable thumb */
-*::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: calc(var(--scrollbar-width) / 2);
-  transition: background 0.2s;
-}
-
-/* hover state on the thumb */
-*::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
-}
-/* globally thin scrollbars + custom colors */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-}
-
-
-
