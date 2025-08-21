@@ -1,56 +1,11 @@
-// download.service.ts
-export type ReportItem = { name: string; blob: Blob }; // e.g., [{name:'A.pdf', blob}, ...]
-
-function hasDirPicker(): boolean {
-  return typeof (window as any).showDirectoryPicker === 'function';
-}
-
-export async function pickReportsFolder(): Promise<FileSystemDirectoryHandle> {
-  const dir = await (window as any).showDirectoryPicker(); // must be triggered by a user click
-  const perm = await dir.requestPermission?.({ mode: 'readwrite' });
-  if (perm && perm !== 'granted') throw new Error('Permission denied for folder');
-  return dir;
-}
-
-export async function saveAllReportsToFolder(
-  dir: FileSystemDirectoryHandle,
-  reports: ReportItem[]
-): Promise<string[]> {
-  const saved: string[] = [];
-
-  for (const r of reports) {
-    const fileName = await ensureUniqueName(dir, r.name);
-    const fileHandle = await dir.getFileHandle(fileName, { create: true });
-    const writable = await fileHandle.createWritable();
-
-    // If you have large blobs, streaming is fine too: await r.blob.stream().pipeTo(writable)
-    await writable.write(r.blob);
-    await writable.close();
-    saved.push(fileName);
-  }
-  return saved;
-}
-
-async function ensureUniqueName(
-  dir: FileSystemDirectoryHandle,
-  desired: string
-): Promise<string> {
-  // If desired exists, append " (1)", " (2)", …
-  const { base, ext } = splitName(desired);
-  let n = 0;
-  while (true) {
-    const candidate = n === 0 ? desired : `${base} (${n})${ext}`;
-    try {
-      await dir.getFileHandle(candidate, { create: false });
-      n++;
-    } catch {
-      return candidate; // doesn't exist
-    }
-  }
-}
-
-function splitName(filename: string): { base: string; ext: string } {
-  const i = filename.lastIndexOf('.');
-  if (i <= 0) return { base: filename, ext: '' };
-  return { base: filename.slice(0, i), ext: filename.slice(i) };
+onSaveAllClick() {
+  from((window as any).showDirectoryPicker()).pipe(
+    tap(() => this.spinner.show()),
+    switchMap(dir =>
+      this.reportsApi.getAll().pipe(
+        concatMap(items => from(saveAll(dir, items))) // your saveAll logic
+      )
+    ),
+    finalize(() => this.spinner.hide())
+  ).subscribe();
 }
