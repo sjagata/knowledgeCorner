@@ -9,3 +9,27 @@ onSaveAllClick() {
     finalize(() => this.spinner.hide())
   ).subscribe();
 }
+
+// reports-hub.component.ts
+async onSaveAllClick() {
+  // 1) Get folder FIRST (still in user gesture)
+  const dir = await (window as any).showDirectoryPicker();
+  await dir.requestPermission?.({ mode: 'readwrite' }); // optional
+
+  this.spinner.show(); // okay AFTER picker
+  try {
+    // 2) Fetch reports (this can await now)
+    const items = await lastValueFrom(this.reportsApi.getAll()); 
+    // items: { name: string; blob: Blob }[]
+
+    // 3) Save them
+    for (const it of items) {
+      const fh = await dir.getFileHandle(it.name, { create: true });
+      const w = await fh.createWritable();
+      await w.write(it.blob);
+      await w.close();
+    }
+  } finally {
+    this.spinner.hide();
+  }
+}
