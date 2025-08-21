@@ -1,96 +1,56 @@
-horizonCols = [
-  { headerName: 'Horizon', field: 'label', flex: 1 },
-  {
-    headerName: 'Weight',
-    flex: 1,
-    valueGetter: params => {
-      // if this is the pinned bottom row, return our pre-computed total
-      if (params.node.rowPinned) {
-        return params.data.totalWeight;
-      }
-      // normal rows sum their children
-      return (params.data.children as SegmentNode[])
-        .reduce((sum, seg) => sum + seg.data.horizonWeight, 0);
-    }
-  }
-];
-segmentCols = [
-  { headerName: 'Segment', field: 'label', flex: 1 },
-  {
-    headerName: 'Horizon Wt',
-    flex: 1,
-    valueGetter: params => {
-      if (params.node.rowPinned) {
-        return params.data.data.horizonWeight;
-      }
-      return params.data.data.horizonWeight;
-    },
-    editable: true,
-    valueParser: p => Number(p.newValue)
-  },
-  {
-    headerName: 'Segment Wt',
-    flex: 1,
-    valueGetter: params => {
-      if (params.node.rowPinned) {
-        return params.data.data.segmentWeight;
-      }
-      return params.data.data.segmentWeight;
-    },
-    editable: true,
-    valueParser: p => Number(p.newValue)
-  }
-];
+// download.service.ts
+export type ReportItem = { name: string; blob: Blob }; // e.g., [{name:'A.pdf', blob}, ...]
 
-<!-- horizon panel -->
-<ag-grid-angular
-  class="ag-theme-alpine"
-  [columnDefs]="horizonCols"
-  [rowData]="getHorizonRowData(tg)"
-  rowSelection="single"
-  (firstDataRendered)="onHorizonFirstData($event)"
-  [pinnedBottomRowData]="horizonPinned"
-  style="width:100%; height:200px;">
-</ag-grid-angular>
-
-<!-- segment panel -->
-<ag-grid-angular
-  class="ag-theme-alpine"
-  [columnDefs]="segmentCols"
-  [rowData]="getSegmentRowData(tg)"
-  editable="true"
-  (firstDataRendered)="onSegmentFirstData($event)"
-  [pinnedBottomRowData]="segmentPinned"
-  style="width:100%; height:200px;">
-</ag-grid-angular>
-
-horizonPinned: any[] = [];
-segmentPinned: any[] = [];
-
-onHorizonFirstData(ev: FirstDataRenderedEvent) {
-  const rows = this.getHorizonRowData(this.tenureGroup);
-  // sum each row’s weight
-  const total = rows.reduce((acc, r) => 
-    acc + r.children.reduce((s, seg) => s + seg.data.horizonWeight, 0)
-  , 0);
-
-  // create a single pinned row with our total
-  this.horizonPinned = [{ label: 'Total', totalWeight: total }];
-
-  // and tell the grid about it (optional, since [pinnedBottomRowData] is bound)
-  ev.api.setPinnedBottomRowData(this.horizonPinned);
+function hasDirPicker(): boolean {
+  return typeof (window as any).showDirectoryPicker === 'function';
 }
 
-onSegmentFirstData(ev: FirstDataRenderedEvent) {
-  const segs = this.selectedHorizon?.children || [];
-  const sumH = segs.reduce((s, seg) => s + seg.data.horizonWeight, 0);
-  const sumS = segs.reduce((s, seg) => s + seg.data.segmentWeight, 0);
+export async function pickReportsFolder(): Promise<FileSystemDirectoryHandle> {
+  const dir = await (window as any).showDirectoryPicker(); // must be triggered by a user click
+  const perm = await dir.requestPermission?.({ mode: 'readwrite' });
+  if (perm && perm !== 'granted') throw new Error('Permission denied for folder');
+  return dir;
+}
 
-  // pinned row needs a `label` plus a `data` object matching your colDef valueGetters
-  this.segmentPinned = [{
-    label: 'Total',
-    data: { horizonWeight: sumH, segmentWeight: sumS }
-  }];
+export async function saveAllReportsToFolder(
+  dir: FileSystemDirectoryHandle,
+  reports: ReportItem[]
+): Promise<string[]> {
+  const saved: string[] = [];
 
-  ev.api.setPinnedBottomRowData(this.segmentPinned);
+  for (const r of reports) {
+    const fileName = await ensureUniqueName(dir, r.name);
+    const fileHandle = await dir.getFileHandle(fileName, { create: true });
+    const writable = await fileHandle.createWritable();
+
+    // If you have large blobs, streaming is fine too: await r.blob.stream().pipeTo(writable)
+    await writable.write(r.blob);
+    await writable.close();
+    saved.push(fileName);
+  }
+  return saved;
+}
+
+async function ensureUniqueName(
+  dir: FileSystemDirectoryHandle,
+  desired: string
+): Promise<string> {
+  // If desired exists, append " (1)", " (2)", …
+  const { base, ext } = splitName(desired);
+  let n = 0;
+  while (true) {
+    const candidate = n === 0 ? desired : `${base} (${n})${ext}`;
+    try {
+      await dir.getFileHandle(candidate, { create: false });
+      n++;
+    } catch {
+      return candidate; // doesn't exist
+    }
+  }
+}
+
+function splitName(filename: string): { base: string; ext: string } {
+  const i = filename.lastIndexOf('.');
+  if (i <= 0) return { base: filename, ext: '' };
+  return { base: filename.slice(0, i), ext: filename.slice(i) };
 }
